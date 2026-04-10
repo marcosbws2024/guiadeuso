@@ -1,90 +1,85 @@
-<div class="mb-8 animate-fade-in">
-    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Configuração de APN</h1>
-    <p class="mt-2 text-lg text-slate-600">Procedimentos para estabelecer conexão GPRS em dispositivos de rastreamento.</p>
+<div class="mb-8 content-fade">
+    <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Configuração de APN</h1>
+    <p class="mt-2 text-lg text-slate-600 dark:text-slate-400">Procedimentos para estabelecer conexão GPRS em dispositivos de rastreamento.</p>
 </div>
 
-<div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded-r-xl">
+<div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-4 mb-8 rounded-r-xl">
     <div class="flex items-center gap-3">
-        <i class="fas fa-microchip text-blue-500 text-xl"></i>
+        <div class="text-blue-500 dark:text-blue-400 text-xl">
+            <i class="fas fa-microchip"></i>
+        </div>
         <div>
-            <p class="text-sm text-blue-800 font-bold uppercase">Verificação Inicial</p>
-            <p class="text-sm text-blue-700">O chip deve estar ativo, com plano de dados M2M e inserido corretamente no slot antes do envio dos comandos SMS.</p>
+            <p class="text-sm text-blue-800 dark:text-blue-300 font-bold uppercase tracking-wider">Verificação Inicial</p>
+            <p class="text-sm text-blue-700 dark:text-blue-400/80">O chip deve estar ativo e com plano de dados M2M antes do envio dos comandos.</p>
         </div>
     </div>
 </div>
 
 <section class="mb-10">
-    <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-        <i class="fas fa-list-ul text-blue-600"></i> Parâmetros por Operadora
+    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
+        Parâmetros por Operadora
     </h2>
-    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-        <table class="w-full text-left text-sm">
-            <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
-                <tr>
-                    <th class="px-6 py-4">Operadora</th>
-                    <th class="px-6 py-4">APN</th>
-                    <th class="px-6 py-4">Usuário/Senha</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-6 py-4 font-bold text-slate-900 uppercase">Vivo</td>
-                    <td class="px-6 py-4 font-mono text-blue-600 uppercase">smart.m2m.vivo.com.br</td>
-                    <td class="px-6 py-4 text-slate-500">vivo / vivo</td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-6 py-4 font-bold text-slate-900 uppercase">Claro</td>
-                    <td class="px-6 py-4 font-mono text-blue-600 uppercase">m2m.claro.com.br</td>
-                    <td class="px-6 py-4 text-slate-500">claro / claro</td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-6 py-4 font-bold text-slate-900 uppercase">Arqia</td>
-                    <td class="px-6 py-4 font-mono text-blue-600 uppercase">m2m.arqia.com.br</td>
-                    <td class="px-6 py-4 text-slate-500">arqia / arqia</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-widest">
+                    <tr>
+                        <th class="px-6 py-4">Operadora</th>
+                        <th class="px-6 py-4">APN</th>
+                        <th class="px-6 py-4">Usuário/Senha</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-slate-900 dark:text-slate-200 uppercase">Vivo</td>
+                        <td class="px-6 py-4 font-mono text-blue-600 dark:text-blue-400">smart.m2m.vivo.com.br</td>
+                        <td class="px-6 py-4 text-slate-500 dark:text-slate-400">vivo / vivo</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-slate-900 dark:text-slate-200 uppercase">Claro</td>
+                        <td class="px-6 py-4 font-mono text-blue-600 dark:text-blue-400">m2m.claro.com.br</td>
+                        <td class="px-6 py-4 text-slate-500 dark:text-slate-400">claro / claro</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 
-<section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-    <div class="bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-800">
-        <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-black text-slate-500 tracking-widest uppercase">Protocolo GT06</span>
-            <i class="fas fa-comment-dots text-slate-600"></i>
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 text-white">
+    <div class="bg-slate-900 dark:bg-black rounded-2xl p-6 border border-slate-800">
+        <div class="mb-4">
+            <span class="text-[10px] font-black text-slate-500 tracking-[0.2em] uppercase">Protocolo GT06</span>
         </div>
-        <p class="text-slate-300 text-sm mb-3">Envie para o número do chip no rastreador:</p>
-        <code class="block bg-slate-800 p-3 rounded-lg text-green-400 font-mono text-sm border border-slate-700">
+        <code class="block bg-slate-800 dark:bg-slate-900 p-4 rounded text-green-400 font-mono text-sm border border-slate-700 break-all">
             APN,123456,smart.m2m.vivo.com.br,vivo,vivo#
         </code>
     </div>
 
-    <div class="bg-slate-900 rounded-2xl p-6 shadow-xl border border-slate-800">
-        <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-black text-slate-500 tracking-widest uppercase">Protocolo Suntech</span>
-            <i class="fas fa-comment-dots text-slate-600"></i>
+    <div class="bg-slate-900 dark:bg-black rounded-2xl p-6 border border-slate-800">
+        <div class="mb-4">
+            <span class="text-[10px] font-black text-slate-500 tracking-[0.2em] uppercase">Protocolo Suntech</span>
         </div>
-        <p class="text-slate-300 text-sm mb-3">Exemplo para ST310U/ST340:</p>
-        <code class="block bg-slate-800 p-3 rounded-lg text-green-400 font-mono text-sm border border-slate-700">
+        <code class="block bg-slate-800 dark:bg-slate-900 p-4 rounded text-green-400 font-mono text-sm border border-slate-700 break-all">
             ST300CONF;01;smart.m2m.vivo.com.br;vivo;vivo;...
         </code>
     </div>
 </section>
 
-<section class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-    <h3 class="text-lg font-bold text-slate-800 mb-4 tracking-tight">Dicas de Diagnóstico</h3>
+<section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 mb-10">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-6 uppercase tracking-tight text-sm">Diagnóstico</h3>
     <ul class="space-y-4">
-        <li class="flex items-start gap-3">
-            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0 mt-0.5">
-                <i class="fas fa-check text-green-600 text-xs"></i>
-            </div>
-            <p class="text-slate-600 text-sm">Após o envio, aguarde a resposta <strong>"APN OK"</strong> ou similar.</p>
+        <li class="flex items-start gap-4">
+            <div class="w-2 h-2 rounded-full bg-blue-600 mt-1.5 shrink-0"></div>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Aguarde a resposta SMS para confirmar a gravação (ex: <strong>APN OK</strong>).
+            </p>
         </li>
-        <li class="flex items-start gap-3">
-            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0 mt-0.5">
-                <i class="fas fa-check text-green-600 text-xs"></i>
-            </div>
-            <p class="text-slate-600 text-sm">Verifique o sinal GPRS usando o comando de status (ex: <strong>STATUS#</strong> ou <strong>PARAM#</strong>).</p>
+        <li class="flex items-start gap-4">
+            <div class="w-2 h-2 rounded-full bg-blue-600 mt-1.5 shrink-0"></div>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Verifique se o LED de dados do rastreador mudou o padrão de piscada após a configuração.
+            </p>
         </li>
     </ul>
 </section>

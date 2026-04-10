@@ -1,72 +1,80 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
+<html lang="pt-br" class=""> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGM PRO | Intranet Técnica</title>
+    <title>BWS Uititários| Intranet Técnica</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Configuração do Tailwind para aceitar modo escuro via classe
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
-        /* Esconde a scrollbar para um visual mais limpo */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Animação de entrada do conteúdo */
         .content-fade { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 h-screen flex flex-col overflow-hidden">
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 h-screen flex flex-col overflow-hidden transition-colors duration-300">
 
-    <header class="bg-white border-b border-slate-200 px-4 h-16 flex items-center justify-between z-50 shrink-0">
+    <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 h-16 flex items-center justify-between z-50 shrink-0 transition-colors">
         <div class="flex items-center gap-3">
-            <button onclick="toggleMenu()" class="lg:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+            <button onclick="toggleMenu()" class="lg:hidden p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
                 <i class="fas fa-bars text-xl"></i>
             </button>
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white shadow-lg">
                     <i class="fas fa-network-wired text-xs"></i>
                 </div>
                 <span class="font-bold text-lg tracking-tight">SGM <span class="text-blue-600">PRO</span></span>
             </div>
         </div>
-        <div class="hidden md:block text-xs font-medium text-slate-400 uppercase tracking-widest">Central de Procedimentos</div>
+        
+        <div class="flex items-center gap-4">
+            <div class="hidden md:block text-[10px] font-medium text-slate-400 uppercase tracking-widest">Central de Procedimentos</div>
+            <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:ring-2 ring-blue-500 transition-all">
+                <i id="dark-icon" class="fas fa-moon"></i>
+            </button>
+        </div>
     </header>
 
     <div class="flex flex-1 overflow-hidden relative">
         
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-slate-200 transform -translate-x-full transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col shadow-xl lg:shadow-none">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transform -translate-x-full transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col shadow-xl lg:shadow-none transition-colors">
             
-            <div class="p-4 border-b border-slate-50">
+            <div class="p-4 border-b border-slate-50 dark:border-slate-800">
                 <div class="relative">
                     <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
                     <input type="text" id="busca" onkeyup="filtrarMenu()" placeholder="Buscar comando..." 
-                           class="w-full pl-10 pr-4 py-2 bg-slate-100 border-transparent rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all outline-none">
+                           class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-transparent rounded-xl text-sm focus:bg-white dark:focus:bg-slate-700 focus:ring-2 focus:ring-blue-500 transition-all outline-none dark:text-white">
                 </div>
             </div>
 
             <nav class="flex-1 overflow-y-auto p-3 space-y-1 no-scrollbar" id="menu-items">
                 <div class="px-3 py-2 text-[10px] font-bold text-slate-400 uppercase">Hardware & Conectividade</div>
-                <button onclick="carregar('configuracao-apn.html', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-all">
+                <button onclick="carregar('configuracao-apn.html', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all">
                     <i class="fas fa-sim-card w-4"></i> Configurar APN
                 </button>
-                <button onclick="carregar('comandos-gt06.html', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-all">
+                <button onclick="carregar('comandos-gt06.html', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all">
                     <i class="fas fa-terminal w-4"></i> Comandos GT06
                 </button>
 
                 <div class="px-3 py-2 mt-4 text-[10px] font-bold text-slate-400 uppercase">Banco de Dados</div>
-                <button onclick="carregar('sql-queries.html', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-all">
+                <button onclick="carregar('sql-queries.html', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all">
                     <i class="fas fa-database w-4"></i> Queries SQL Úteis
                 </button>
             </nav>
 
-            <div class="p-4 border-t border-slate-100">
-                <div class="flex items-center gap-3 p-2 bg-slate-50 rounded-xl">
-                    <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
+            <div class="p-4 border-t border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-3 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
+                    <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500">
                         <i class="fas fa-user text-xs"></i>
                     </div>
                     <div class="text-xs">
-                        <p class="font-bold text-slate-700 leading-none">Admin</p>
+                        <p class="font-bold text-slate-700 dark:text-slate-200 leading-none">Admin</p>
                         <p class="text-slate-400 mt-1 italic">Nível Técnico</p>
                     </div>
                 </div>
@@ -75,24 +83,43 @@
 
         <div id="overlay" onclick="toggleMenu()" class="fixed inset-0 bg-slate-900/50 z-30 hidden lg:hidden"></div>
 
-        <main class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 relative bg-slate-50">
-            <div id="loader" class="hidden absolute inset-0 bg-slate-50/60 z-20 flex items-center justify-center">
-                <div class="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 relative bg-slate-50 dark:bg-slate-950 transition-colors">
+            <div id="loader" class="hidden absolute inset-0 bg-slate-50/60 dark:bg-slate-950/60 z-20 flex items-center justify-center text-blue-600">
+                <div class="w-8 h-8 border-4 border-current border-t-transparent rounded-full animate-spin"></div>
             </div>
 
             <div id="view" class="max-w-4xl mx-auto">
                 <div class="h-full flex flex-col items-center justify-center text-center py-20">
-                    <div class="w-20 h-20 bg-white rounded-3xl shadow-sm flex items-center justify-center mb-6 text-slate-200">
+                    <div class="w-20 h-20 bg-white dark:bg-slate-900 rounded-3xl shadow-sm flex items-center justify-center mb-6 text-slate-200 dark:text-slate-700 border border-transparent dark:border-slate-800">
                         <i class="fas fa-folder-open text-4xl"></i>
                     </div>
-                    <h2 class="text-xl font-bold text-slate-800">Pronto para começar?</h2>
-                    <p class="text-slate-500 max-w-xs mx-auto mt-2">Selecione um procedimento técnico na barra lateral para visualizar os detalhes.</p>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-200">Pronto para começar?</h2>
+                    <p class="text-slate-500 dark:text-slate-400 max-w-xs mx-auto mt-2">Selecione um procedimento na barra lateral.</p>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
+        // Lógica de Alternância de Tema
+        function updateIcon(isDark) {
+            const icon = document.getElementById('dark-icon');
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateIcon(isDark);
+        }
+
+        // Verifica preferência salva ao carregar
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            updateIcon(true);
+        }
+
         function toggleMenu() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
@@ -103,39 +130,30 @@
         function carregar(pagina, btn) {
             const view = document.getElementById('view');
             const loader = document.getElementById('loader');
-            
             loader.classList.remove('hidden');
 
-            // Feedback visual nos botões
             document.querySelectorAll('.menu-btn').forEach(b => {
-                b.classList.remove('bg-blue-50', 'text-blue-600', 'shadow-sm');
-                b.classList.add('text-slate-600');
+                b.classList.remove('bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400', 'shadow-sm');
+                b.classList.add('text-slate-600', 'dark:text-slate-400');
             });
-            btn.classList.add('bg-blue-50', 'text-blue-600', 'shadow-sm');
+            btn.classList.add('bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400', 'shadow-sm');
+            btn.classList.remove('text-slate-600', 'dark:text-slate-400');
 
-            // Mobile: fecha menu após clicar
             if (window.innerWidth < 1024) toggleMenu();
 
             fetch(pagina)
-                .then(response => {
-                    if (!response.ok) throw new Error();
-                    return response.text();
-                })
-                .then(html => {
-                    view.innerHTML = `<div class="content-fade">${html}</div>`;
-                })
+                .then(r => r.ok ? r.text() : Promise.reject())
+                .then(html => { view.innerHTML = `<div class="content-fade">${html}</div>`; })
                 .catch(() => {
-                    view.innerHTML = `<div class="p-8 bg-red-50 text-red-700 rounded-2xl border border-red-100 font-medium">Erro: Arquivo "${pagina}" não encontrado no servidor.</div>`;
+                    view.innerHTML = `<div class="p-8 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-2xl border border-red-100 dark:border-red-900/30">Erro: Arquivo não encontrado.</div>`;
                 })
                 .finally(() => loader.classList.add('hidden'));
         }
 
         function filtrarMenu() {
             const busca = document.getElementById('busca').value.toLowerCase();
-            const itens = document.querySelectorAll('.menu-btn');
-            itens.forEach(item => {
-                const texto = item.innerText.toLowerCase();
-                item.style.display = texto.includes(busca) ? 'flex' : 'none';
+            document.querySelectorAll('.menu-btn').forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(busca) ? 'flex' : 'none';
             });
         }
     </script>

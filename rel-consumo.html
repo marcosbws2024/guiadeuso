@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saitro · Análise de Consumo de Dados</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap');
+        
+        * {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tutorial-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(203, 213, 225, 0.4);
+        }
+        .tutorial-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .tutorial-img {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tutorial-img:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 25px rgba(139,92,246,0.15);
+        }
+
+        .aba-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .aba {
+            background: #f1f5f9;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+        }
+        .dark .aba {
+            background: #1e293b;
+            color: #94a3b8;
+        }
+        .aba.ativa {
+            background: #8b5cf6;
+            color: white;
+        }
+        .dark .aba.ativa {
+            background: #7c3aed;
+        }
+        
+        .unidade-badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #4338ca;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 9999px;
+            margin-left: 0.5rem;
+        }
+        .dark .unidade-badge {
+            background: #312e81;
+            color: #c7d2fe;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100">
+    
+    <div class="space-y-6">
+        <!-- Hero Section -->
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 to-violet-600 p-8 text-white shadow-xl mb-8">
+            <div class="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-3">
+                    <i class="fas fa-chart-simple text-2xl"></i>
+                    <span class="text-xs font-semibold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Análise de Consumo</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3 flex items-center gap-2">
+                    <i class="fas fa-gauge-high"></i> Análise de Consumo de Dados
+                </h1>
+                <p class="text-purple-100 text-base max-w-2xl">Analise o consumo de dados por dia, hora e mês em <strong>kbits e MB</strong>, compare com o pacote do cliente e identifique picos de utilização.</p>
+            </div>
+        </div>
+
+        <!-- Informação inicial -->
+        <div class="bg-purple-50 dark:bg-purple-950/30 border-l-4 border-purple-500 rounded-xl p-4 mb-8 flex gap-3">
+            <i class="fas fa-chart-line text-purple-500 text-xl"></i>
+            <div>
+                <p class="text-sm font-semibold text-purple-800 dark:text-purple-300">Mesmo CSV da Análise de Conexões</p>
+                <p class="text-sm text-purple-700 dark:text-purple-400">A ferramenta utiliza o mesmo arquivo CSV baixado para análise de conexões. Os dados são exibidos em <strong>kbits (quilobits) e MB (Megabytes)</strong>. O sistema está padronizado com pacote de <strong>20 MB</strong> para cálculo de consumo normal.</p>
+            </div>
+        </div>
+
+        <!-- Passo 1 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">1</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-cloud-upload-alt text-purple-500 text-lg"></i> Carregar dados de consumo
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConsumo/analiseConsumo1.png" data-caption="Passo 1: Tela principal de análise de consumo de dados">
+                    <img src="imagens/analiseConsumo/analiseConsumo1.png" alt="Tela principal de análise de consumo" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConsumo/analiseConsumo1.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Na tela principal da ferramenta, faça o upload do <strong>mesmo CSV baixado para análise de conexões</strong>. O sistema analisará o consumo de dados por <strong>dia, hora e mês</strong>, mostrando os valores em <strong>kbits (quilobits) e MB (megabytes)</strong> para verificar se o consumo está normal.</p>
+                <div class="mt-3 flex items-center gap-2 text-xs text-purple-600 dark:text-purple-400">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>O sistema está padronizado com pacote de <strong>20 MB</strong> para calcular o consumo normal do cliente <span class="unidade-badge">20 MB padrão</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">2</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-chart-line text-purple-500 text-lg"></i> Visualizar dados carregados
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConsumo/analiseConsumo2.png" data-caption="Passo 2: Dados carregados com navegação entre abas">
+                    <img src="imagens/analiseConsumo/analiseConsumo2.png" alt="Dados carregados com abas" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConsumo/analiseConsumo2.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Após carregar os dados, você pode navegar entre as <strong>abas de consumo</strong> para verificar os consumos nos períodos escolhidos. O sistema compara com o pacote de dados da linha (padrão <strong>20 MB</strong>) para saber se o consumo está normal e identifica os dias em que os dados foram ultrapassados.</p>
+                
+                <div class="aba-container mt-3">
+                    <span class="aba ativa">Consumo por Dia</span>
+                    <span class="aba">Consumo por Hora</span>
+                    <span class="aba">Consumo por Mês</span>
+                </div>
+                
+                <div class="mt-3 bg-slate-100 dark:bg-slate-800 rounded-lg p-3">
+                    <p class="text-xs text-slate-600 dark:text-slate-400"><i class="fas fa-chart-simple mr-1 text-purple-500"></i> Todos os valores são exibidos em <strong>kbits (quilobits)</strong> e convertidos para <strong>MB (megabytes)</strong> quando aplicável</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 3 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">3</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-calendar-day text-purple-500 text-lg"></i> Consumo por Dia
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConsumo/analiseConsumo3.png" data-caption="Passo 3: Análise de consumo por dia em kbits/MB">
+                    <img src="imagens/analiseConsumo/analiseConsumo3.png" alt="Consumo por dia" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConsumo/analiseConsumo3.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">A aba de <strong>consumo por dia</strong> mostra o total de dados consumidos em cada dia do período selecionado. Os valores são exibidos em <strong>kbits (quilobits)</strong> e <strong>MB (megabytes)</strong>, permitindo identificar facilmente os dias de pico de consumo.</p>
+                <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
+                        <p class="text-xs text-slate-500">Média Diária</p>
+                        <p class="text-sm font-bold text-purple-600">1,280 kbits</p>
+                        <p class="text-[10px] text-slate-400">(0.16 MB)</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
+                        <p class="text-xs text-slate-500">Pico Máximo</p>
+                        <p class="text-sm font-bold text-red-600">3,840 kbits</p>
+                        <p class="text-[10px] text-slate-400">(0.48 MB)</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
+                        <p class="text-xs text-slate-500">Acima do Pacote</p>
+                        <p class="text-sm font-bold text-orange-600">5 dias</p>
+                        <p class="text-[10px] text-slate-400">(acima de 20 MB)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 4 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">4</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-clock text-purple-500 text-lg"></i> Consumo por Hora
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConsumo/analiseConsumo4.png" data-caption="Passo 4: Análise de consumo por hora em kbits">
+                    <img src="imagens/analiseConsumo/analiseConsumo4.png" alt="Consumo por hora" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConsumo/analiseConsumo4.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">A aba de <strong>consumo por hora</strong> detalha o uso de dados em intervalos horários, medidos em <strong>kbits</strong>, permitindo identificar padrões de comportamento e horários de maior consumo.</p>
+                <div class="mt-3 flex items-center gap-2 text-xs text-purple-600 dark:text-purple-400">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Períodos críticos podem ser identificados para otimização do uso da rede</span>
+                </div>
+                <div class="mt-2 bg-amber-50 dark:bg-amber-950/30 rounded-lg p-2">
+                    <p class="text-xs text-amber-700 dark:text-amber-300"><i class="fas fa-chart-simple mr-1"></i> Exemplo: 18:00-21:00 apresenta pico de 2,560 kbits (0.32 MB)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 5 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">5</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-chart-column text-purple-500 text-lg"></i> Gráficos de Consumo
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConsumo/analiseConsumo5.png" data-caption="Passo 5: Gráficos de análise de consumo">
+                    <img src="imagens/analiseConsumo/analiseConsumo5.png" alt="Gráficos de consumo" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConsumo/analiseConsumo5.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Logo abaixo do consumo por mês, é possível visualizar os <strong>gráficos interativos</strong> que auxiliam na análise do consumo, permitindo identificar tendências e anomalias no uso de dados. Os gráficos são plotados em <strong>kbits/segundo</strong> para maior precisão.</p>
+                <div class="mt-3 grid grid-cols-2 gap-2">
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2 text-center">
+                        <i class="fas fa-chart-line text-purple-500"></i>
+                        <p class="text-xs mt-1">Evolução do Consumo (kbits)</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2 text-center">
+                        <i class="fas fa-chart-pie text-purple-500"></i>
+                        <p class="text-xs mt-1">Distribuição por Horário (MB)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 6 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">6</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-file-excel text-purple-500 text-lg"></i> Exportar dados em Excel
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConsumo/analiseConsumo6.png" data-caption="Passo 6: Exportação de dados em Excel por abas">
+                    <img src="imagens/analiseConsumo/analiseConsumo6.png" alt="Exportação Excel" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConsumo/analiseConsumo6.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">É possível <strong>exportar os dados de consumo</strong> em Excel para todos os períodos. O arquivo gerado possui abas separadas com valores em <strong>kbits e MB</strong> para:</p>
+                <ul class="mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-300 list-disc list-inside">
+                    <li>Consumo por Dia (kbits/dia)</li>
+                    <li>Consumo por Hora (kbits/hora)</li>
+                    <li>Consumo por Mês (MB/mês)</li>
+                    <li>Consumo por Ano (MB/ano)</li>
+                </ul>
+                <div class="mt-3 bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
+                    <p class="text-xs text-slate-600 dark:text-slate-400"><i class="fas fa-calculator mr-1 text-purple-500"></i> <strong>Conversão:</strong> 1 MB = 8,192 kbits</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 7 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">7</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-file-pdf text-purple-500 text-lg"></i> Exportar relatório PDF
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConsumo/analiseConsumo7.png" data-caption="Passo 7: Exemplo do relatório PDF com gráficos e tabelas">
+                    <img src="imagens/analiseConsumo/analiseConsumo7.png" alt="Relatório PDF" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConsumo/analiseConsumo7.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">O relatório <strong>PDF</strong> inclui todas as tabelas e gráficos de consumo, com valores em <strong>kbits e MB</strong>, facilitando o compartilhamento com a equipe ou clientes. O exemplo mostra um dos gráficos presentes no relatório final.</p>
+                <div class="mt-3 bg-emerald-50 dark:bg-emerald-950/30 border-l-4 border-emerald-500 rounded-lg p-3">
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-chart-simple text-emerald-500 mt-0.5"></i>
+                        <p class="text-xs text-emerald-700 dark:text-emerald-300"><strong>Dica:</strong> Utilize os relatórios para monitorar o consumo e identificar clientes que excedem o pacote contratado (padrão <strong>20 MB</strong> ou <strong>163,840 kbits</strong>).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Rápido -->
+        <div class="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800/50 dark:to-slate-900/50 rounded-2xl p-6 mt-8">
+            <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                <i class="fas fa-list-check text-purple-500"></i> Resumo do Fluxo
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-upload text-purple-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">1. Upload</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">CSV de conexões</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-chart-line text-purple-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">2. Análise</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Dia, Hora, Mês</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-chart-simple text-purple-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">3. Gráficos</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">kbits / MB</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-file-excel text-purple-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">4. Excel</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Dados por aba</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-file-pdf text-purple-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">5. PDF</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Relatório completo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informação do Padrão -->
+        <div class="bg-amber-50 dark:bg-amber-950/30 border-l-4 border-amber-500 rounded-xl p-4">
+            <div class="flex items-start gap-3">
+                <i class="fas fa-info-circle text-amber-500 text-xl"></i>
+                <div>
+                    <p class="text-sm font-semibold text-amber-800 dark:text-amber-300">Padrão de Pacote de Dados</p>
+                    <p class="text-sm text-amber-700 dark:text-amber-400">O sistema está padronizado com o tamanho de <strong>20 MB</strong> (equivalente a <strong>163,840 kbits</strong>) para cálculo de consumo normal. Caso o cliente possua pacote de 50 MB, é possível ajustar manualmente a referência de comparação.</p>
+                    <div class="mt-2 flex gap-3 text-xs">
+                        <span class="bg-amber-100 dark:bg-amber-900/50 px-2 py-1 rounded">20 MB = 163,840 kbits</span>
+                        <span class="bg-amber-100 dark:bg-amber-900/50 px-2 py-1 rounded">50 MB = 409,600 kbits</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+                <i class="fas fa-chart-line mr-1"></i> Análise de Consumo de Dados · Saitro
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

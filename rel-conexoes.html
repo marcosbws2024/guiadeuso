@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saitro · Análise de Conexões</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap');
+        
+        * {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tutorial-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(203, 213, 225, 0.4);
+        }
+        .tutorial-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .tutorial-img {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tutorial-img:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 25px rgba(59,130,246,0.15);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100">
+    
+    <div class="space-y-6">
+        <!-- Hero Section -->
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-600 p-8 text-white shadow-xl mb-8">
+            <div class="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-3">
+                    <i class="fas fa-chart-network text-2xl"></i>
+                    <span class="text-xs font-semibold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Monitoramento</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3 flex items-center gap-2">
+                    <i class="fas fa-signal"></i> Análise de Conexões
+                </h1>
+                <p class="text-blue-100 text-base max-w-2xl">Analise conexões, tempo online, tráfego por operadora e estabilidade da APN com gráficos interativos e relatórios exportáveis.</p>
+            </div>
+        </div>
+
+        <!-- Informação inicial -->
+        <div class="bg-blue-50 dark:bg-blue-950/30 border-l-4 border-blue-500 rounded-xl p-4 mb-8 flex gap-3">
+            <i class="fas fa-chart-line text-blue-500 text-xl"></i>
+            <div>
+                <p class="text-sm font-semibold text-blue-800 dark:text-blue-300">Análise completa de conectividade</p>
+                <p class="text-sm text-blue-700 dark:text-blue-400">A ferramenta analisa quantidade de conexões, tempo online, tráfego por operadora e estabilidade da APN, gerando gráficos e relatórios detalhados.</p>
+            </div>
+        </div>
+
+        <!-- Passo 1 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">1</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-cloud-upload-alt text-blue-500 text-lg"></i> Carregar dados de conexão
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConexao/analiseConexao1.png" data-caption="Passo 1: Tela principal de análise de conexões">
+                    <img src="imagens/analiseConexao/analiseConexao1.png" alt="Tela principal de análise de conexões" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConexao/analiseConexao1.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Na tela principal, faça o upload do histórico de conexões. O sistema processará os dados e analisará a <strong>quantidade de conexões, tempo online, total de tráfego por operadora</strong> e a <strong>estabilidade da APN</strong>.</p>
+                <div class="mt-3 flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>O histórico de conexões deve conter os dados de conexão para gerar as análises completas</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">2</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-history text-blue-500 text-lg"></i> Histórico de Conexão
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConexao/analiseConexao2.png" data-caption="Passo 2: Histórico de conexão com dados detalhados">
+                    <img src="imagens/analiseConexao/analiseConexao2.png" alt="Histórico de conexão" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConexao/analiseConexao2.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">O sistema exibe o <strong>histórico completo de conexões</strong> com todos os dados que serão utilizados para criar os gráficos e tabelas. Esses dados incluem timestamps, operadoras, tempo de conexão e tráfego.</p>
+                <div class="mt-3 bg-slate-100 dark:bg-slate-800 rounded-lg p-3">
+                    <p class="text-xs text-slate-600 dark:text-slate-400"><i class="fas fa-database mr-1 text-blue-500"></i> Os dados do histórico alimentam todos os gráficos e análises da ferramenta</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 3 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">3</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-chart-bar text-blue-500 text-lg"></i> Visualizar gráficos de qualidade
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConexao/analiseConexao3.png" data-caption="Passo 3: Gráficos de qualidade da conexão">
+                    <img src="imagens/analiseConexao/analiseConexao3.png" alt="Gráficos de qualidade da conexão" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConexao/analiseConexao3.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Descendo na página, você encontra os <strong>gráficos interativos</strong> que mostram a qualidade da conexão, incluindo:</p>
+                <ul class="mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-300 list-disc list-inside">
+                    <li>Gráfico de estabilidade geral da APN</li>
+                    <li>Distribuição de conexões por operadora</li>
+                    <li>Tempo online por período</li>
+                    <li>Tráfego total por operadora</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Passo 4 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">4</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-percent text-blue-500 text-lg"></i> Dados estatísticos
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConexao/analiseConexao4.png" data-caption="Passo 4: Dados estatísticos em números e porcentagens">
+                    <img src="imagens/analiseConexao/analiseConexao4.png" alt="Dados estatísticos" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConexao/analiseConexao4.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">No final da página, os dados que constroem os gráficos são apresentados em <strong>números e porcentagens</strong>, permitindo uma análise precisa da qualidade da conexão.</p>
+                <div class="mt-3 grid grid-cols-2 md:grid-cols-4 gap-2 text-center">
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
+                        <p class="text-xs text-slate-500">Conexões</p>
+                        <p class="text-lg font-bold text-blue-600">1,247</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
+                        <p class="text-xs text-slate-500">Tempo Online</p>
+                        <p class="text-lg font-bold text-green-600">98.3%</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
+                        <p class="text-xs text-slate-500">Estabilidade</p>
+                        <p class="text-lg font-bold text-blue-600">95.7%</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-2">
+                        <p class="text-xs text-slate-500">Tráfego Total</p>
+                        <p class="text-lg font-bold text-purple-600">2.4 GB</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 5 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">5</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-download text-blue-500 text-lg"></i> Botões de exportação
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConexao/analiseConexao5.png" data-caption="Passo 5: Botões de exportação XLSX e PDF">
+                    <img src="imagens/analiseConexao/analiseConexao5.png" alt="Botões de exportação" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConexao/analiseConexao5.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">A ferramenta oferece <strong>dois botões de exportação</strong>:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-green-50 dark:bg-green-950/30 rounded-xl p-4 border border-green-200 dark:border-green-800">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-file-excel text-green-600 text-xl"></i>
+                            <h4 class="font-bold text-green-700 dark:text-green-400">XLSX</h4>
+                        </div>
+                        <p class="text-xs text-green-600 dark:text-green-400">Baixa a tabela completa que fica logo abaixo dos botões, com todos os dados de conexão e estabilidade.</p>
+                    </div>
+                    <div class="bg-red-50 dark:bg-red-950/30 rounded-xl p-4 border border-red-200 dark:border-red-800">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-file-pdf text-red-600 text-xl"></i>
+                            <h4 class="font-bold text-red-700 dark:text-red-400">PDF</h4>
+                        </div>
+                        <p class="text-xs text-red-600 dark:text-red-400">Baixa os gráficos juntamente com a tabela que contém os dados que constroem os gráficos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 6 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">6</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-file-pdf text-blue-500 text-lg"></i> Relatório PDF
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConexao/analiseConexao6.png" data-caption="Passo 6: Exemplo do relatório PDF com gráficos e tabela">
+                    <img src="imagens/analiseConexao/analiseConexao6.png" alt="Exemplo de relatório PDF" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConexao/analiseConexao6.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">O relatório PDF gerado contém todos os <strong>gráficos de qualidade da conexão</strong> juntamente com a tabela de dados que os constroem, perfeito para compartilhar com a equipe ou clientes.</p>
+                <div class="mt-3 flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400">
+                    <i class="fas fa-chart-simple"></i>
+                    <span>O PDF inclui gráficos de estabilidade, distribuição por operadora e análise de tráfego</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 7 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">7</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-file-excel text-blue-500 text-lg"></i> Relatório Excel
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConexao/analiseConexao7.png" data-caption="Passo 7: Dados exportados para Excel">
+                    <img src="imagens/analiseConexao/analiseConexao7.png" alt="Dados exportados para Excel" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConexao/analiseConexao7.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Ao exportar para Excel, você obtém os dados da tabela que mostram a <strong>estabilidade e dados de conexão</strong> localizada logo abaixo dos botões, permitindo análises personalizadas.</p>
+            </div>
+        </div>
+
+        <!-- Passo 8 -->
+        <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">8</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <i class="fas fa-table text-blue-500 text-lg"></i> Relatório Excel completo
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="imagens/analiseConexao/analiseConexao8.png" data-caption="Passo 8: Exemplo do relatório completo exportado em Excel">
+                    <img src="imagens/analiseConexao/analiseConexao8.png" alt="Relatório Excel completo" class="mx-auto rounded-lg max-h-80 w-auto object-contain pointer-events-none" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/analiseConexao/analiseConexao8.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">O relatório Excel completo inclui todos os dados analisados, permitindo filtros, gráficos personalizados e compartilhamento facilitado com a equipe técnica.</p>
+                <div class="mt-3 bg-emerald-50 dark:bg-emerald-950/30 border-l-4 border-emerald-500 rounded-lg p-3">
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-chart-line text-emerald-500 mt-0.5"></i>
+                        <p class="text-xs text-emerald-700 dark:text-emerald-300"><strong>Dica:</strong> Utilize o Excel para criar análises personalizadas e dashboards adicionais baseados nos dados de conexão.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Rápido -->
+        <div class="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800/50 dark:to-slate-900/50 rounded-2xl p-6 mt-8">
+            <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                <i class="fas fa-list-check text-blue-500"></i> Resumo do Fluxo
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-upload text-blue-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">1. Upload</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Histórico de conexões</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-chart-simple text-blue-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">2. Análise</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Gráficos e métricas</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-chart-pie text-blue-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">3. Visualização</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Dados e porcentagens</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-download text-blue-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">4. Exportar</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">XLSX ou PDF</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+                <i class="fas fa-chart-line mr-1"></i> Análise de Conexões · Saitro
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

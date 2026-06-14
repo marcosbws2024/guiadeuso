@@ -3,74 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central Técnica</title>
+    <title>Saitro · Central Técnica</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-     <link rel="stylesheet" href="style.css">
     <script>
-        tailwind.config = { darkMode: 'class' }
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                }
+            }
+        }
     </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap');
+        
+        * {
+            -webkit-font-smoothing: antialiased;
+        }
 
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59,130,246,0.3);
+            border-radius: 10px;
+        }
+        
+        .sidebar-glass {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+        }
+        .dark .sidebar-glass {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(12px);
+        }
+        
+        .menu-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(59,130,246,0.1), transparent);
+            transition: width 0.3s ease;
+        }
+        .menu-btn:hover::before {
+            width: 100%;
+        }
+        
+        .tutorial-img {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tutorial-img:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 25px rgba(59,130,246,0.15);
+        }
+        
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-modal.active {
+            display: flex;
+        }
+        
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(59,130,246,0.2);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .menu-btn-active {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+        }
+        .dark .menu-btn-active {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        
+        .tutorial-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(203, 213, 225, 0.4);
+        }
+        .tutorial-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 h-screen flex flex-col overflow-hidden transition-colors duration-300 font-sans">
+<body class="bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 h-screen flex flex-col overflow-hidden transition-colors duration-500 font-sans">
 
-    <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 h-16 flex items-center justify-between z-50 shrink-0">
-        <div class="flex items-center gap-4">
-            <button onclick="toggleMenu()" class="lg:hidden p-2 text-slate-600 dark:text-slate-400">
+    <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800/60 px-6 h-16 flex items-center justify-between z-50 shrink-0 shadow-sm">
+        <div class="flex items-center gap-3">
+            <button onclick="toggleMenu()" class="lg:hidden p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
                 <i class="fas fa-bars text-xl"></i>
             </button>
-            <div class="h-6 w-1 bg-blue-600"></div>
-            <span class="font-bold text-sm tracking-widest uppercase">Manual</span>
+            <div class="h-8 w-1 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full"></div>
+            <div>
+                <span class="font-bold text-sm tracking-wider uppercase bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-200 dark:to-slate-400 bg-clip-text text-transparent">Central Técnica</span>
+                <span class="text-[10px] text-slate-400 dark:text-slate-500 block -mt-0.5">Saitro · Suporte Avançado</span>
+            </div>
         </div>
         
-        <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
-            <i id="dark-icon" class="fas fa-moon"></i>
-        </button>
+        <div class="flex items-center gap-3">
+            <button onclick="toggleDarkMode()" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-sm">
+                <i id="dark-icon" class="fas fa-moon text-sm"></i>
+            </button>
+        </div>
     </header>
 
     <div class="flex flex-1 overflow-hidden relative">
         
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transform -translate-x-full transition-transform duration-300 lg:relative lg:translate-x-0 flex flex-col">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-80 sidebar-glass border-r border-slate-200/40 dark:border-slate-800/40 transform -translate-x-full transition-transform duration-300 lg:relative lg:translate-x-0 flex flex-col shadow-xl">
             
-            <div class="p-4 border-b border-slate-100 dark:border-slate-800 text-center">
-                <input type="text" id="busca" onkeyup="filtrarMenu()" placeholder="FILTRAR..." 
-                       class="w-full px-3 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs font-bold outline-none focus:border-blue-600 dark:text-white transition-all uppercase tracking-widest text-center">
+            <div class="p-5 border-b border-slate-200/40 dark:border-slate-800/40">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="busca" onkeyup="filtrarMenu()" placeholder="Filtrar documentação..." 
+                           class="w-full pl-9 pr-3 py-2.5 bg-slate-100/70 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 rounded-xl text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:text-white transition-all">
+                </div>
             </div>
 
-            <nav class="flex-1 overflow-y-auto p-2 space-y-1 no-scrollbar" id="menu-items">
-                <div class="px-4 py-3 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Conectividade</div>
-                <button onclick="carregar('configuracao-apn.html', this)" class="menu-btn w-full text-left px-4 py-2.5 text-xs font-bold rounded text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all uppercase tracking-wider">
-                    Configurar APN
+            <nav class="flex-1 overflow-y-auto p-3 space-y-1" id="menu-items">
+                <div class="px-3 pt-4 pb-2">
+                    <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.15em]">
+                        <i class="fas fa-wifi text-[10px]"></i>
+                        <span>Conectividade</span>
+                    </div>
+                </div>
+                <button onclick="carregarPagina('configuracao-apn.html', this)" class="menu-btn w-full text-left px-4 py-2.5 text-sm font-medium rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition-all flex items-center gap-3 group">
+                    <i class="fas fa-network-wired text-slate-400 group-hover:text-blue-500 text-sm w-5"></i>
+                    <span>Configurar APN</span>
                 </button>
-                <button onclick="carregar('comandos-gt06.html', this)" class="menu-btn w-full text-left px-4 py-2.5 text-xs font-bold rounded text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all uppercase tracking-wider">
-                    Comandos GT06
+                
+                <div class="px-3 pt-6 pb-2">
+                    <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.15em]">
+                        <i class="fas fa-tools text-[10px]"></i>
+                        <span>Ferramentas</span>
+                    </div>
+                </div>
+                <button onclick="carregarTutorialCarga()" class="menu-btn w-full text-left px-4 py-2.5 text-sm font-medium rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition-all flex items-center gap-3 group">
+                    <i class="fas fa-upload text-slate-400 group-hover:text-blue-500 text-sm w-5"></i>
+                    <span>Carga de Reset em Massa</span>
                 </button>
 
-                <div class="px-4 py-3 mt-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Dados</div>
-                <button onclick="carregar('sql-queries.html', this)" class="menu-btn w-full text-left px-4 py-2.5 text-xs font-bold rounded text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all uppercase tracking-wider">
-                    Queries SQL
+                <div class="px-3 pt-6 pb-2">
+                    <div class="flex items-center gap-2 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.15em]">
+                        <i class="fas fa-chart-line text-[10px]"></i>
+                        <span>Relatórios</span>
+                    </div>
+                </div>
+                <button onclick="carregarPagina('rel-linhaoff.html', this)" class="menu-btn w-full text-left px-4 py-2.5 text-sm font-medium rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition-all flex items-center gap-3 group">
+                    <i class="fas fa-tower-broadcast text-slate-400 group-hover:text-blue-500 text-sm w-5"></i>
+                    <span>Relatório de Linhas Offline</span>
                 </button>
+
+                         <button onclick="carregarPagina('rel-linhasbloq.html', this)" class="menu-btn w-full text-left px-4 py-2.5 text-sm font-medium rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition-all flex items-center gap-3 group">
+                    <i class="fas fa-tower-broadcast text-slate-400 group-hover:text-blue-500 text-sm w-5"></i>
+                    <span>Relatório de Linhas Bloqueadas</span>
+                </button>
+
+                <div class="pt-8 pb-4 px-3 mt-auto">
+                    <div class="border-t border-slate-200/40 dark:border-slate-800/40 pt-4">
+                        <p class="text-[10px] text-slate-400 text-center">
+                            <i class="far fa-copyright"></i> 2024 Saitro<br>v2.0 — Documentação Técnica
+                        </p>
+                    </div>
+                </div>
             </nav>
         </aside>
 
-        <div id="overlay" onclick="toggleMenu()" class="fixed inset-0 bg-slate-950/50 z-30 hidden lg:hidden"></div>
+        <div id="overlay" onclick="toggleMenu()" class="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-30 hidden lg:hidden transition-all"></div>
 
-        <main class="flex-1 overflow-y-auto p-6 md:p-12 relative bg-slate-50 dark:bg-slate-950">
-            <div id="loader" class="hidden absolute inset-0 bg-slate-50/80 dark:bg-slate-950/80 z-20 flex items-center justify-center">
-                <div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <main class="flex-1 overflow-y-auto relative bg-gradient-to-br from-slate-50/50 to-white/30 dark:from-slate-950/30 dark:to-slate-900/30">
+            <div id="loader" class="hidden absolute inset-0 z-20 flex items-center justify-center bg-white/60 dark:bg-slate-950/60 backdrop-blur-sm">
+                <div class="loader-spinner"></div>
             </div>
 
-            <div id="view" class="max-w-4xl mx-auto">
-                <div class="py-32 text-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl opacity-50">
-                    <p class="text-[10px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-[0.4em]">Aguardando seleção</p>
+            <div id="view" class="max-w-6xl mx-auto p-6 md:p-8 lg:p-10">
+                <div class="flex flex-col items-center justify-center min-h-[60vh] text-center">
+                    <div class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-950/40 dark:to-indigo-950/40 flex items-center justify-center">
+                        <i class="fas fa-compass text-4xl text-blue-500 dark:text-blue-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-2">Bem-vindo à Central Técnica</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm max-w-md">Selecione um tópico no menu lateral para visualizar a documentação completa e tutoriais passo a passo.</p>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- Modal Global de Imagem -->
+    <div id="imageModal" class="image-modal">
+        <div class="relative max-w-[90vw] max-h-[90vh]">
+            <div class="absolute -top-14 right-0 flex gap-2">
+                <button id="zoomInBtn" class="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-black/70 transition-all"><i class="fas fa-search-plus"></i></button>
+                <button id="zoomOutBtn" class="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-black/70 transition-all"><i class="fas fa-search-minus"></i></button>
+                <button id="resetZoomBtn" class="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-black/70 transition-all"><i class="fas fa-sync-alt"></i></button>
+                <button id="closeModalBtn" class="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-red-500/70 transition-all"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="absolute -top-14 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-md px-4 py-1.5 rounded-full text-white text-sm font-medium" id="imageCounter">1/8</div>
+            <img id="modalImage" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl transition-transform duration-200 cursor-zoom-in" src="" alt="Visualização ampliada">
+            <div class="absolute -bottom-14 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-md px-5 py-2 rounded-full text-white text-sm whitespace-nowrap" id="modalCaption"></div>
+            <button id="prevImageBtn" class="absolute top-1/2 -translate-y-1/2 -left-12 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-black/70 transition-all"><i class="fas fa-chevron-left"></i></button>
+            <button id="nextImageBtn" class="absolute top-1/2 -translate-y-1/2 -right-12 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-black/70 transition-all"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
     <script>
+        // ==================== VARIÁVEIS GLOBAIS ====================
+        let imagensAtivas = [];
+        let indiceAtual = 0;
+        let currentZoom = 1;
+        let modalAtivo = false;
+
+        // ==================== TEMA ====================
         function updateIcon(isDark) {
-            document.getElementById('dark-icon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            const icon = document.getElementById('dark-icon');
+            if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         }
 
         function toggleDarkMode() {
@@ -82,42 +267,292 @@
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
             updateIcon(true);
+        } else {
+            updateIcon(false);
         }
 
+        // ==================== UI FUNCTIONS ====================
         function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
-            document.getElementById('overlay').classList.toggle('hidden');
-        }
-
-        function carregar(pagina, btn) {
-            const view = document.getElementById('view');
-            const loader = document.getElementById('loader');
-            loader.classList.remove('hidden');
-
-            document.querySelectorAll('.menu-btn').forEach(b => {
-                b.classList.remove('bg-blue-600', 'text-white', 'dark:bg-blue-600');
-                b.classList.add('text-slate-600', 'dark:text-slate-400');
-            });
-            btn.classList.add('bg-blue-600', 'text-white');
-            btn.classList.remove('text-slate-600', 'dark:text-slate-400');
-
-            if (window.innerWidth < 1024) toggleMenu();
-
-            fetch(pagina)
-                .then(r => r.ok ? r.text() : Promise.reject())
-                .then(html => { view.innerHTML = `<div class="content-fade">${html}</div>`; })
-                .catch(() => {
-                    view.innerHTML = `<div class="p-4 bg-red-900 text-white text-[10px] font-mono tracking-widest">ERROR: FILE_NOT_FOUND</div>`;
-                })
-                .finally(() => loader.classList.add('hidden'));
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
         }
 
         function filtrarMenu() {
             const busca = document.getElementById('busca').value.toLowerCase();
             document.querySelectorAll('.menu-btn').forEach(item => {
-                item.style.display = item.innerText.toLowerCase().includes(busca) ? 'block' : 'none';
+                const texto = item.innerText.toLowerCase();
+                item.style.display = texto.includes(busca) ? 'flex' : 'none';
             });
         }
+
+        function resetActiveButtons() {
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('menu-btn-active');
+                btn.classList.add('text-slate-700', 'dark:text-slate-300');
+            });
+        }
+
+        function setActiveButton(btn) {
+            if (!btn) return;
+            resetActiveButtons();
+            btn.classList.add('menu-btn-active');
+        }
+
+        // ==================== FUNÇÃO PRINCIPAL: INICIALIZAR IMAGENS ====================
+        function inicializarImagensPagina() {
+            // Coletar todas as imagens com a classe tutorial-img
+            const imagens = [];
+            const elementosImagem = document.querySelectorAll('.tutorial-img');
+            
+            console.log('Inicializando imagens, encontrados:', elementosImagem.length);
+            
+            elementosImagem.forEach((el, idx) => {
+                const img = el.querySelector('img');
+                const caption = el.getAttribute('data-caption') || img?.alt || `Imagem ${idx + 1}`;
+                const imgSrc = el.getAttribute('data-src') || img?.src;
+                
+                if (imgSrc && imgSrc !== '') {
+                    imagens.push({ src: imgSrc, caption: caption, element: el });
+                }
+            });
+            
+            if (imagens.length === 0) return;
+            
+            imagensAtivas = imagens;
+            
+            // Adicionar evento de clique em cada elemento
+            elementosImagem.forEach((el, idx) => {
+                el.removeEventListener('click', handleImageClick);
+                el.addEventListener('click', handleImageClick);
+                el.style.cursor = 'pointer';
+            });
+            
+            function handleImageClick(e) {
+                e.stopPropagation();
+                const clickedIndex = Array.from(elementosImagem).indexOf(this);
+                if (clickedIndex !== -1 && clickedIndex < imagensAtivas.length) {
+                    abrirModal(clickedIndex);
+                }
+            }
+            
+            console.log(`${imagens.length} imagens configuradas para expansão`);
+        }
+
+        // ==================== FUNÇÕES DO MODAL ====================
+        function abrirModal(index) {
+            if (!imagensAtivas.length || index >= imagensAtivas.length) return;
+            
+            indiceAtual = index;
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageCounter = document.getElementById('imageCounter');
+            
+            if (modal && modalImg) {
+                modalImg.src = imagensAtivas[indiceAtual].src;
+                modalCaption.textContent = imagensAtivas[indiceAtual].caption;
+                imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                modalAtivo = true;
+                resetZoom();
+            }
+        }
+
+        function fecharModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                modalAtivo = false;
+                resetZoom();
+            }
+        }
+
+        function imagemAnterior() {
+            if (imagensAtivas.length === 0) return;
+            indiceAtual = (indiceAtual - 1 + imagensAtivas.length) % imagensAtivas.length;
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageCounter = document.getElementById('imageCounter');
+            
+            modalImg.src = imagensAtivas[indiceAtual].src;
+            modalCaption.textContent = imagensAtivas[indiceAtual].caption;
+            imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
+            resetZoom();
+        }
+
+        function imagemProxima() {
+            if (imagensAtivas.length === 0) return;
+            indiceAtual = (indiceAtual + 1) % imagensAtivas.length;
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageCounter = document.getElementById('imageCounter');
+            
+            modalImg.src = imagensAtivas[indiceAtual].src;
+            modalCaption.textContent = imagensAtivas[indiceAtual].caption;
+            imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
+            resetZoom();
+        }
+
+        function zoomIn() { currentZoom = Math.min(currentZoom + 0.2, 2.5); aplicarZoom(); }
+        function zoomOut() { currentZoom = Math.max(currentZoom - 0.2, 0.5); aplicarZoom(); }
+        function resetZoom() { currentZoom = 1; aplicarZoom(); }
+        function aplicarZoom() {
+            const modalImg = document.getElementById('modalImage');
+            if (modalImg) {
+                modalImg.style.transform = `scale(${currentZoom})`;
+                modalImg.style.cursor = currentZoom > 1 ? 'zoom-out' : 'zoom-in';
+            }
+        }
+        function toggleZoom() {
+            if (currentZoom === 1) currentZoom = 1.8;
+            else currentZoom = 1;
+            aplicarZoom();
+        }
+
+        // ==================== CARREGAR PÁGINAS ====================
+        function carregarPagina(pagina, btn) {
+            const view = document.getElementById('view');
+            const loader = document.getElementById('loader');
+            loader.classList.remove('hidden');
+            
+            setActiveButton(btn);
+            if (window.innerWidth < 1024) toggleMenu();
+
+            fetch(pagina)
+                .then(r => r.ok ? r.text() : Promise.reject())
+                .then(html => { 
+                    view.innerHTML = `<div class="animate-fade-in">${html}</div>`;
+                    window.scrollTo(0, 0);
+                    // IMPORTANTE: Reinicializar as imagens após carregar o conteúdo
+                    setTimeout(() => {
+                        inicializarImagensPagina();
+                    }, 100);
+                })
+                .catch(() => {
+                    view.innerHTML = `<div class="flex flex-col items-center justify-center min-h-[50vh] text-center p-8">
+                        <i class="fas fa-file-alt text-6xl text-slate-300 dark:text-slate-700 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-700 dark:text-slate-300">Página não encontrada</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">O arquivo "${pagina}" não foi localizado.<br>Verifique se ele existe no diretório correto.</p>
+                    </div>`;
+                })
+                .finally(() => loader.classList.add('hidden'));
+        }
+
+        function carregarTutorialCarga() {
+            const view = document.getElementById('view');
+            const loader = document.getElementById('loader');
+            loader.classList.remove('hidden');
+
+            const btns = document.querySelectorAll('.menu-btn');
+            let targetBtn = null;
+            for (let btn of btns) {
+                if (btn.innerText.includes('Carga de Reset em Massa')) {
+                    targetBtn = btn;
+                    break;
+                }
+            }
+            setActiveButton(targetBtn);
+            if (window.innerWidth < 1024) toggleMenu();
+
+            view.innerHTML = `<div class="animate-fade-in" id="tutorialContainer"></div>`;
+            const container = document.getElementById('tutorialContainer');
+            if (container) {
+                container.innerHTML = gerarTutorialHTML();
+            }
+            
+            loader.classList.add('hidden');
+            
+            setTimeout(() => {
+                inicializarImagensPagina();
+            }, 100);
+        }
+
+        function gerarTutorialHTML() {
+            return `
+                <div class="space-y-6">
+                    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white shadow-xl mb-8">
+                        <div class="relative z-10">
+                            <h1 class="text-3xl md:text-4xl font-bold mb-3 flex items-center gap-2">
+                                <i class="fas fa-upload"></i> Carga de Reset em Massa
+                            </h1>
+                            <p class="text-blue-100 text-base">Formate e processe arquivos CSV para ativação em lote na plataforma Saitro.</p>
+                        </div>
+                    </div>
+
+                    ${gerarCardImagem(1, 'Passo 1: Carregar o arquivo CSV', 'imagens/carregaCSV/TelaCarregaCSV1.png', 'Na tela principal, clique na área de upload ou arraste o arquivo CSV.')}
+                    ${gerarCardImagem(2, 'Passo 2: Escolher o identificador', 'imagens/carregaCSV/TelaCarregaCSV2.png', 'Selecione ICCID (código do chip) ou MSISDN (número do telefone).')}
+                    ${gerarCardImagem(3, 'Passo 3: Escolher o tipo de saída', 'imagens/carregaCSV/TelaCarregaCSV3.png', 'Três formatos: Sem sufixo (Saitro), Ponto e vírgula (Comtele), Com vírgula (consultas).')}
+                    ${gerarCardImagem(4, 'Passo 4: Captura do nome da empresa', 'imagens/carregaCSV/TelaCarregaCSV4.png', 'O sistema lê a segunda linha da primeira coluna para extrair o nome da empresa.')}
+                    ${gerarCardImagem(5, 'Passo 5: Visualizar registros', 'imagens/carregaCSV/TelaCarregaCSV5.png', 'Preview dos registros extraídos com estatísticas.')}
+                    ${gerarCardImagem(6, 'Passo 6: Dividir CSV em partes', 'imagens/carregaCSV/TelaCarregaCSV6.png', 'Arquivos grandes podem ser divididos em lotes menores.')}
+                    ${gerarCardImagem(7, 'Passo 7: Exportar CSV (ZIP)', 'imagens/carregaCSV/TelaCarregaCSV7.png', 'Compacte todos os arquivos em um ZIP.')}
+                    ${gerarCardImagem(8, 'Passo 8: Arquivos extraídos', 'imagens/carregaCSV/TelaCarregaCSV8.png', 'Após extrair, você terá os CSVs divididos.')}
+                </div>
+            `;
+        }
+
+        function gerarCardImagem(numero, titulo, imgSrc, descricao) {
+            return `
+                <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">${numero}</div>
+                            <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100">${titulo}</h2>
+                        </div>
+                        <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="${imgSrc}" data-caption="${titulo}">
+                            <img src="${imgSrc}" alt="${titulo}" class="mx-auto rounded-lg max-h-72 w-auto object-contain" 
+                                 onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'p-12 text-center text-slate-400\\'><i class=\\'fas fa-image fa-3x mb-2\\'></i><br>📁 ${imgSrc}</div>'">
+                            <div class="text-center mt-2 text-xs text-slate-400">
+                                <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                            </div>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm">${descricao}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== EVENTOS GLOBAIS ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeBtn = document.getElementById('closeModalBtn');
+            const prevBtn = document.getElementById('prevImageBtn');
+            const nextBtn = document.getElementById('nextImageBtn');
+            const zoomInBtn = document.getElementById('zoomInBtn');
+            const zoomOutBtn = document.getElementById('zoomOutBtn');
+            const resetZoomBtn = document.getElementById('resetZoomBtn');
+            const modalImg = document.getElementById('modalImage');
+            const modalBg = document.getElementById('imageModal');
+            
+            if (closeBtn) closeBtn.addEventListener('click', fecharModal);
+            if (prevBtn) prevBtn.addEventListener('click', imagemAnterior);
+            if (nextBtn) nextBtn.addEventListener('click', imagemProxima);
+            if (zoomInBtn) zoomInBtn.addEventListener('click', zoomIn);
+            if (zoomOutBtn) zoomOutBtn.addEventListener('click', zoomOut);
+            if (resetZoomBtn) resetZoomBtn.addEventListener('click', resetZoom);
+            if (modalImg) modalImg.addEventListener('click', toggleZoom);
+            if (modalBg) modalBg.addEventListener('click', (e) => { if (e.target === modalBg) fecharModal(); });
+            
+            document.addEventListener('keydown', (e) => {
+                if (!modalAtivo) return;
+                if (e.key === 'Escape') fecharModal();
+                if (e.key === 'ArrowLeft') imagemAnterior();
+                if (e.key === 'ArrowRight') imagemProxima();
+                if (e.key === '+') zoomIn();
+                if (e.key === '-') zoomOut();
+                if (e.key === '0') resetZoom();
+            });
+        });
+
+        window.carregarPagina = carregarPagina;
+        window.carregarTutorialCarga = carregarTutorialCarga;
+        window.toggleMenu = toggleMenu;
+        window.toggleDarkMode = toggleDarkMode;
+        window.filtrarMenu = filtrarMenu;
     </script>
 </body>
 </html>

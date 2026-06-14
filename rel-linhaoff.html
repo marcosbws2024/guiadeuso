@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saitro · Relatório de Linhas Offline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap');
+        
+        * {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59,130,246,0.3);
+            border-radius: 10px;
+        }
+        
+        .tutorial-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(203, 213, 225, 0.4);
+        }
+        .tutorial-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .tutorial-img {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tutorial-img:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 25px rgba(59,130,246,0.15);
+        }
+        
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-modal.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-white to-slate-100 text-slate-900 min-h-screen font-sans">
+
+    <!-- Header simplificado -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200/60 px-6 py-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-3">
+                <div class="h-8 w-1 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-full"></div>
+                <div>
+                    <span class="font-bold text-sm tracking-wider uppercase bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Saitro · Relatórios</span>
+                    <span class="text-[10px] text-slate-400 block -mt-0.5">Análise de Conectividade</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-6xl mx-auto px-6 py-8 md:py-12">
+        
+        <!-- Hero Section -->
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 p-8 text-white shadow-xl mb-10">
+            <div class="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-3">
+                    <i class="fas fa-chart-line text-2xl"></i>
+                    <span class="text-xs font-semibold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Relatório Técnico</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3 flex items-center gap-2">
+                    <i class="fas fa-tower-broadcast"></i> Relatório de Linhas Offline
+                </h1>
+                <p class="text-emerald-100 text-base max-w-2xl">Analise o tempo de inatividade das linhas, calcule dias offline e identifique a probabilidade de recuperação da conexão.</p>
+            </div>
+        </div>
+
+        <!-- Informação do CSV -->
+        <div class="bg-emerald-50 border-l-4 border-emerald-500 rounded-xl p-4 mb-8 flex gap-3">
+            <i class="fas fa-file-csv text-emerald-500 text-xl"></i>
+            <div>
+                <p class="text-sm font-semibold text-emerald-800">Mesmo formato do CSV de Reset</p>
+                <p class="text-sm text-emerald-700">O relatório utiliza o mesmo arquivo CSV do processo de carga de reset — primeira coluna: ICCID | segunda coluna: MSISDN | segunda linha/primeira coluna: Nome da empresa</p>
+            </div>
+        </div>
+
+        <!-- Passo 1 -->
+        <div class="tutorial-card bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md">1</div>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-cloud-upload-alt text-emerald-500 text-lg"></i> Carregar o arquivo CSV
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 rounded-xl p-4 mb-4" onclick="abrirModalPorSrc('imagens/linhasOffline/TelaLinhasOff1.png', 'Passo 1: Tela de upload do arquivo CSV para análise offline')">
+                    <img src="imagens/linhasOffline/TelaLinhasOff1.png" alt="Tela de carregar CSV" class="mx-auto rounded-lg max-h-80 w-auto object-contain" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff1.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">Na tela principal do relatório, faça o upload do arquivo CSV contendo as linhas que deseja analisar. O sistema processará automaticamente os dados e identificará cada linha.</p>
+                <div class="mt-3 flex items-center gap-2 text-xs text-emerald-600">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>O nome da empresa é capturado da segunda linha, primeira coluna do CSV</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div class="tutorial-card bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md">2</div>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-calendar-alt text-emerald-500 text-lg"></i> Visualizar dias offline
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 rounded-xl p-4 mb-4" onclick="abrirModalPorSrc('imagens/linhasOffline/TelaLinhasOff2.png', 'Passo 2: Visualização dos dias offline calculados')">
+                    <img src="imagens/linhasOffline/TelaLinhasOff2.png" alt="Dias offline" class="mx-auto rounded-lg max-h-80 w-auto object-contain" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff2.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">Após o upload, o sistema calcula automaticamente há quantos dias cada linha está offline. Os resultados são exibidos em uma tabela organizada, permitindo fácil análise dos dados.</p>
+            </div>
+        </div>
+
+        <!-- Passo 3 - Probabilidade -->
+        <div class="tutorial-card bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md">3</div>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-chart-pie text-emerald-500 text-lg"></i> Probabilidade de Ficar Online
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 rounded-xl p-4 mb-4" onclick="abrirModalPorSrc('imagens/linhasOffline/TelaLinhasOff3.png', 'Passo 3: Classificação de probabilidade (Alta, Média, Baixa)')">
+                    <img src="imagens/linhasOffline/TelaLinhasOff3.png" alt="Probabilidade" class="mx-auto rounded-lg max-h-80 w-auto object-contain" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff3.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-4">O relatório classifica automaticamente cada linha com base nos dias offline, dividindo em três níveis de probabilidade de recuperação:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                                <i class="fas fa-arrow-up text-white text-xs"></i>
+                            </div>
+                            <h4 class="font-bold text-green-700">Alta</h4>
+                        </div>
+                        <p class="text-sm text-green-600"><strong>≤ 10 dias offline</strong></p>
+                        <p class="text-xs text-green-600/70 mt-1">Probabilidade alta de retorno à operação normal.</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-200">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center">
+                                <i class="fas fa-minus text-white text-xs"></i>
+                            </div>
+                            <h4 class="font-bold text-amber-700">Média</h4>
+                        </div>
+                        <p class="text-sm text-amber-600"><strong>11 a 15 dias offline</strong></p>
+                        <p class="text-xs text-amber-600/70 mt-1">Probabilidade moderada — requer atenção.</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-xl p-4 border border-red-200">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center">
+                                <i class="fas fa-arrow-down text-white text-xs"></i>
+                            </div>
+                            <h4 class="font-bold text-red-700">Baixa</h4>
+                        </div>
+                        <p class="text-sm text-red-600"><strong>&gt; 15 dias offline</strong></p>
+                        <p class="text-xs text-red-600/70 mt-1">Probabilidade muito baixa de recuperação automática.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-amber-50 border-l-4 border-amber-500 rounded-lg p-3">
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-exclamation-triangle text-amber-500 mt-0.5"></i>
+                        <p class="text-xs text-amber-700"><strong>Importante:</strong> Quando a probabilidade é classificada como <strong>BAIXA</strong>, é altamente recomendável que o cliente realize uma verificação física do equipamento, pois a chance de retorno automático da conectividade é mínima.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 4 - Nomenclatura -->
+        <div class="tutorial-card bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md">4</div>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-file-signature text-emerald-500 text-lg"></i> Nomenclatura do Arquivo
+                    </h2>
+                </div>
+                <div class="tutorial-img bg-slate-50 rounded-xl p-4 mb-4" onclick="abrirModalPorSrc('imagens/linhasOffline/TelaLinhasOff4.png', 'Passo 4: Esquema de nomenclatura do arquivo com empresa, data e hora')">
+                    <img src="imagens/linhasOffline/TelaLinhasOff4.png" alt="Nomenclatura" class="mx-auto rounded-lg max-h-80 w-auto object-contain" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff4.png</div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">Seguindo o mesmo esquema utilizado na ferramenta de carga, o nome do arquivo gerado é composto por:</p>
+                <ul class="space-y-2 mb-4">
+                    <li class="flex items-center gap-2 text-sm text-slate-600">
+                        <i class="fas fa-building text-emerald-500 text-xs"></i>
+                        <span><strong>Nome da empresa</strong> — capturado da <strong>segunda linha, primeira coluna</strong> do CSV</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-slate-600">
+                        <i class="fas fa-calendar-day text-emerald-500 text-xs"></i>
+                        <span><strong>Data de geração</strong> — no formato YYYYMMDD</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-slate-600">
+                        <i class="fas fa-clock text-emerald-500 text-xs"></i>
+                        <span><strong>Hora de geração</strong> — no formato HHMMSS</span>
+                    </li>
+                </ul>
+                <div class="bg-slate-100 rounded-lg p-3 text-center">
+                    <p class="text-sm font-mono text-slate-700">
+                        <i class="fas fa-file-csv text-emerald-500 mr-2"></i>
+                        EMPRESA_20241215_143022.csv
+                    </p>
+                    <p class="text-xs text-slate-500 mt-1">Exemplo: NomeDaEmpresa_AnoMêsDia_HoraMinutoSegundo.csv</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Rápido -->
+        <div class="bg-gradient-to-r from-slate-100 to-slate-50 rounded-2xl p-6 mt-8">
+            <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                <i class="fas fa-list-check text-emerald-500"></i> Resumo do Fluxo
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-emerald-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-upload text-emerald-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">1. Upload</p>
+                    <p class="text-xs text-slate-500">CSV das linhas</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-emerald-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-calculator text-emerald-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">2. Cálculo</p>
+                    <p class="text-xs text-slate-500">Dias offline</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-emerald-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-chart-simple text-emerald-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">3. Classificação</p>
+                    <p class="text-xs text-slate-500">Alta | Média | Baixa</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-emerald-100 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-download text-emerald-600"></i>
+                    </div>
+                    <p class="text-sm font-medium">4. Exportar</p>
+                    <p class="text-xs text-slate-500">Enviar ao cliente</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 pt-6 border-t border-slate-200 text-center">
+            <p class="text-xs text-slate-500">
+                <i class="fas fa-chart-line mr-1"></i> Relatório de Linhas Offline · Saitro
+            </p>
+        </div>
+    </main>
+
+    <!-- Modal de Imagem -->
+    <div id="imageModal" class="image-modal">
+        <div class="relative max-w-[90vw] max-h-[90vh]">
+            <button onclick="fecharModal()" class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-red-500 transition-all">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="absolute -top-12 left-1/2 -translate-x-1/2 bg-black/50 px-4 py-1 rounded-full text-white text-sm" id="imageCounter">1/4</div>
+            <img id="modalImage" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl cursor-zoom-in" src="" alt="Visualização ampliada">
+            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-black/50 px-5 py-2 rounded-full text-white text-sm whitespace-nowrap" id="modalCaption"></div>
+            <button onclick="imagemAnterior()" class="absolute top-1/2 -translate-y-1/2 -left-12 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button onclick="imagemProxima()" class="absolute top-1/2 -translate-y-1/2 -right-12 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Lista de imagens do tutorial
+        const imagensTutorial = [
+            { src: "imagens/linhasOffline/TelaLinhasOff1.png", caption: "Passo 1: Tela de upload do arquivo CSV" },
+            { src: "imagens/linhasOffline/TelaLinhasOff2.png", caption: "Passo 2: Visualização dos dias offline calculados" },
+            { src: "imagens/linhasOffline/TelaLinhasOff3.png", caption: "Passo 3: Classificação de probabilidade (Alta, Média, Baixa)" },
+            { src: "imagens/linhasOffline/TelaLinhasOff4.png", caption: "Passo 4: Esquema de nomenclatura do arquivo" }
+        ];
+
+        let indiceAtual = 0;
+        let currentZoom = 1;
+        let modalAberto = false;
+
+        // Função para abrir o modal com base no índice
+        function abrirModal(index) {
+            if (index >= 0 && index < imagensTutorial.length) {
+                indiceAtual = index;
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImage');
+                const modalCaption = document.getElementById('modalCaption');
+                const imageCounter = document.getElementById('imageCounter');
+                
+                modalImg.src = imagensTutorial[indiceAtual].src;
+                modalCaption.textContent = imagensTutorial[indiceAtual].caption;
+                imageCounter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                modalAberto = true;
+                resetZoom();
+            }
+        }
+
+        // Função para abrir o modal pelo src da imagem
+        function abrirModalPorSrc(src, caption) {
+            const index = imagensTutorial.findIndex(img => img.src === src);
+            if (index !== -1) {
+                abrirModal(index);
+            } else {
+                // Fallback: abrir com dados fornecidos
+                indiceAtual = 0;
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImage');
+                const modalCaption = document.getElementById('modalCaption');
+                const imageCounter = document.getElementById('imageCounter');
+                
+                modalImg.src = src;
+                modalCaption.textContent = caption;
+                imageCounter.textContent = `1 / ${imagensTutorial.length}`;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                modalAberto = true;
+                resetZoom();
+            }
+        }
+
+        // Fechar modal
+        function fecharModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            modalAberto = false;
+            resetZoom();
+        }
+
+        // Navegação
+        function imagemAnterior() {
+            indiceAtual = (indiceAtual - 1 + imagensTutorial.length) % imagensTutorial.length;
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageCounter = document.getElementById('imageCounter');
+            
+            modalImg.src = imagensTutorial[indiceAtual].src;
+            modalCaption.textContent = imagensTutorial[indiceAtual].caption;
+            imageCounter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
+            resetZoom();
+        }
+
+        function imagemProxima() {
+            indiceAtual = (indiceAtual + 1) % imagensTutorial.length;
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageCounter = document.getElementById('imageCounter');
+            
+            modalImg.src = imagensTutorial[indiceAtual].src;
+            modalCaption.textContent = imagensTutorial[indiceAtual].caption;
+            imageCounter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
+            resetZoom();
+        }
+
+        // Zoom
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.2, 2.5);
+            aplicarZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.2, 0.5);
+            aplicarZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            aplicarZoom();
+        }
+
+        function aplicarZoom() {
+            const modalImg = document.getElementById('modalImage');
+            if (modalImg) {
+                modalImg.style.transform = `scale(${currentZoom})`;
+                modalImg.style.cursor = currentZoom > 1 ? 'zoom-out' : 'zoom-in';
+            }
+        }
+
+        function toggleZoom() {
+            if (currentZoom === 1) {
+                currentZoom = 1.8;
+            } else {
+                currentZoom = 1;
+            }
+            aplicarZoom();
+        }
+
+        // Eventos de teclado
+        document.addEventListener('keydown', function(e) {
+            if (!modalAberto) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    fecharModal();
+                    break;
+                case 'ArrowLeft':
+                    imagemAnterior();
+                    break;
+                case 'ArrowRight':
+                    imagemProxima();
+                    break;
+                case '+':
+                case '=':
+                    zoomIn();
+                    break;
+                case '-':
+                    zoomOut();
+                    break;
+                case '0':
+                    resetZoom();
+                    break;
+            }
+        });
+
+        // Clique na imagem do modal para zoom
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalImg = document.getElementById('modalImage');
+            if (modalImg) {
+                modalImg.addEventListener('click', toggleZoom);
+            }
+            
+            // Fechar modal ao clicar no fundo
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        fecharModal();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

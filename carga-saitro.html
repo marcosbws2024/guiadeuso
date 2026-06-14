@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saitro Tutorial | Carga de Reset em Massa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --bg-body: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --text-muted: #4a5568;
+            --border-glow: rgba(102, 126, 234, 0.2);
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #0a0c10;
+                --card-bg: rgba(22, 26, 35, 0.98);
+                --text-primary: #f7fafc;
+                --text-secondary: #e2e8f0;
+                --text-muted: #a0aec0;
+                --border-glow: rgba(102, 126, 234, 0.3);
+            }
+        }
+
+        body {
+            background: var(--bg-body);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section Moderna */
+        .hero-section {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+            background-size: 50px 50px;
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        .hero-section h1 {
+            color: white;
+            font-weight: 800;
+            font-size: 2.8rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hero-section .lead {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .hero-badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Step Cards Modernos */
+        .step-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .step-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+            padding: 1.25rem 2rem;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 1rem;
+            color: white;
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .step-header h4 {
+            margin: 0;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-body {
+            padding: 2rem;
+        }
+
+        /* Textos Aprimorados */
+        .step-body p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            font-weight: 400;
+        }
+
+        .step-body ul, .step-body ol {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-body li {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .step-body li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Image Gallery Moderna */
+        .image-gallery {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .image-placeholder {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .image-placeholder:hover {
+            border-color: var(--gradient-start);
+            background: rgba(102, 126, 234, 0.08);
+            transform: scale(1.02);
+        }
+
+        .image-placeholder img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .zoom-hint {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .image-placeholder:hover .zoom-hint {
+            opacity: 1;
+        }
+
+        /* Badges e Tags */
+        .badge-tip {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--gradient-start);
+        }
+
+        /* Cards de Opção */
+        .option-card {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: all 0.3s;
+            height: 100%;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .option-card:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-card i {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Info e Success Boxes */
+        .info-box, .success-box {
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .info-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+        }
+
+        .success-box {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+        }
+
+        /* Quick Summary */
+        .summary-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .summary-step {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .summary-step h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        .footer-modern {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* Modal Melhorado */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+        }
+
+        .image-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content-wrapper {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        #modalImage {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 1rem;
+            transition: transform 0.2s ease;
+            cursor: zoom-in;
+        }
+
+        .modal-controls {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .modal-controls button {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-controls button:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.1);
+        }
+
+        .modal-nav {
+            position: absolute;
+            bottom: -4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        .modal-nav button {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-nav button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            .step-header h4 {
+                font-size: 1.2rem;
+            }
+            .step-body {
+                padding: 1.25rem;
+            }
+            .option-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animações */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .step-card:nth-child(1) { animation-delay: 0.1s; }
+        .step-card:nth-child(2) { animation-delay: 0.2s; }
+        .step-card:nth-child(3) { animation-delay: 0.3s; }
+        .step-card:nth-child(4) { animation-delay: 0.4s; }
+        .step-card:nth-child(5) { animation-delay: 0.5s; }
+        .step-card:nth-child(6) { animation-delay: 0.6s; }
+        .step-card:nth-child(7) { animation-delay: 0.7s; }
+        .step-card:nth-child(8) { animation-delay: 0.8s; }
+        .step-card:nth-child(9) { animation-delay: 0.9s; }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Hero Section Moderna -->
+        <div class="hero-section text-center">
+            <div class="hero-badge">
+                <i class="fas fa-rocket"></i> Guia Rápido
+            </div>
+            <h1 class="display-4 fw-bold mb-3">
+                <i class="fas fa-upload me-2"></i>Carga de Reset em Massa
+            </h1>
+            <p class="lead mb-0">Domine a ferramenta de importação CSV da Saitro com este tutorial visual e interativo</p>
+            <div class="mt-3">
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-file-csv"></i> CSV</span>
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-id-card"></i> ICCID</span>
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-phone-alt"></i> MSISDN</span>
+            </div>
+        </div>
+
+        <!-- Passo 1 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">1</span> <i class="fas fa-file-csv me-2 text-primary"></i>Carregar o CSV</h4>
+            </div>
+            <div class="step-body">
+                <div class="image-placeholder" data-img-src="imagens/carregaCSV/TelaCarregaCSV1.png" data-img-caption="📁 Passo 1: Interface de upload do arquivo CSV">
+                    <img src="imagens/carregaCSV/TelaCarregaCSV1.png" 
+                         alt="Tela de upload CSV"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-cloud-upload-alt fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/carregaCSV/TelaCarregaCSV1.png<br>Área de upload do arquivo</p></div>'">
+                    <div class="zoom-hint"><i class="fas fa-search-plus"></i> Clique para ampliar</div>
+                </div>
+                <p>Na tela principal, clique na área de <strong>upload</strong> ou arraste seu arquivo CSV diretamente. O sistema processará automaticamente os dados e extrairá as informações necessárias.</p>
+                <div class="badge-tip">
+                    <i class="fas fa-lightbulb me-2"></i> 
+                    <strong>Dica Pro:</strong> O nome da empresa é capturado automaticamente da <strong>segunda linha, primeira coluna</strong> do seu CSV — certifique-se de que esteja preenchido corretamente!
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">2</span> <i class="fas fa-code-branch me-2 text-primary"></i>Escolher o Identificador</h4>
+            </div>
+            <div class="step-body">
+                <div class="image-placeholder" data-img-src="imagens/carregaCSV/TelaCarregaCSV2.png" data-img-caption="🔑 Passo 2: Seleção entre ICCID ou MSISDN">
+                    <img src="imagens/carregaCSV/TelaCarregaCSV2.png" 
+                         alt="Escolha do identificador"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-id-card fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/carregaCSV/TelaCarregaCSV2.png<br>Opções de identificador</p></div>'">
+                    <div class="zoom-hint"><i class="fas fa-search-plus"></i> Clique para ampliar</div>
+                </div>
+                <p>Selecione qual campo será usado como chave principal para o processamento:</p>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <div class="option-card">
+                            <i class="fas fa-id-card text-primary"></i>
+                            <h6 class="fw-bold mt-2">ICCID</h6>
+                            <p class="small mb-0">Código único do chip — <strong>recomendado para reset do SIM</strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="option-card">
+                            <i class="fas fa-phone-alt text-success"></i>
+                            <h6 class="fw-bold mt-2">MSISDN</h6>
+                            <p class="small mb-0">Número de telefone do SIM — ideal para envio de SMS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 3 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">3</span> <i class="fas fa-download me-2 text-primary"></i>Tipo de Saída</h4>
+            </div>
+            <div class="step-body">
+                <div class="image-placeholder" data-img-src="imagens/carregaCSV/TelaCarregaCSV3.png" data-img-caption="📤 Passo 3: Três formatos de saída disponíveis">
+                    <img src="imagens/carregaCSV/TelaCarregaCSV3.png" 
+                         alt="Tipos de saída"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-download fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/carregaCSV/TelaCarregaCSV3.png<br>Formatos de exportação</p></div>'">
+                    <div class="zoom-hint"><i class="fas fa-search-plus"></i> Clique para ampliar</div>
+                </div>
+                <p>Escolha o formato mais adequado para sua necessidade:</p>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="option-card text-center">
+                            <i class="fas fa-file-csv fa-2x text-primary"></i>
+                            <h6 class="fw-bold mt-2">Sem Sufixo</h6>
+                            <p class="small">Apenas identificadores (um por linha)<br><span class="badge bg-primary bg-opacity-10">Saitro Direct</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="option-card text-center">
+                            <i class="fas fa-envelope fa-2x text-success"></i>
+                            <h6 class="fw-bold mt-2">Ponto e Vírgula</h6>
+                            <p class="small">Formato <code>numero;</code> por linha<br><span class="badge bg-success bg-opacity-10">Comtele SMS</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="option-card text-center">
+                            <i class="fas fa-search fa-2x text-info"></i>
+                            <h6 class="fw-bold mt-2">Com Vírgula</h6>
+                            <p class="small"><code>ICCID,MSISDN</code><br><span class="badge bg-info bg-opacity-10">Consulta Avançada</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 4 a 8 resumidos elegantemente -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">4</span> <i class="fas fa-magic me-2 text-primary"></i>Processamento Inteligente</h4>
+            </div>
+            <div class="step-body">
+                <p>O sistema realiza automaticamente a captura do nome da empresa, permite visualizar registros, dividir arquivos grandes e exportar em ZIP organizado.</p>
+                <div class="row g-3">
+                    <div class="col-md-3 col-6">
+                        <div class="text-center p-2">
+                            <i class="fas fa-building fa-2x text-primary"></i>
+                            <p class="small mt-1 mb-0"><strong>Empresa</strong><br>Auto-detecção</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="text-center p-2">
+                            <i class="fas fa-cut fa-2x text-warning"></i>
+                            <p class="small mt-1 mb-0"><strong>Divisão</strong><br>Arquivos menores</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="text-center p-2">
+                            <i class="fas fa-file-archive fa-2x text-info"></i>
+                            <p class="small mt-1 mb-0"><strong>ZIP</strong><br>Download único</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="text-center p-2">
+                            <i class="fas fa-chart-line fa-2x text-success"></i>
+                            <p class="small mt-1 mb-0"><strong>Preview</strong><br>Estatísticas ao vivo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="success-box mt-3">
+                    <i class="fas fa-check-circle fa-lg"></i>
+                    <div><strong>Vantagem exclusiva:</strong> Divisão em partes evita travamentos e facilita aprovações parciais — processe lotes de 100, 500 ou 1000 linhas!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Rápido Aprimorado -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><i class="fas fa-check-circle text-success me-2"></i>Fluxo Rápido</h4>
+            </div>
+            <div class="step-body">
+                <div class="summary-card">
+                    <div class="row">
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-upload fa-2x text-primary mb-2"></i>
+                            <h6>1. Upload</h6>
+                            <p class="small">Arraste ou clique → CSV processado</p>
+                        </div>
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-sliders-h fa-2x text-primary mb-2"></i>
+                            <h6>2. Configuração</h6>
+                            <p class="small">Identificador + Saída + Divisão (opcional)</p>
+                        </div>
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-download fa-2x text-primary mb-2"></i>
+                            <h6>3. Download</h6>
+                            <p class="small">CSV simples ou ZIP com múltiplos arquivos</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box mt-3">
+                    <i class="fas fa-info-circle"></i>
+                    <div><strong>Formato recomendado:</strong> Para abrir os arquivos gerados, utilize o <strong>Bloco de Notas</strong> (Windows) ou qualquer editor de texto simples — isso garante a integridade dos dados.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-modern">
+            <i class="fas fa-headset me-2"></i> Precisa de ajuda? Entre em contato com o suporte Saitro
+            <div class="mt-2">
+                <small><i class="fas fa-hand-pointer"></i> Clique nas imagens para ampliar e navegar entre elas</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Modernizado -->
+    <div id="imageModal" class="image-modal">
+        <div class="modal-content-wrapper">
+            <div class="modal-controls">
+                <button onclick="zoomOut()" title="Menos zoom"><i class="fas fa-search-minus"></i></button>
+                <button onclick="resetZoom()" title="Resetar zoom"><i class="fas fa-sync-alt"></i></button>
+                <button onclick="zoomIn()" title="Mais zoom"><i class="fas fa-search-plus"></i></button>
+                <button onclick="fecharModal()" title="Fechar (ESC)"><i class="fas fa-times"></i></button>
+            </div>
+            <img id="modalImage" src="" alt="Imagem expandida">
+            <div class="modal-nav">
+                <button onclick="navegarImagem(-1)"><i class="fas fa-chevron-left"></i> Anterior</button>
+                <span id="imageCounter" style="color: white; padding: 0 1rem;">1 / 8</span>
+                <button onclick="navegarImagem(1)">Próximo <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let imagensTutorial = [];
+        let indiceAtual = 0;
+        let modalAtivo = false;
+        let currentZoom = 1;
+
+        function coletarImagens() {
+            const placeholders = document.querySelectorAll('.image-placeholder');
+            imagensTutorial = [];
+            placeholders.forEach((placeholder, idx) => {
+                const img = placeholder.querySelector('img');
+                const caption = placeholder.dataset.imgCaption || `Passo ${idx + 1}`;
+                if (img && img.src && !img.src.includes('no-image')) {
+                    imagensTutorial.push({ src: img.src, caption });
+                } else if (placeholder.dataset.imgSrc) {
+                    imagensTutorial.push({ src: placeholder.dataset.imgSrc, caption });
+                }
+            });
+            atualizarCounter();
+        }
+
+        function atualizarCounter() {
+            const counter = document.getElementById('imageCounter');
+            if (counter && imagensTutorial.length) {
+                counter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
+            }
+        }
+
+        function abrirModal(index) {
+            if (!imagensTutorial.length) return;
+            indiceAtual = Math.min(index, imagensTutorial.length - 1);
+            const img = imagensTutorial[indiceAtual];
+            if (img && img.src) {
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImage');
+                modalImg.src = img.src;
+                modal.classList.add('show');
+                modalAtivo = true;
+                document.body.style.overflow = 'hidden';
+                resetZoom();
+                atualizarCounter();
+            }
+        }
+
+        function fecharModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('show');
+            modalAtivo = false;
+            document.body.style.overflow = '';
+            resetZoom();
+        }
+
+        function navegarImagem(direcao) {
+            if (!imagensTutorial.length) return;
+            indiceAtual = (indiceAtual + direcao + imagensTutorial.length) % imagensTutorial.length;
+            const img = imagensTutorial[indiceAtual];
+            if (img && img.src) {
+                document.getElementById('modalImage').src = img.src;
+                resetZoom();
+                atualizarCounter();
+            }
+        }
+
+        function zoomIn() { currentZoom = Math.min(currentZoom + 0.2, 2.5); aplicarZoom(); }
+        function zoomOut() { currentZoom = Math.max(currentZoom - 0.2, 0.5); aplicarZoom(); }
+        function resetZoom() { currentZoom = 1; aplicarZoom(); }
+        function aplicarZoom() {
+            const modalImg = document.getElementById('modalImage');
+            if (modalImg) modalImg.style.transform = `scale(${currentZoom})`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            coletarImagens();
+            document.querySelectorAll('.image-placeholder').forEach(placeholder => {
+                placeholder.addEventListener('click', (e) => {
+                    const img = placeholder.querySelector('img');
+                    if (img && img.src) {
+                        const idx = imagensTutorial.findIndex(i => i.src === img.src);
+                        if (idx !== -1) abrirModal(idx);
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!modalAtivo) return;
+            if (e.key === 'Escape') fecharModal();
+            if (e.key === 'ArrowLeft') navegarImagem(-1);
+            if (e.key === 'ArrowRight') navegarImagem(1);
+            if (e.key === '+') zoomIn();
+            if (e.key === '-') zoomOut();
+            if (e.key === '0') resetZoom();
+        });
+    </script>
+</body>
+</html>

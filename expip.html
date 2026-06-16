@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saitro Tutorial | Rastreadores: IP, Chips e CAT LTE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gradient-start: #0d6efd;
+            --gradient-end: #0a58ca;
+            --bg-body: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --text-muted: #4a5568;
+            --border-glow: rgba(13, 110, 253, 0.2);
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            --table-header-bg: rgba(13, 110, 253, 0.08);
+            --table-border: rgba(0, 0, 0, 0.05);
+            --code-bg: rgba(13, 110, 253, 0.05);
+            --pre-bg: #f1f5f9;
+            --pre-border: #e2e8f0;
+            --ip-bg: #dbeafe;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #0a0c10;
+                --card-bg: rgba(22, 26, 35, 0.98);
+                --text-primary: #f7fafc;
+                --text-secondary: #e2e8f0;
+                --text-muted: #a0aec0;
+                --border-glow: rgba(13, 110, 253, 0.3);
+                --table-header-bg: rgba(13, 110, 253, 0.15);
+                --table-border: rgba(255, 255, 255, 0.05);
+                --code-bg: rgba(13, 110, 253, 0.1);
+                --pre-bg: #1a1a2e;
+                --pre-border: #2d2d44;
+                --ip-bg: #1a3a5c;
+            }
+        }
+
+        body {
+            background: var(--bg-body);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+            background-size: 50px 50px;
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        .hero-section h1 {
+            color: white;
+            font-weight: 800;
+            font-size: 2.8rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hero-section .lead {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .hero-badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(13, 110, 253, 0.1);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(13, 110, 253, 0.3);
+        }
+
+        .step-header {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(10, 88, 202, 0.08));
+            padding: 1.25rem 2rem;
+            border-bottom: 2px solid rgba(13, 110, 253, 0.2);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 1rem;
+            color: white;
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-header h4 {
+            margin: 0;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-body {
+            padding: 2rem;
+        }
+
+        .step-body p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            font-weight: 400;
+        }
+
+        .step-body ul, .step-body ol {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-body li {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .step-body li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .step-body h5 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .table-wrap table th {
+            background: var(--table-header-bg);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid rgba(13, 110, 253, 0.2);
+        }
+
+        .table-wrap table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--table-border);
+            color: var(--text-secondary);
+        }
+
+        .table-wrap table tr:hover td {
+            background: rgba(13, 110, 253, 0.03);
+        }
+
+        .badge-tip {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.15), rgba(10, 88, 202, 0.15));
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--gradient-start);
+            color: var(--text-secondary);
+        }
+
+        .badge-tip strong {
+            color: var(--text-primary);
+        }
+
+        .info-box {
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            background: rgba(13, 110, 253, 0.1);
+            border-left: 4px solid #0d6efd;
+        }
+
+        .info-box strong {
+            color: var(--text-primary);
+        }
+
+        .code-block {
+            background: var(--pre-bg);
+            border: 1px solid var(--pre-border);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+        }
+
+        .code-block .arrow {
+            color: #0d6efd;
+            font-weight: 700;
+        }
+
+        .ip-example {
+            background: var(--ip-bg);
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.05), rgba(10, 88, 202, 0.05));
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .summary-step {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .summary-step h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .summary-step p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .footer-modern {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: rgba(13, 110, 253, 0.05);
+            border-radius: 1rem;
+            color: var(--text-muted);
+        }
+
+        .dark .code-block {
+            color: #e2e8f0;
+        }
+
+        .dark .ip-example {
+            color: #f7fafc;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            .step-header h4 {
+                font-size: 1.2rem;
+            }
+            .step-body {
+                padding: 1.25rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .step-card:nth-child(1) { animation-delay: 0.1s; }
+        .step-card:nth-child(2) { animation-delay: 0.2s; }
+        .step-card:nth-child(3) { animation-delay: 0.3s; }
+        .step-card:nth-child(4) { animation-delay: 0.4s; }
+        .step-card:nth-child(5) { animation-delay: 0.5s; }
+        .step-card:nth-child(6) { animation-delay: 0.6s; }
+        .step-card:nth-child(7) { animation-delay: 0.7s; }
+        .step-card:nth-child(8) { animation-delay: 0.8s; }
+        .step-card:nth-child(9) { animation-delay: 0.9s; }
+        .step-card:nth-child(10) { animation-delay: 1.0s; }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Hero Section -->
+        <div class="hero-section text-center">
+            <div class="hero-badge">
+                <i class="fas fa-microchip"></i> Guia Técnico
+            </div>
+            <h1 class="display-4 fw-bold mb-3">
+                <i class="fas fa-satellite-dish me-2"></i>Rastreadores: IP, Chips e CAT LTE
+            </h1>
+            <p class="lead mb-0">Guia completo sobre IP público/privado, APN, chips M2M e categorias LTE</p>
+            <div class="mt-3">
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-network-wired"></i> IP</span>
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-sim-card"></i> M2M</span>
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-signal"></i> CAT LTE</span>
+            </div>
+        </div>
+
+        <!-- Passo 1: IP Público vs Privado -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">1</span> <i class="fas fa-diagram-project me-2 text-primary"></i>IP Público x IP Privado</h4>
+            </div>
+            <div class="step-body">
+                <p><strong>IP Privado:</strong> Usado dentro de uma rede local, não acessível diretamente pela internet. Exemplo: <span class="ip-example">10.10.30.10</span>.</p>
+                <p><strong>IP Público:</strong> Visível na internet, permite comunicação direta com servidores. Exemplo: <span class="ip-example">100.45.78.90</span>.</p>
+                <p>Para rastreadores, o IP privado funciona normalmente, pois o operador faz NAT para o IP público.</p>
+                <div class="badge-tip">
+                    <i class="fas fa-lightbulb me-2"></i> 
+                    <strong>Dica:</strong> A maioria dos rastreadores utiliza IP privado com NAT, garantindo segurança e estabilidade.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 2: APN -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">2</span> <i class="fas fa-wifi me-2 text-primary"></i>APN (Access Point Name)</h4>
+            </div>
+            <div class="step-body">
+                <p>A APN define como o rastreador se conecta à internet via rede celular.</p>
+                <ul>
+                    <li>Sem APN correta, o rastreador não envia nem recebe dados.</li>
+                    <li>Normalmente recebe IP privado e usa NAT para IP público do operador.</li>
+                    <li>IP público direto é raro e exige configuração específica.</li>
+                </ul>
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div><strong>Importante:</strong> A APN correta é fundamental para o funcionamento do rastreador. Consulte sempre a operadora para obter a APN correta.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 3: Fluxo de Comunicação -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">3</span> <i class="fas fa-arrow-right me-2 text-primary"></i>Fluxo de Comunicação</h4>
+            </div>
+            <div class="step-body">
+                <p>Entenda como a comunicação do rastreador acontece:</p>
+                <div class="code-block">
+                    [Rastreador no veículo]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;IP privado: <span class="ip-example">10.10.30.10</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;APN: operadoraXYZ<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ Conexão GPRS/3G/4G<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼<br>
+                    [Rede do Operador Celular]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;NAT → IP público: <span class="ip-example">100.45.78.90</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ Internet<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼<br>
+                    [Servidor do Rastreador]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ Consulta via App/Web<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼<br>
+                    [Usuário / Aplicativo]
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 4: Problemas IP Público Direto -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">4</span> <i class="fas fa-exclamation-triangle me-2 text-primary"></i>Problemas com IP Público Direto</h4>
+            </div>
+            <div class="step-body">
+                <ul>
+                    <li>Exposição à internet → risco de ataques e interceptação de dados.</li>
+                    <li>IP dinâmico → falhas intermitentes de conexão.</li>
+                    <li>Bloqueios de porta ou firewall podem impedir comunicação.</li>
+                    <li>Firmware do rastreador pode não gerenciar bem conexões diretas.</li>
+                    <li>Gerenciamento complicado em larga escala.</li>
+                </ul>
+                <div class="badge-tip">
+                    <i class="fas fa-shield-alt me-2"></i> 
+                    <strong>Recomendação:</strong> A configuração mais estável é <strong>IP privado + APN + servidor central</strong>.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 5: Chip Celular vs M2M -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">5</span> <i class="fas fa-sim-card me-2 text-primary"></i>Chip de Celular vs Chip M2M</h4>
+            </div>
+            <div class="step-body">
+                <p>Chips M2M são usados em rastreadores e IoT, garantindo estabilidade, baixo consumo de dados e operação contínua 24/7.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Característica</th>
+                                <th>Chip de Celular</th>
+                                <th>Chip M2M</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Uso</strong></td>
+                                <td>Humanos (voz, SMS, dados)</td>
+                                <td>Dispositivos IoT e rastreadores</td>
+                            </tr>
+                            <tr>
+                                <td><strong>APN</strong></td>
+                                <td>Padrão da operadora</td>
+                                <td>Privada ou específica do operador</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Conexão</strong></td>
+                                <td>3G/4G/5G para apps</td>
+                                <td>GPRS/3G/4G, envio de pequenos pacotes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IP</strong></td>
+                                <td>Privado ou público</td>
+                                <td>Normalmente privado; público em casos especiais</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cobrança</strong></td>
+                                <td>Pacotes de voz/dados, mais caro</td>
+                                <td>Baseada em dados, mais barata e previsível</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Durabilidade</strong></td>
+                                <td>Não projetado para operação contínua</td>
+                                <td>24/7, resistente a temperaturas</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Estabilidade</strong></td>
+                                <td>Pode desconectar ou falhar</td>
+                                <td>Conexão estável e reconexão automática</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tecnologias LTE</strong></td>
+                                <td>CAT3 a CAT18 (smartphones)</td>
+                                <td>CAT1, LTE-M, NB-IoT; multitecnologia com fallback</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 6: Categorias LTE -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">6</span> <i class="fas fa-signal me-2 text-primary"></i>Categorias LTE / CATs</h4>
+            </div>
+            <div class="step-body">
+                <p>As categorias LTE definem a velocidade máxima de download/upload e consumo de energia.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Categoria</th>
+                                <th>Download / Upload</th>
+                                <th>Uso típico</th>
+                                <th>Vantagens</th>
+                                <th>Desvantagens</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>CAT1</strong></td>
+                                <td>~10 / 5 Mbps</td>
+                                <td>IoT, rastreadores</td>
+                                <td>Baixo consumo, operação contínua</td>
+                                <td>Velocidade limitada</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CAT1bis</strong></td>
+                                <td>10-50 / 5-25 Mbps</td>
+                                <td>IoT avançada</td>
+                                <td>Mais rápido que CAT1</td>
+                                <td>Disponibilidade limitada</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LTE-M (CATM1)</strong></td>
+                                <td>~1 / 1 Mbps</td>
+                                <td>IoT baixa velocidade</td>
+                                <td>Baixo consumo, boa cobertura</td>
+                                <td>Velocidade limitada</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NB-IoT (CAT-NB1)</strong></td>
+                                <td>~250 kbps</td>
+                                <td>Sensores remotos</td>
+                                <td>Ultra-low power, alta cobertura</td>
+                                <td>Envio de pequenos pacotes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CAT3</strong></td>
+                                <td>100 / 50 Mbps</td>
+                                <td>Smartphones básicos</td>
+                                <td>Velocidade razoável</td>
+                                <td>Consumo de energia maior</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CAT4</strong></td>
+                                <td>150 / 50 Mbps</td>
+                                <td>Smartphones, streaming</td>
+                                <td>Rápido</td>
+                                <td>Alto consumo</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CAT6+</strong></td>
+                                <td>300+ Mbps</td>
+                                <td>Smartphones avançados</td>
+                                <td>Altíssima velocidade</td>
+                                <td>Consumo muito alto</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="badge-tip">
+                    <i class="fas fa-check-circle me-2"></i> 
+                    <strong>Resumo:</strong> CAT1, LTE-M e NB-IoT são ideais para rastreadores e IoT; CAT3 a CAT18 são para smartphones de alta velocidade.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 7: Chips e Tecnologias LTE -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">7</span> <i class="fas fa-microchip me-2 text-primary"></i>Chips e Tecnologias LTE</h4>
+            </div>
+            <div class="step-body">
+                <p>Nem todos os chips do mercado conectam em qualquer tecnologia LTE. Existem chips M2M específicos e multitecnologia, além dos chips de celular padrão:</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo de Chip</th>
+                                <th>Tecnologias Suportadas</th>
+                                <th>Observações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>M2M específico</strong></td>
+                                <td>Uma tecnologia apenas (ex.: CAT1 ou NB-IoT)</td>
+                                <td>Mais barato, mas limitado a uma rede e categoria.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>M2M multitecnologia</strong></td>
+                                <td>2G / 3G / 4G (CAT1 / LTE-M / NB-IoT)</td>
+                                <td>Permite fallback automático, maior cobertura e operação global.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Chip de celular padrão</strong></td>
+                                <td>CAT3 a CAT18</td>
+                                <td>Focado em smartphones, não otimizado para IoT contínuo ou baixo consumo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <div><strong>Dica:</strong> Para rastreadores e dispositivos IoT, o ideal é usar <strong>chips M2M compatíveis com CAT1, LTE-M ou NB-IoT</strong>, preferencialmente multitecnologia para garantir cobertura e fallback.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 8: Operadoras M2M/IoT -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">8</span> <i class="fas fa-globe me-2 text-primary"></i>Operadoras M2M/IoT com Tecnologias LTE</h4>
+            </div>
+            <div class="step-body">
+                <p>Plataformas como <strong>Emnify, Arqia, LinksField</strong> fornecem SIM cards para IoT e rastreadores, mas nem todos suportam todas as tecnologias. É importante escolher o SIM correto para o seu dispositivo.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Plataforma / Operadora</th>
+                                <th>Tecnologias Suportadas</th>
+                                <th>Observações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Emnify</strong></td>
+                                <td>2G / 3G / 4G LTE (CAT1, LTE-M, NB-IoT)</td>
+                                <td>SIMs multitecnologia disponíveis; nem todos suportam todas as tecnologias.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Arqia</strong></td>
+                                <td>2G / 3G / 4G</td>
+                                <td>Alguns SIMs específicos para LTE-M ou CAT1; há SIMs globais com fallback entre redes.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LinksField</strong></td>
+                                <td>2G / 3G / 4G</td>
+                                <td>Foco em conectividade M2M; normalmente CAT1 e LTE-M; alguns SIMs não suportam NB-IoT.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="badge-tip">
+                    <i class="fas fa-check-circle me-2"></i> 
+                    <strong>Dica:</strong> Sempre verifique a compatibilidade do SIM com a tecnologia do rastreador. Para fallback e cobertura global, prefira SIMs multitecnologia.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 9: Glossário -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">9</span> <i class="fas fa-book me-2 text-primary"></i>Glossário de Termos Técnicos</h4>
+            </div>
+            <div class="step-body">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Termo</th>
+                                <th>Explicação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>IP Privado</strong></td>
+                                <td>Endereço usado dentro de uma rede local, não acessível diretamente pela internet. Exemplo: 10.10.30.10</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IP Público</strong></td>
+                                <td>Endereço visível na internet, usado para comunicação direta com servidores. Exemplo: 100.45.78.90</td>
+                            </tr>
+                            <tr>
+                                <td><strong>APN (Access Point Name)</strong></td>
+                                <td>Nome da porta de acesso que define como um dispositivo se conecta à internet via rede celular.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NAT (Network Address Translation)</strong></td>
+                                <td>Método usado para mapear IPs privados para IPs públicos na internet, garantindo acesso remoto seguro.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Chip M2M</strong></td>
+                                <td>SIM card projetado para dispositivos IoT, com baixo consumo, operação contínua e conexão estável.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Chip de Celular</strong></td>
+                                <td>SIM card para humanos, voz, SMS e dados, normalmente com consumo maior e operação não contínua.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LTE / 4G</strong></td>
+                                <td>Tecnologia de comunicação móvel de quarta geração, usada em smartphones e dispositivos IoT para envio de dados.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LTE-M (CATM1)</strong></td>
+                                <td>Categoria LTE para IoT, baixa velocidade (~1 Mbps), baixo consumo e boa cobertura.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NB-IoT (CAT-NB1)</strong></td>
+                                <td>Categoria LTE ultra-low power, ideal para sensores remotos, envio de pequenos pacotes e longa duração de bateria.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fallback</strong></td>
+                                <td>Método em que um dispositivo muda automaticamente para outra tecnologia ou rede disponível, caso a principal não esteja acessível.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Firmware</strong></td>
+                                <td>Software interno do dispositivo que controla funções de comunicação, segurança e operação.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Telemetria</strong></td>
+                                <td>Processo de envio remoto de dados de sensores ou rastreadores para um servidor ou aplicação.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Rápido -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><i class="fas fa-list-check text-primary me-2"></i>Resumo do Fluxo de Análise</h4>
+            </div>
+            <div class="step-body">
+                <div class="summary-card">
+                    <div class="row">
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-network-wired fa-2x text-primary mb-2"></i>
+                            <h6>1. Rede</h6>
+                            <p>Verifique IP, APN e tecnologia</p>
+                        </div>
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-sim-card fa-2x text-primary mb-2"></i>
+                            <h6>2. Chip</h6>
+                            <p>M2M vs Celular, CATs e fallback</p>
+                        </div>
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-check-circle fa-2x text-primary mb-2"></i>
+                            <h6>3. Compatibilidade</h6>
+                            <p>Operadora + tecnologia correta</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-modern">
+            <i class="fas fa-satellite-dish me-2"></i> Rastreadores: IP, Chips e CAT LTE · Saitro
+            <div class="mt-2">
+                <small><i class="fas fa-hand-pointer"></i> Utilize este guia para entender IP, chips e categorias LTE</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('Guia de Rastreadores: IP, Chips e CAT LTE carregado');
+    </script>
+</body>
+</html>

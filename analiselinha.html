@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saitro Tutorial | Análise de Linha M2M</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gradient-start: #0d6efd;
+            --gradient-end: #0a58ca;
+            --bg-body: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --text-muted: #4a5568;
+            --border-glow: rgba(13, 110, 253, 0.2);
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            --table-header-bg: rgba(13, 110, 253, 0.08);
+            --table-border: rgba(0, 0, 0, 0.05);
+            --alert-normal-bg: rgba(25, 135, 84, 0.1);
+            --alert-normal-border: #198754;
+            --alert-normal-text: #0f5132;
+            --alert-problem-bg: rgba(220, 53, 69, 0.1);
+            --alert-problem-border: #dc3545;
+            --alert-problem-text: #842029;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #0a0c10;
+                --card-bg: rgba(22, 26, 35, 0.98);
+                --text-primary: #f7fafc;
+                --text-secondary: #e2e8f0;
+                --text-muted: #a0aec0;
+                --border-glow: rgba(13, 110, 253, 0.3);
+                --table-header-bg: rgba(13, 110, 253, 0.15);
+                --table-border: rgba(255, 255, 255, 0.05);
+                --alert-normal-bg: rgba(25, 135, 84, 0.15);
+                --alert-normal-text: #86efac;
+                --alert-problem-bg: rgba(220, 53, 69, 0.15);
+                --alert-problem-text: #fca5a5;
+            }
+        }
+
+        body {
+            background: var(--bg-body);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+            background-size: 50px 50px;
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        .hero-section h1 {
+            color: white;
+            font-weight: 800;
+            font-size: 2.8rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hero-section .lead {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .hero-badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(13, 110, 253, 0.1);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(13, 110, 253, 0.3);
+        }
+
+        .step-header {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(10, 88, 202, 0.08));
+            padding: 1.25rem 2rem;
+            border-bottom: 2px solid rgba(13, 110, 253, 0.2);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 1rem;
+            color: white;
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-header h4 {
+            margin: 0;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-body {
+            padding: 2rem;
+        }
+
+        .step-body p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            font-weight: 400;
+        }
+
+        .step-body ul, .step-body ol {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-body li {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .step-body li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .step-body h5 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-body h5.text-success {
+            color: #198754 !important;
+        }
+
+        .step-body h5.text-warning {
+            color: #ffc107 !important;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .table-wrap table th {
+            background: var(--table-header-bg);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid rgba(13, 110, 253, 0.2);
+        }
+
+        .table-wrap table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--table-border);
+            color: var(--text-secondary);
+        }
+
+        .table-wrap table tr:hover td {
+            background: rgba(13, 110, 253, 0.03);
+        }
+
+        .badge-tip {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.15), rgba(10, 88, 202, 0.15));
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--gradient-start);
+            color: var(--text-secondary);
+        }
+
+        .badge-tip strong {
+            color: var(--text-primary);
+        }
+
+        .info-box, .success-box, .warning-box {
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .info-box {
+            background: rgba(13, 110, 253, 0.1);
+            border-left: 4px solid #0d6efd;
+        }
+
+        .info-box strong {
+            color: var(--text-primary);
+        }
+
+        .success-box {
+            background: rgba(25, 135, 84, 0.1);
+            border-left: 4px solid #198754;
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.05), rgba(10, 88, 202, 0.05));
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .summary-step {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .summary-step h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .summary-step p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .footer-modern {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: rgba(13, 110, 253, 0.05);
+            border-radius: 1rem;
+            color: var(--text-muted);
+        }
+
+        .flex-row-custom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .flex-col-custom {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .alert-normal {
+            background: var(--alert-normal-bg);
+            border-left: 4px solid var(--alert-normal-border);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            height: 100%;
+            color: var(--text-secondary);
+        }
+
+        .alert-problem {
+            background: var(--alert-problem-bg);
+            border-left: 4px solid var(--alert-problem-border);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            height: 100%;
+            color: var(--text-secondary);
+        }
+
+        .alert-normal h5, .alert-problem h5 {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-normal h5 {
+            color: var(--alert-normal-text);
+        }
+
+        .alert-problem h5 {
+            color: var(--alert-problem-text);
+        }
+
+        .alert-normal ul, .alert-problem ul {
+            padding-left: 1.25rem;
+            margin-bottom: 0;
+        }
+
+        .alert-normal ul li, .alert-problem ul li {
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .alert-normal ul li strong, .alert-problem ul li strong {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            .step-header h4 {
+                font-size: 1.2rem;
+            }
+            .step-body {
+                padding: 1.25rem;
+            }
+            .flex-col-custom {
+                min-width: 100%;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .step-card:nth-child(1) { animation-delay: 0.1s; }
+        .step-card:nth-child(2) { animation-delay: 0.2s; }
+        .step-card:nth-child(3) { animation-delay: 0.3s; }
+        .step-card:nth-child(4) { animation-delay: 0.4s; }
+        .step-card:nth-child(5) { animation-delay: 0.5s; }
+        .step-card:nth-child(6) { animation-delay: 0.6s; }
+        .step-card:nth-child(7) { animation-delay: 0.7s; }
+
+        /* Cores para modo escuro - corrigindo texto de alertas */
+        .dark .alert-normal {
+            color: #d1e7dd;
+        }
+
+        .dark .alert-normal h5 {
+            color: #86efac;
+        }
+
+        .dark .alert-problem {
+            color: #f8d7da;
+        }
+
+        .dark .alert-problem h5 {
+            color: #fca5a5;
+        }
+
+        .dark .alert-normal ul li,
+        .dark .alert-problem ul li {
+            color: #e2e8f0;
+        }
+
+        .dark .summary-step p {
+            color: #94a3b8;
+        }
+
+        .dark .badge-tip {
+            color: #e2e8f0;
+        }
+
+        .dark .badge-tip strong {
+            color: #f7fafc;
+        }
+
+        .dark .info-box {
+            color: #e2e8f0;
+        }
+
+        .dark .info-box strong {
+            color: #f7fafc;
+        }
+
+        .dark .step-body h5.text-success {
+            color: #86efac !important;
+        }
+
+        .dark .step-body h5.text-warning {
+            color: #fcd34d !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Hero Section -->
+        <div class="hero-section text-center">
+            <div class="hero-badge">
+                <i class="fas fa-microchip"></i> Análise Técnica
+            </div>
+            <h1 class="display-4 fw-bold mb-3">
+                <i class="fas fa-chart-simple me-2"></i>Análise de Linha M2M
+            </h1>
+            <p class="lead mb-0">Guia completo para interpretar o histórico de sessões de dispositivos M2M</p>
+            <div class="mt-3">
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-mobile"></i> M2M</span>
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-wifi"></i> 2G/3G/4G</span>
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-clock"></i> Sessões</span>
+            </div>
+        </div>
+
+        <!-- Passo 1: Interpretação Prática -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">1</span> <i class="fas fa-info-circle me-2 text-primary"></i>Interpretação Prática</h4>
+            </div>
+            <div class="step-body">
+                <p>O equipamento geralmente abre a sessão, envia dados e encerra logo em seguida para <strong>economizar bateria e tráfego</strong>. Entenda os principais motivos de encerramento:</p>
+                <ul>
+                    <li><strong>User-Request:</strong> dispositivo encerrou sessão (2G/3G) — comportamento esperado.</li>
+                    <li><strong>NAS-Request:</strong> dispositivo encerrou sessão (4G/LTE) — comportamento esperado.</li>
+                    <li><strong>Idle-Timeout:</strong> sessão encerrada por inatividade — dispositivo não enviou dados.</li>
+                    <li><strong>Stale-Session:</strong> sessão caiu fora do padrão — possível perda de sinal.</li>
+                    <li><strong>Operator-Request / Lost-Carrier:</strong> problema de rede ou falha de cobertura.</li>
+                </ul>
+                <div class="badge-tip">
+                    <i class="fas fa-lightbulb me-2"></i> 
+                    <strong>Dica:</strong> Sessões curtas com User-Request ou NAS-Request são <strong>comportamento normal</strong> para dispositivos M2M configurados em modo de economia de energia.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 2: Motivos de Encerramento -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">2</span> <i class="fas fa-list-columns me-2 text-primary"></i>Motivos de Encerramento de Sessão</h4>
+            </div>
+            <div class="step-body">
+                <p>Conheça cada motivo de encerramento e o que eles indicam sobre o comportamento da linha:</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Motivo</th>
+                                <th>O que significa</th>
+                                <th>Causa mais comum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>User-Request</strong></td>
+                                <td>O próprio dispositivo solicitou o término da sessão (2G/3G).</td>
+                                <td>Rastreadores configurados para abrir sessão, enviar pacote e encerrar (economia de energia/dados).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NAS-Request</strong></td>
+                                <td>O dispositivo solicitou encerrar a sessão via protocolo NAS (LTE/4G).</td>
+                                <td>Rastreadores LTE/4G que liberam explicitamente o contexto de dados.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Idle-Timeout</strong></td>
+                                <td>Sessão finalizada por inatividade.</td>
+                                <td>Dispositivo parou de enviar dados, operadora encerrou.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stale-Session</strong></td>
+                                <td>Sessão considerada 'obsoleta' ou inválida pela rede.</td>
+                                <td>Queda de sinal ou sessão não finalizada corretamente.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Operator-Request</strong></td>
+                                <td>Encerrada pela operadora.</td>
+                                <td>Mudança de célula ou ajuste interno da rede.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lost-Carrier</strong></td>
+                                <td>Portadora perdida.</td>
+                                <td>Falha de cobertura ou deslocamento em área sem sinal.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Admin-Reset</strong></td>
+                                <td>Reset administrativo pelo sistema/operadora.</td>
+                                <td>Reautenticação, atualização de perfil ou reset remoto.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reauth-Failure</strong></td>
+                                <td>Falha de autenticação durante renovação da sessão.</td>
+                                <td>Problema de APN, chip bloqueado, erro no SIM Toolkit.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 3: Exemplos de Sessões -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">3</span> <i class="fas fa-clock-history me-2 text-primary"></i>Exemplos de Sessões</h4>
+            </div>
+            <div class="step-body">
+                <h5 class="text-success"><i class="fas fa-check-circle"></i> Sessão Longa (Sempre Online)</h5>
+                <div class="table-wrap mb-4">
+                    <table>
+                        <thead style="background: rgba(25, 135, 84, 0.1);">
+                            <tr>
+                                <th>Início</th><th>Término</th><th>Duração</th><th>Rede</th><th>Motivo</th>
+                                <th>Upload</th><th>Download</th><th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>31/08/2025 08:00</td><td>31/08/2025 18:00</td><td>10h, 00m</td><td>Vivo 4G</td>
+                                <td>Idle-Timeout</td><td>5 KB</td><td>4 KB</td><td>9 KB</td>
+                            </tr>
+                            <tr>
+                                <td>31/08/2025 18:01</td><td>31/08/2025 23:59</td><td>5h, 58m</td><td>Vivo 4G</td>
+                                <td>User-Request</td><td>4 KB</td><td>3 KB</td><td>7 KB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h5 class="text-warning"><i class="fas fa-clock"></i> Sessão Curta (Modo Economia)</h5>
+                <div class="table-wrap mb-4">
+                    <table>
+                        <thead style="background: rgba(255, 193, 7, 0.1);">
+                            <tr>
+                                <th>Início</th><th>Término</th><th>Duração</th><th>Rede</th><th>Motivo</th>
+                                <th>Upload</th><th>Download</th><th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>31/08/2025 16:40</td><td>31/08/2025 16:42</td><td>2m, 00s</td><td>Vivo 2G</td>
+                                <td>User-Request</td><td>0.7 KB</td><td>0.4 KB</td><td>1.1 KB</td>
+                            </tr>
+                            <tr>
+                                <td>31/08/2025 16:45</td><td>31/08/2025 16:47</td><td>2m, 00s</td><td>Vivo 2G</td>
+                                <td>User-Request</td><td>0.7 KB</td><td>0.4 KB</td><td>1.1 KB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="badge-tip">
+                    <i class="fas fa-info-circle me-2"></i> 
+                    <strong>Observação:</strong> Sessões curtas com User-Request são normais para dispositivos configurados em modo de economia de energia.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 4: Checklist Visual -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">4</span> <i class="fas fa-list-check me-2 text-primary"></i>Checklist de Análise</h4>
+            </div>
+            <div class="step-body">
+                <div class="flex-row-custom">
+                    <div class="flex-col-custom">
+                        <div class="alert-normal">
+                            <h5><i class="fas fa-check-circle"></i> Comportamento Normal</h5>
+                            <ul>
+                                <li>Sessões longas → sempre online.</li>
+                                <li>Sessões curtas estáveis → modo economia ativado.</li>
+                                <li>User/NAS-Request → encerramento esperado.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="flex-col-custom">
+                        <div class="alert-problem">
+                            <h5><i class="fas fa-exclamation-circle"></i> Possível Problema</h5>
+                            <ul>
+                                <li>Quedas constantes: Stale-Session, Lost-Carrier.</li>
+                                <li>Sessões curtas sem padrão.</li>
+                                <li>Consumo alto incoerente.</li>
+                                <li>Idle-Timeout frequente → falha de firmware.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 5: O que mais analisar -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">5</span> <i class="fas fa-search me-2 text-primary"></i>O que mais analisar em uma linha M2M</h4>
+            </div>
+            <div class="step-body">
+                <ol>
+                    <li>
+                        <strong>APN (Access Point Name)</strong><br>
+                        Verifique se está usando sempre a APN correta (ex.: <code>bws.br</code>).
+                        Conexão com APN diferente → possível fraude ou configuração errada.
+                    </li>
+                    <li>
+                        <strong>Rede / Tecnologia</strong><br>
+                        Checar se o chip está navegando em 2G, 3G ou 4G/LTE.
+                        Se rastreador deveria estar em 4G, mas cai muito em 2G → sinal fraco ou cobertura ruim.
+                    </li>
+                    <li>
+                        <strong>IP atribuído</strong><br>
+                        Normalmente, IP privado (10.x.x.x). IP público ou inesperado → possível erro de APN.
+                    </li>
+                    <li>
+                        <strong>Consumo de dados</strong><br>
+                        Sessões M2M são leves (KB). Picos em MB → looping, firmware corrompido ou uso indevido do chip.
+                    </li>
+                    <li>
+                        <strong>Periodicidade das conexões</strong><br>
+                        Sessões coerentes com padrão do rastreador. Intervalos grandes → falha de equipamento ou sinal.
+                    </li>
+                    <li>
+                        <strong>Motivo de término em excesso</strong><br>
+                        <ul>
+                            <li>User/NAS-Request constante → esperado.</li>
+                            <li>Idle-Timeout constante → dispositivo não manda keep-alive.</li>
+                            <li>Stale-Session/Lost-Carrier frequente → problema de rede ou sinal fraco.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Data/Hora</strong><br>
+                        Conferir se os horários fazem sentido. Janelas sem sessão → alerta.
+                    </li>
+                </ol>
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div><strong>Resumo prático:</strong><br>
+                    Verificar APN, rede e IP → garante linha correta.<br>
+                    Analisar duração da sessão + motivo de término → comportamento normal ou problema.<br>
+                    Monitorar consumo de dados e periodicidade → detecta anomalias, looping ou fraude.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 6: Termos Técnicos -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">6</span> <i class="fas fa-journal-text me-2 text-primary"></i>Termos Técnicos e Explicações</h4>
+            </div>
+            <div class="step-body">
+                <div class="info-box mb-4">
+                    <i class="fas fa-microchip"></i>
+                    <div>
+                        <strong>SIM Toolkit (STK)</strong><br>
+                        O <strong>SIM Toolkit</strong> é um conjunto de comandos armazenado no chip SIM do dispositivo.
+                        Ele permite que a operadora ou aplicativos executem funções diretamente no rastreador ou celular, como:
+                        <ul class="mt-2">
+                            <li>Enviar ou solicitar informações de rede.</li>
+                            <li>Atualizar configurações de APN e perfil de dados.</li>
+                            <li>Executar comandos remotos, como reset ou reautenticação.</li>
+                        </ul>
+                        <p class="mt-2 mb-0">Em outras palavras, é a <strong>"inteligência do SIM"</strong> que controla a comunicação automática com a rede.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Termo</th>
+                                <th>Explicação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>APN</strong></td>
+                                <td>Access Point Name. Nome que identifica a rede de dados do chip. Ex.: bws.br</td>
+                            </tr>
+                            <tr>
+                                <td><strong>User-Request</strong></td>
+                                <td>O próprio dispositivo solicitou o encerramento da sessão (2G/3G)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NAS-Request</strong></td>
+                                <td>Dispositivo LTE/4G solicitando encerramento de sessão via protocolo NAS</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Idle-Timeout</strong></td>
+                                <td>Sessão encerrada por inatividade, sem tráfego</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stale-Session</strong></td>
+                                <td>Sessão "obsoleta" ou inválida, normalmente por perda de sinal</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Operator-Request</strong></td>
+                                <td>Encerramento de sessão feito pela operadora</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lost-Carrier</strong></td>
+                                <td>Portadora (sinal de rádio) perdida, falha de cobertura</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Admin-Reset</strong></td>
+                                <td>Reset administrativo remoto ou via operadora</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reauth-Failure</strong></td>
+                                <td>Falha de autenticação durante renovação de sessão (geralmente APN ou SIM Toolkit)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SIM Toolkit (STK)</strong></td>
+                                <td>Conjunto de comandos no SIM que controla funções do dispositivo e comunicação com a rede</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Keep-Alive / Heartbeat</strong></td>
+                                <td>Pacotes periódicos enviados para manter a sessão ativa</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2G / 3G / 4G / LTE</strong></td>
+                                <td>Tecnologias de rede celular utilizadas pelo dispositivo</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Looping</strong></td>
+                                <td>Reenvio repetitivo de mensagens devido a erro de firmware ou configuração</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Rápido -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><i class="fas fa-list-check text-primary me-2"></i>Resumo do Fluxo de Análise</h4>
+            </div>
+            <div class="step-body">
+                <div class="summary-card">
+                    <div class="row">
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-eye fa-2x text-primary mb-2"></i>
+                            <h6>1. Identificar</h6>
+                            <p>Motivo de encerramento da sessão</p>
+                        </div>
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-microchip fa-2x text-primary mb-2"></i>
+                            <h6>2. Verificar</h6>
+                            <p>APN, rede, IP e consumo</p>
+                        </div>
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-check-circle fa-2x text-primary mb-2"></i>
+                            <h6>3. Concluir</h6>
+                            <p>Normal ou problema detectado</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-modern">
+            <i class="fas fa-microchip me-2"></i> Análise de Linha M2M · Saitro
+            <div class="mt-2">
+                <small><i class="fas fa-hand-pointer"></i> Utilize este guia para interpretar corretamente o histórico de sessões</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Não há imagens neste tutorial, mas mantemos a estrutura compatível
+        console.log('Guia de Análise de Linha M2M carregado');
+    </script>
+</body>
+</html>

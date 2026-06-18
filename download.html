@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BWS Tutorial | Página de Downloads</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gradient-start: #2563eb;
+            --gradient-end: #1d4ed8;
+            --bg-body: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --text-muted: #4a5568;
+            --border-glow: rgba(37, 99, 235, 0.2);
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #0a0c10;
+                --card-bg: rgba(22, 26, 35, 0.98);
+                --text-primary: #f7fafc;
+                --text-secondary: #e2e8f0;
+                --text-muted: #a0aec0;
+                --border-glow: rgba(37, 99, 235, 0.3);
+            }
+        }
+
+        body {
+            background: var(--bg-body);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+            background-size: 50px 50px;
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        .hero-section h1 {
+            color: white;
+            font-weight: 800;
+            font-size: 2.8rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hero-section .lead {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .hero-badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .step-header {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(29, 78, 216, 0.08));
+            padding: 1.25rem 2rem;
+            border-bottom: 2px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 1rem;
+            color: white;
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-header h4 {
+            margin: 0;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-body {
+            padding: 2rem;
+        }
+
+        .step-body p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            font-weight: 400;
+        }
+
+        .step-body ul, .step-body ol {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-body li {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .step-body li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .tutorial-img {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .tutorial-img:hover {
+            border-color: var(--gradient-start);
+            background: rgba(37, 99, 235, 0.08);
+            transform: scale(1.02);
+        }
+
+        .tutorial-img img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+
+        .badge-tip {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(29, 78, 216, 0.15));
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--gradient-start);
+            color: var(--text-secondary);
+        }
+
+        .badge-tip strong {
+            color: var(--text-primary);
+        }
+
+        .info-box, .success-box {
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .info-box {
+            background: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid #2563eb;
+            color: var(--text-secondary);
+        }
+
+        .success-box {
+            background: rgba(22, 163, 74, 0.1);
+            border-left: 4px solid #16a34a;
+            color: var(--text-secondary);
+        }
+
+        .info-box strong, .success-box strong {
+            color: var(--text-primary);
+        }
+
+        .option-card {
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: all 0.3s;
+            height: 100%;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .option-card:hover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-card i {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .comando-example {
+            background: rgba(37, 99, 235, 0.08);
+            border-left: 4px solid #2563eb;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: 0.5rem 0;
+        }
+
+        .dark .comando-example {
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(29, 78, 216, 0.05));
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .summary-step {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .summary-step h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .summary-step p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .footer-modern {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 1rem;
+            color: var(--text-muted);
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+        }
+
+        .image-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content-wrapper {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        #modalImage {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 1rem;
+            transition: transform 0.2s ease;
+            cursor: zoom-in;
+        }
+
+        .modal-controls {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .modal-controls button {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-controls button:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.1);
+        }
+
+        .modal-nav {
+            position: absolute;
+            bottom: -4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        .modal-nav button {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-nav button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .btn-link-custom {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-link-custom.primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-link-custom.primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-link-custom.secondary {
+            background: #e2e8f0;
+            color: #1a202c;
+        }
+
+        .btn-link-custom.secondary:hover {
+            background: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        .dark .btn-link-custom.secondary {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .dark .btn-link-custom.secondary:hover {
+            background: #334155;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            .step-header h4 {
+                font-size: 1.2rem;
+            }
+            .step-body {
+                padding: 1.25rem;
+            }
+            .option-card {
+                margin-bottom: 1rem;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .step-card:nth-child(1) { animation-delay: 0.1s; }
+        .step-card:nth-child(2) { animation-delay: 0.2s; }
+        .step-card:nth-child(3) { animation-delay: 0.3s; }
+        .step-card:nth-child(4) { animation-delay: 0.4s; }
+        .step-card:nth-child(5) { animation-delay: 0.5s; }
+        .step-card:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Hero Section -->
+        <div class="hero-section text-center">
+            <div class="hero-badge">
+                <i class="fas fa-download"></i> Central de Downloads
+            </div>
+            <h1 class="display-4 fw-bold mb-3">
+                <i class="fas fa-file-download me-2"></i>Página de Downloads
+            </h1>
+            <p class="lead mb-0">Acesse e compartilhe arquivos úteis para atendimento com facilidade</p>
+            <div class="mt-3">
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-link"></i> Links Diretos</span>
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-copy"></i> Copiar Links</span>
+                <span class="badge bg-light text-dark mx-1"><i class="fas fa-file-pdf"></i> Manuais</span>
+            </div>
+        </div>
+
+        <!-- Passo 1 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">1</span> <i class="fas fa-file-download me-2 text-primary"></i>Visão Geral da Página</h4>
+            </div>
+            <div class="step-body">
+                <div class="tutorial-img" data-src="imagens/download/down1.png" data-caption="Passo 1: Visão geral da página de downloads">
+                    <img src="imagens/download/down1.png" 
+                         alt="Visão geral da página de downloads"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-file-download fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/download/down1.png</p></div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p>A <strong>Página de Downloads</strong> contém arquivos que podem auxiliar o atendimento, como manuais, guias e documentos técnicos. Cada arquivo possui dois botões de ação:</p>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <div class="option-card text-center">
+                            <i class="fas fa-link text-primary"></i>
+                            <h6 class="fw-bold mt-2">Botão Link</h6>
+                            <p class="small mb-0">Abre uma nova página com o site de download do arquivo</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="option-card text-center">
+                            <i class="fas fa-copy text-primary"></i>
+                            <h6 class="fw-bold mt-2">Botão Ação</h6>
+                            <p class="small mb-0">Copia o link para enviar diretamente ao cliente</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="badge-tip">
+                    <i class="fas fa-lightbulb me-2"></i> 
+                    <strong>Dica:</strong> Utilize o botão de ação para copiar o link e compartilhar rapidamente com o cliente via WhatsApp, e-mail ou SMS.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">2</span> <i class="fas fa-search me-2 text-primary"></i>Buscar e Copiar Links</h4>
+            </div>
+            <div class="step-body">
+                <div class="tutorial-img" data-src="imagens/download/down2.png" data-caption="Passo 2: Buscando arquivo e copiando o link para enviar">
+                    <img src="imagens/download/down2.png" 
+                         alt="Buscar e copiar links"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-search fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/download/down2.png</p></div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p>É possível <strong>buscar o arquivo</strong> desejado e <strong>copiar o link</strong> para enviar ao cliente. O processo é simples e rápido:</p>
+                <ul>
+                    <li>Digite o nome do arquivo ou parte dele no campo de busca</li>
+                    <li>Localize o arquivo desejado na lista de resultados</li>
+                    <li>Clique no botão de <strong>ação</strong> (copiar) para copiar o link</li>
+                    <li>Cole o link no chat, e-mail ou SMS para enviar ao cliente</li>
+                </ul>
+                <div class="success-box">
+                    <i class="fas fa-copy"></i>
+                    <div><strong>Copiado!</strong> O link é copiado automaticamente para a área de transferência, pronto para ser colado e enviado.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 3 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">3</span> <i class="fas fa-external-link-alt me-2 text-primary"></i>Abrir Link para Download</h4>
+            </div>
+            <div class="step-body">
+                <div class="tutorial-img" data-src="imagens/download/down3.png" data-caption="Passo 3: Abrindo o link para download em nova página">
+                    <img src="imagens/download/down3.png" 
+                         alt="Abrir link para download"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-external-link-alt fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/download/down3.png</p></div>'">
+                    <div class="text-center mt-2 text-xs text-slate-400">
+                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
+                    </div>
+                </div>
+                <p>Ao clicar no <strong>botão de link</strong>, uma nova página será aberta com o site de download do arquivo. Isso permite que você:</p>
+                <ul>
+                    <li>Visualize o arquivo antes de compartilhar</li>
+                    <li>Baixe o arquivo para seu computador</li>
+                    <li>Verifique se o link está funcionando corretamente</li>
+                </ul>
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div><strong>Observação:</strong> O link abre em uma nova aba, mantendo a página de downloads aberta para continuar o atendimento.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 4 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">4</span> <i class="fas fa-copy me-2 text-primary"></i>Copiar Link sem Abrir</h4>
+            </div>
+            <div class="step-body">
+                <p>Quando clicamos no <strong>botão de ação</strong>, apenas copiamos o link sem abrir a página. Isso é útil para:</p>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-4">
+                        <div class="option-card text-center">
+                            <i class="fas fa-whatsapp text-success"></i>
+                            <h6 class="fw-bold mt-2">WhatsApp</h6>
+                            <p class="small mb-0">Envie o link diretamente no chat do cliente</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="option-card text-center">
+                            <i class="fas fa-envelope text-primary"></i>
+                            <h6 class="fw-bold mt-2">E-mail</h6>
+                            <p class="small mb-0">Cole o link no corpo do e-mail</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="option-card text-center">
+                            <i class="fas fa-sms text-purple-500"></i>
+                            <h6 class="fw-bold mt-2">SMS</h6>
+                            <p class="small mb-0">Envie o link via mensagem de texto</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="comando-example">
+                    <i class="fas fa-link me-2"></i> 
+                    <strong>Exemplo de link copiado:</strong><br>
+                    https://www.mediafire.com/file/9bzt1q72mpbjvid/Manual_E3%252BLONGLIFE_V.1.0.pdf/file
+                </div>
+                <div class="badge-tip">
+                    <i class="fas fa-lightbulb me-2"></i> 
+                    <strong>Dica:</strong> Copiar o link sem abrir a página é mais rápido e eficiente para o atendimento, permitindo enviar vários arquivos rapidamente.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 5 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">5</span> <i class="fas fa-file-alt me-2 text-primary"></i>Tipos de Arquivos Disponíveis</h4>
+            </div>
+            <div class="step-body">
+                <p>A página de downloads oferece diversos tipos de arquivos úteis para o atendimento:</p>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-3">
+                        <div class="option-card text-center">
+                            <i class="fas fa-file-pdf text-danger fa-2x"></i>
+                            <h6 class="fw-bold mt-2">Manuais</h6>
+                            <p class="small mb-0">Guias completos de equipamentos</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="option-card text-center">
+                            <i class="fas fa-file-alt text-primary fa-2x"></i>
+                            <h6 class="fw-bold mt-2">Firmwares</h6>
+                            <p class="small mb-0">Atualizações de software</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="option-card text-center">
+                            <i class="fas fa-file-excel text-success fa-2x"></i>
+                            <h6 class="fw-bold mt-2">Planilhas</h6>
+                            <p class="small mb-0">Modelos e templates</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="option-card text-center">
+                            <i class="fas fa-file-archive text-warning fa-2x"></i>
+                            <h6 class="fw-bold mt-2">Arquivos ZIP</h6>
+                            <p class="small mb-0">Pacotes de instalação</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 6 -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><span class="step-number">6</span> <i class="fas fa-rocket me-2 text-primary"></i>Fluxo de Atendimento</h4>
+            </div>
+            <div class="step-body">
+                <p>Exemplo prático de como utilizar a página de downloads durante o atendimento:</p>
+                <ol>
+                    <li><strong>Cliente solicita um manual</strong> → O atendente acessa a página de downloads</li>
+                    <li><strong>Busca pelo manual</strong> → Digita o nome do arquivo no campo de busca</li>
+                    <li><strong>Localiza o arquivo</strong> → Encontra o manual desejado na lista</li>
+                    <li><strong>Copia o link</strong> → Clica no botão de ação para copiar o link</li>
+                    <li><strong>Envia ao cliente</strong> → Cola o link no WhatsApp, e-mail ou SMS</li>
+                    <li><strong>Cliente acessa</strong> → O cliente clica no link e faz o download</li>
+                </ol>
+                <div class="action-buttons">
+                    <span class="btn-link-custom primary">
+                        <i class="fas fa-link"></i> Abrir Link
+                    </span>
+                    <span class="btn-link-custom secondary">
+                        <i class="fas fa-copy"></i> Copiar Link
+                    </span>
+                </div>
+                <div class="info-box mt-3">
+                    <i class="fas fa-arrow-right"></i>
+                    <div><strong>Resultado:</strong> Atendimento mais rápido e eficiente, com links sempre disponíveis para compartilhamento.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Rápido -->
+        <div class="step-card">
+            <div class="step-header">
+                <h4><i class="fas fa-list-check text-primary me-2"></i>Fluxo Rápido</h4>
+            </div>
+            <div class="step-body">
+                <div class="summary-card">
+                    <div class="row">
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-search fa-2x text-primary mb-2"></i>
+                            <h6>1. Buscar</h6>
+                            <p>Arquivo desejado</p>
+                        </div>
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-copy fa-2x text-primary mb-2"></i>
+                            <h6>2. Copiar</h6>
+                            <p>Link do arquivo</p>
+                        </div>
+                        <div class="col-md-4 summary-step">
+                            <i class="fas fa-paper-plane fa-2x text-primary mb-2"></i>
+                            <h6>3. Enviar</h6>
+                            <p>Para o cliente</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="badge-tip mt-3">
+                    <i class="fas fa-lightbulb me-2"></i> 
+                    <strong>Dica:</strong> Mantenha a página de downloads sempre aberta durante o atendimento para agilizar o envio de arquivos.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-modern">
+            <i class="fas fa-download me-2"></i> Página de Downloads · BWS Utilitarios
+            <div class="mt-2">
+                <small><i class="fas fa-hand-pointer"></i> Clique nas imagens para ampliar e navegar entre elas</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="image-modal">
+        <div class="modal-content-wrapper">
+            <div class="modal-controls">
+                <button onclick="zoomOut()" title="Menos zoom"><i class="fas fa-search-minus"></i></button>
+                <button onclick="resetZoom()" title="Resetar zoom"><i class="fas fa-sync-alt"></i></button>
+                <button onclick="zoomIn()" title="Mais zoom"><i class="fas fa-search-plus"></i></button>
+                <button onclick="fecharModal()" title="Fechar (ESC)"><i class="fas fa-times"></i></button>
+            </div>
+            <img id="modalImage" src="" alt="Imagem expandida">
+            <div class="modal-nav">
+                <button onclick="navegarImagem(-1)"><i class="fas fa-chevron-left"></i> Anterior</button>
+                <span id="imageCounter" style="color: white; padding: 0 1rem;">1 / 3</span>
+                <button onclick="navegarImagem(1)">Próximo <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== VARIÁVEIS GLOBAIS ====================
+        let imagensAtivas = [];
+        let indiceAtual = 0;
+        let currentZoom = 1;
+        let modalAtivo = false;
+
+        // ==================== FUNÇÃO PRINCIPAL: INICIALIZAR IMAGENS ====================
+        function inicializarImagensPagina() {
+            const imagens = [];
+            const elementosImagem = document.querySelectorAll('.tutorial-img');
+
+            console.log('Inicializando imagens, encontrados:', elementosImagem.length);
+
+            elementosImagem.forEach((el, idx) => {
+                const img = el.querySelector('img');
+                const caption = el.getAttribute('data-caption') || img?.alt || `Passo ${idx + 1}`;
+                const imgSrc = el.getAttribute('data-src') || img?.src;
+
+                if (imgSrc && imgSrc !== '') {
+                    imagens.push({ src: imgSrc, caption: caption, element: el });
+                }
+            });
+
+            if (imagens.length === 0) return;
+
+            imagensAtivas = imagens;
+
+            elementosImagem.forEach((el, idx) => {
+                el.removeEventListener('click', handleImageClick);
+                el.addEventListener('click', handleImageClick);
+                el.style.cursor = 'pointer';
+            });
+
+            function handleImageClick(e) {
+                e.stopPropagation();
+                const clickedIndex = Array.from(elementosImagem).indexOf(this);
+                if (clickedIndex !== -1 && clickedIndex < imagensAtivas.length) {
+                    abrirModal(clickedIndex);
+                }
+            }
+
+            console.log(`${imagens.length} imagens configuradas para expansão`);
+        }
+
+        // ==================== FUNÇÕES DO MODAL ====================
+        function abrirModal(index) {
+            if (!imagensAtivas.length || index >= imagensAtivas.length) return;
+
+            indiceAtual = index;
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageCounter = document.getElementById('imageCounter');
+
+            if (modal && modalImg) {
+                modalImg.src = imagensAtivas[indiceAtual].src;
+                modalCaption.textContent = imagensAtivas[indiceAtual].caption;
+                imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
+
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                modalAtivo = true;
+                resetZoom();
+            }
+        }
+
+        function fecharModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+                modalAtivo = false;
+                resetZoom();
+            }
+        }
+
+        function imagemAnterior() {
+            if (imagensAtivas.length === 0) return;
+            indiceAtual = (indiceAtual - 1 + imagensAtivas.length) % imagensAtivas.length;
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageCounter = document.getElementById('imageCounter');
+
+            modalImg.src = imagensAtivas[indiceAtual].src;
+            modalCaption.textContent = imagensAtivas[indiceAtual].caption;
+            imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
+            resetZoom();
+        }
+
+        function imagemProxima() {
+            if (imagensAtivas.length === 0) return;
+            indiceAtual = (indiceAtual + 1) % imagensAtivas.length;
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageCounter = document.getElementById('imageCounter');
+
+            modalImg.src = imagensAtivas[indiceAtual].src;
+            modalCaption.textContent = imagensAtivas[indiceAtual].caption;
+            imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
+            resetZoom();
+        }
+
+        function zoomIn() { currentZoom = Math.min(currentZoom + 0.2, 2.5); aplicarZoom(); }
+        function zoomOut() { currentZoom = Math.max(currentZoom - 0.2, 0.5); aplicarZoom(); }
+        function resetZoom() { currentZoom = 1; aplicarZoom(); }
+        function aplicarZoom() {
+            const modalImg = document.getElementById('modalImage');
+            if (modalImg) {
+                modalImg.style.transform = `scale(${currentZoom})`;
+                modalImg.style.cursor = currentZoom > 1 ? 'zoom-out' : 'zoom-in';
+            }
+        }
+        function toggleZoom() {
+            if (currentZoom === 1) currentZoom = 1.8;
+            else currentZoom = 1;
+            aplicarZoom();
+        }
+
+        // ==================== EVENTOS ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                inicializarImagensPagina();
+            }, 100);
+
+            const closeBtn = document.getElementById('closeModalBtn');
+            const prevBtn = document.getElementById('prevImageBtn');
+            const nextBtn = document.getElementById('nextImageBtn');
+            const zoomInBtn = document.getElementById('zoomInBtn');
+            const zoomOutBtn = document.getElementById('zoomOutBtn');
+            const resetZoomBtn = document.getElementById('resetZoomBtn');
+            const modalImg = document.getElementById('modalImage');
+            const modalBg = document.getElementById('imageModal');
+
+            if (closeBtn) closeBtn.addEventListener('click', fecharModal);
+            if (prevBtn) prevBtn.addEventListener('click', imagemAnterior);
+            if (nextBtn) nextBtn.addEventListener('click', imagemProxima);
+            if (zoomInBtn) zoomInBtn.addEventListener('click', zoomIn);
+            if (zoomOutBtn) zoomOutBtn.addEventListener('click', zoomOut);
+            if (resetZoomBtn) resetZoomBtn.addEventListener('click', resetZoom);
+            if (modalImg) modalImg.addEventListener('click', toggleZoom);
+            if (modalBg) modalBg.addEventListener('click', (e) => { if (e.target === modalBg) fecharModal(); });
+
+            document.addEventListener('keydown', (e) => {
+                if (!modalAtivo) return;
+                if (e.key === 'Escape') fecharModal();
+                if (e.key === 'ArrowLeft') imagemAnterior();
+                if (e.key === 'ArrowRight') imagemProxima();
+                if (e.key === '+') zoomIn();
+                if (e.key === '-') zoomOut();
+                if (e.key === '0') resetZoom();
+            });
+        });
+
+        // Expor funções para o modal
+        window.zoomIn = zoomIn;
+        window.zoomOut = zoomOut;
+        window.resetZoom = resetZoom;
+        window.fecharModal = fecharModal;
+        window.navegarImagem = function(direcao) {
+            if (direcao === -1) imagemAnterior();
+            else imagemProxima();
+        };
+    </script>
+</body>
+</html>

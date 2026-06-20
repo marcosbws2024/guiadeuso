@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saitro Tutorial | Análise de Linha M2M</title>
+    <title>BWS Utilitários · Análise de Linha M2M</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
@@ -13,6 +15,7 @@
             box-sizing: border-box;
         }
 
+        /* ===== VARIÁVEIS DE TEMA (MODO CLARO/ESCURO) ===== */
         :root {
             --gradient-start: #0d6efd;
             --gradient-end: #0a58ca;
@@ -27,39 +30,79 @@
             --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
             --table-header-bg: rgba(13, 110, 253, 0.08);
             --table-border: rgba(0, 0, 0, 0.05);
+            --table-hover: rgba(13, 110, 253, 0.03);
             --alert-normal-bg: rgba(25, 135, 84, 0.1);
             --alert-normal-border: #198754;
             --alert-normal-text: #0f5132;
             --alert-problem-bg: rgba(220, 53, 69, 0.1);
             --alert-problem-border: #dc3545;
             --alert-problem-text: #842029;
+            --badge-tip-bg: rgba(13, 110, 253, 0.15);
+            --badge-tip-border: #0d6efd;
+            --info-box-bg: rgba(13, 110, 253, 0.1);
+            --info-box-border: #0d6efd;
+            --success-box-bg: rgba(25, 135, 84, 0.1);
+            --success-box-border: #198754;
+            --warning-box-bg: rgba(255, 193, 7, 0.1);
+            --warning-box-border: #ffc107;
+            --summary-bg: rgba(13, 110, 253, 0.05);
+            --hero-text: white;
+            --hero-subtext: rgba(255,255,255,0.95);
+            --code-bg: #f1f5f9;
+            --code-text: #0f172a;
+            --footer-bg: rgba(13, 110, 253, 0.05);
+            --badge-light: rgba(255,255,255,0.9);
+            --badge-dark: #1a202c;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-body: #0a0c10;
-                --card-bg: rgba(22, 26, 35, 0.98);
-                --text-primary: #f7fafc;
-                --text-secondary: #e2e8f0;
-                --text-muted: #a0aec0;
-                --border-glow: rgba(13, 110, 253, 0.3);
-                --table-header-bg: rgba(13, 110, 253, 0.15);
-                --table-border: rgba(255, 255, 255, 0.05);
-                --alert-normal-bg: rgba(25, 135, 84, 0.15);
-                --alert-normal-text: #86efac;
-                --alert-problem-bg: rgba(220, 53, 69, 0.15);
-                --alert-problem-text: #fca5a5;
-            }
+        /* ===== MODO ESCURO ===== */
+        body.dark,
+        .dark {
+            --bg-body: #0a0c10;
+            --card-bg: rgba(22, 26, 35, 0.98);
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-glow: rgba(13, 110, 253, 0.3);
+            --table-header-bg: rgba(13, 110, 253, 0.15);
+            --table-border: rgba(255, 255, 255, 0.05);
+            --table-hover: rgba(13, 110, 253, 0.05);
+            --alert-normal-bg: rgba(25, 135, 84, 0.15);
+            --alert-normal-text: #86efac;
+            --alert-problem-bg: rgba(220, 53, 69, 0.15);
+            --alert-problem-text: #fca5a5;
+            --badge-tip-bg: rgba(13, 110, 253, 0.2);
+            --badge-tip-border: #3b82f6;
+            --info-box-bg: rgba(13, 110, 253, 0.15);
+            --info-box-border: #3b82f6;
+            --success-box-bg: rgba(25, 135, 84, 0.15);
+            --success-box-border: #34d399;
+            --warning-box-bg: rgba(255, 193, 7, 0.15);
+            --warning-box-border: #fbbf24;
+            --summary-bg: rgba(13, 110, 253, 0.08);
+            --hero-text: white;
+            --hero-subtext: rgba(255,255,255,0.95);
+            --code-bg: #1e293b;
+            --code-text: #e2e8f0;
+            --footer-bg: rgba(13, 110, 253, 0.08);
+            --badge-light: #1e293b;
+            --badge-dark: #e2e8f0;
         }
 
         body {
-            background: var(--bg-body);
+            background: var(--bg-body) !important;
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
-            transition: all 0.3s ease;
+            transition: background 0.3s ease, color 0.3s ease;
             color: var(--text-primary);
         }
 
+        /* ===== CONTAINER PRINCIPAL ===== */
+        .container {
+            max-width: 1200px;
+        }
+
+        /* ===== HERO SECTION ===== */
         .hero-section {
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             border-radius: 2rem;
@@ -68,6 +111,7 @@
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
         }
 
         .hero-section::before {
@@ -84,7 +128,7 @@
         }
 
         .hero-section h1 {
-            color: white;
+            color: var(--hero-text);
             font-weight: 800;
             font-size: 2.8rem;
             letter-spacing: -0.02em;
@@ -92,7 +136,7 @@
         }
 
         .hero-section .lead {
-            color: rgba(255,255,255,0.95);
+            color: var(--hero-subtext);
             font-size: 1.2rem;
             font-weight: 400;
         }
@@ -108,15 +152,23 @@
             font-size: 0.85rem;
             color: white;
             margin-bottom: 1.5rem;
+            transition: background 0.3s ease;
         }
 
+        .hero-badge .badge {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 0.4rem 0.8rem;
+        }
+
+        /* ===== STEP CARDS ===== */
         .step-card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border-radius: 1.5rem;
             margin-bottom: 2rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(13, 110, 253, 0.1);
+            border: 1px solid var(--border-glow);
             overflow: hidden;
             box-shadow: var(--shadow-sm);
         }
@@ -130,7 +182,8 @@
         .step-header {
             background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(10, 88, 202, 0.08));
             padding: 1.25rem 2rem;
-            border-bottom: 2px solid rgba(13, 110, 253, 0.2);
+            border-bottom: 2px solid var(--border-glow);
+            transition: background 0.3s ease;
         }
 
         .step-number {
@@ -157,6 +210,14 @@
             align-items: center;
         }
 
+        .step-header h4 i {
+            color: #0d6efd;
+        }
+
+        .dark .step-header h4 i {
+            color: #60a5fa;
+        }
+
         .step-body {
             padding: 2rem;
         }
@@ -167,12 +228,14 @@
             line-height: 1.7;
             margin-bottom: 1.25rem;
             font-weight: 400;
+            transition: color 0.3s ease;
         }
 
         .step-body ul, .step-body ol {
             color: var(--text-secondary);
             padding-left: 1.5rem;
             margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
         }
 
         .step-body li {
@@ -180,11 +243,13 @@
             margin-bottom: 0.75rem;
             line-height: 1.6;
             color: var(--text-secondary);
+            transition: color 0.3s ease;
         }
 
         .step-body li strong {
             color: var(--text-primary);
             font-weight: 600;
+            transition: color 0.3s ease;
         }
 
         .step-body h5 {
@@ -192,16 +257,26 @@
             font-weight: 600;
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
         }
 
         .step-body h5.text-success {
             color: #198754 !important;
         }
 
+        .dark .step-body h5.text-success {
+            color: #86efac !important;
+        }
+
         .step-body h5.text-warning {
             color: #ffc107 !important;
         }
 
+        .dark .step-body h5.text-warning {
+            color: #fcd34d !important;
+        }
+
+        /* ===== TABELAS ===== */
         .table-wrap {
             overflow-x: auto;
             margin: 1rem 0;
@@ -219,33 +294,44 @@
             text-align: left;
             font-weight: 600;
             color: var(--text-primary);
-            border-bottom: 2px solid rgba(13, 110, 253, 0.2);
+            border-bottom: 2px solid var(--border-glow);
+            transition: all 0.3s ease;
         }
 
         .table-wrap table td {
             padding: 0.75rem 1rem;
             border-bottom: 1px solid var(--table-border);
             color: var(--text-secondary);
+            transition: all 0.3s ease;
         }
 
         .table-wrap table tr:hover td {
-            background: rgba(13, 110, 253, 0.03);
+            background: var(--table-hover);
         }
 
+        .table-wrap table td strong {
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        /* ===== BADGE TIP ===== */
         .badge-tip {
-            background: linear-gradient(135deg, rgba(13, 110, 253, 0.15), rgba(10, 88, 202, 0.15));
+            background: var(--badge-tip-bg);
             padding: 1rem 1.25rem;
             border-radius: 1rem;
             font-size: 0.95rem;
             margin-top: 1rem;
-            border-left: 4px solid var(--gradient-start);
+            border-left: 4px solid var(--badge-tip-border);
             color: var(--text-secondary);
+            transition: all 0.3s ease;
         }
 
         .badge-tip strong {
             color: var(--text-primary);
+            transition: color 0.3s ease;
         }
 
+        /* ===== INFO/WARNING/SUCCESS BOXES ===== */
         .info-box, .success-box, .warning-box {
             border-radius: 1rem;
             padding: 1rem 1.25rem;
@@ -254,31 +340,35 @@
             align-items: flex-start;
             gap: 0.75rem;
             color: var(--text-secondary);
+            transition: all 0.3s ease;
         }
 
         .info-box {
-            background: rgba(13, 110, 253, 0.1);
-            border-left: 4px solid #0d6efd;
+            background: var(--info-box-bg);
+            border-left: 4px solid var(--info-box-border);
         }
 
         .info-box strong {
             color: var(--text-primary);
+            transition: color 0.3s ease;
         }
 
         .success-box {
-            background: rgba(25, 135, 84, 0.1);
-            border-left: 4px solid #198754;
+            background: var(--success-box-bg);
+            border-left: 4px solid var(--success-box-border);
         }
 
         .warning-box {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 4px solid #ffc107;
+            background: var(--warning-box-bg);
+            border-left: 4px solid var(--warning-box-border);
         }
 
+        /* ===== SUMMARY CARD ===== */
         .summary-card {
-            background: linear-gradient(135deg, rgba(13, 110, 253, 0.05), rgba(10, 88, 202, 0.05));
+            background: var(--summary-bg);
             border-radius: 1.5rem;
             padding: 1.5rem;
+            transition: background 0.3s ease;
         }
 
         .summary-step {
@@ -290,34 +380,35 @@
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--text-primary);
+            transition: color 0.3s ease;
         }
 
         .summary-step p {
             color: var(--text-muted);
             font-size: 0.875rem;
+            transition: color 0.3s ease;
         }
 
+        .summary-step i {
+            color: #0d6efd;
+        }
+
+        .dark .summary-step i {
+            color: #60a5fa;
+        }
+
+        /* ===== FOOTER ===== */
         .footer-modern {
             text-align: center;
             padding: 2rem;
             margin-top: 2rem;
-            background: rgba(13, 110, 253, 0.05);
+            background: var(--footer-bg);
             border-radius: 1rem;
             color: var(--text-muted);
+            transition: all 0.3s ease;
         }
 
-        .flex-row-custom {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .flex-col-custom {
-            flex: 1;
-            min-width: 280px;
-        }
-
+        /* ===== ALERTAS ===== */
         .alert-normal {
             background: var(--alert-normal-bg);
             border-left: 4px solid var(--alert-normal-border);
@@ -325,6 +416,7 @@
             padding: 1.25rem;
             height: 100%;
             color: var(--text-secondary);
+            transition: all 0.3s ease;
         }
 
         .alert-problem {
@@ -334,6 +426,7 @@
             padding: 1.25rem;
             height: 100%;
             color: var(--text-secondary);
+            transition: all 0.3s ease;
         }
 
         .alert-normal h5, .alert-problem h5 {
@@ -361,42 +454,32 @@
             margin-bottom: 0.4rem;
             font-size: 0.95rem;
             color: var(--text-secondary);
+            transition: color 0.3s ease;
         }
 
         .alert-normal ul li strong, .alert-problem ul li strong {
             color: var(--text-primary);
+            transition: color 0.3s ease;
         }
 
-        @media (max-width: 768px) {
-            .hero-section h1 {
-                font-size: 1.8rem;
-            }
-            .step-header h4 {
-                font-size: 1.2rem;
-            }
-            .step-body {
-                padding: 1.25rem;
-            }
-            .flex-col-custom {
-                min-width: 100%;
-            }
+        /* ===== CODE ===== */
+        code {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 0.15rem 0.5rem;
+            border-radius: 0.3rem;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
         }
 
-        html {
-            scroll-behavior: smooth;
+        /* ===== BADGES ===== */
+        .badge.bg-light {
+            background: var(--badge-light) !important;
+            color: var(--badge-dark) !important;
+            transition: all 0.3s ease;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        /* ===== ANIMAÇÕES ===== */
         .step-card {
             animation: fadeInUp 0.5s ease forwards;
             opacity: 0;
@@ -410,54 +493,56 @@
         .step-card:nth-child(6) { animation-delay: 0.6s; }
         .step-card:nth-child(7) { animation-delay: 0.7s; }
 
-        /* Cores para modo escuro - corrigindo texto de alertas */
-        .dark .alert-normal {
-            color: #d1e7dd;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .dark .alert-normal h5 {
-            color: #86efac;
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            .step-header h4 {
+                font-size: 1.2rem;
+            }
+            .step-body {
+                padding: 1.25rem;
+            }
+            .flex-col-custom {
+                min-width: 100%;
+            }
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            .hero-badge {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         }
 
-        .dark .alert-problem {
-            color: #f8d7da;
+        /* ===== FLEX LAYOUT ===== */
+        .flex-row-custom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
         }
 
-        .dark .alert-problem h5 {
-            color: #fca5a5;
+        .flex-col-custom {
+            flex: 1;
+            min-width: 280px;
         }
 
-        .dark .alert-normal ul li,
-        .dark .alert-problem ul li {
-            color: #e2e8f0;
-        }
-
-        .dark .summary-step p {
-            color: #94a3b8;
-        }
-
-        .dark .badge-tip {
-            color: #e2e8f0;
-        }
-
-        .dark .badge-tip strong {
-            color: #f7fafc;
-        }
-
-        .dark .info-box {
-            color: #e2e8f0;
-        }
-
-        .dark .info-box strong {
-            color: #f7fafc;
-        }
-
-        .dark .step-body h5.text-success {
-            color: #86efac !important;
-        }
-
-        .dark .step-body h5.text-warning {
-            color: #fcd34d !important;
+        /* ===== SCROLL ===== */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -467,22 +552,23 @@
         <div class="hero-section text-center">
             <div class="hero-badge">
                 <i class="fas fa-microchip"></i> Análise Técnica
+                <span class="badge ms-2"><i class="fas fa-moon" id="theme-indicator"></i> Modo Adaptável</span>
             </div>
             <h1 class="display-4 fw-bold mb-3">
                 <i class="fas fa-chart-simple me-2"></i>Análise de Linha M2M
             </h1>
             <p class="lead mb-0">Guia completo para interpretar o histórico de sessões de dispositivos M2M</p>
             <div class="mt-3">
-                <span class="badge bg-light text-dark mx-1"><i class="fas fa-mobile"></i> M2M</span>
-                <span class="badge bg-light text-dark mx-1"><i class="fas fa-wifi"></i> 2G/3G/4G</span>
-                <span class="badge bg-light text-dark mx-1"><i class="fas fa-clock"></i> Sessões</span>
+                <span class="badge bg-light mx-1"><i class="fas fa-mobile"></i> M2M</span>
+                <span class="badge bg-light mx-1"><i class="fas fa-wifi"></i> 2G/3G/4G</span>
+                <span class="badge bg-light mx-1"><i class="fas fa-clock"></i> Sessões</span>
             </div>
         </div>
 
         <!-- Passo 1: Interpretação Prática -->
         <div class="step-card">
             <div class="step-header">
-                <h4><span class="step-number">1</span> <i class="fas fa-info-circle me-2 text-primary"></i>Interpretação Prática</h4>
+                <h4><span class="step-number">1</span> <i class="fas fa-info-circle me-2"></i>Interpretação Prática</h4>
             </div>
             <div class="step-body">
                 <p>O equipamento geralmente abre a sessão, envia dados e encerra logo em seguida para <strong>economizar bateria e tráfego</strong>. Entenda os principais motivos de encerramento:</p>
@@ -503,7 +589,7 @@
         <!-- Passo 2: Motivos de Encerramento -->
         <div class="step-card">
             <div class="step-header">
-                <h4><span class="step-number">2</span> <i class="fas fa-list-columns me-2 text-primary"></i>Motivos de Encerramento de Sessão</h4>
+                <h4><span class="step-number">2</span> <i class="fas fa-list-columns me-2"></i>Motivos de Encerramento de Sessão</h4>
             </div>
             <div class="step-body">
                 <p>Conheça cada motivo de encerramento e o que eles indicam sobre o comportamento da linha:</p>
@@ -566,7 +652,7 @@
         <!-- Passo 3: Exemplos de Sessões -->
         <div class="step-card">
             <div class="step-header">
-                <h4><span class="step-number">3</span> <i class="fas fa-clock-history me-2 text-primary"></i>Exemplos de Sessões</h4>
+                <h4><span class="step-number">3</span> <i class="fas fa-clock-history me-2"></i>Exemplos de Sessões</h4>
             </div>
             <div class="step-body">
                 <h5 class="text-success"><i class="fas fa-check-circle"></i> Sessão Longa (Sempre Online)</h5>
@@ -622,7 +708,7 @@
         <!-- Passo 4: Checklist Visual -->
         <div class="step-card">
             <div class="step-header">
-                <h4><span class="step-number">4</span> <i class="fas fa-list-check me-2 text-primary"></i>Checklist de Análise</h4>
+                <h4><span class="step-number">4</span> <i class="fas fa-list-check me-2"></i>Checklist de Análise</h4>
             </div>
             <div class="step-body">
                 <div class="flex-row-custom">
@@ -654,7 +740,7 @@
         <!-- Passo 5: O que mais analisar -->
         <div class="step-card">
             <div class="step-header">
-                <h4><span class="step-number">5</span> <i class="fas fa-search me-2 text-primary"></i>O que mais analisar em uma linha M2M</h4>
+                <h4><span class="step-number">5</span> <i class="fas fa-search me-2"></i>O que mais analisar em uma linha M2M</h4>
             </div>
             <div class="step-body">
                 <ol>
@@ -707,7 +793,7 @@
         <!-- Passo 6: Termos Técnicos -->
         <div class="step-card">
             <div class="step-header">
-                <h4><span class="step-number">6</span> <i class="fas fa-journal-text me-2 text-primary"></i>Termos Técnicos e Explicações</h4>
+                <h4><span class="step-number">6</span> <i class="fas fa-journal-text me-2"></i>Termos Técnicos e Explicações</h4>
             </div>
             <div class="step-body">
                 <div class="info-box mb-4">
@@ -795,23 +881,23 @@
         <!-- Resumo Rápido -->
         <div class="step-card">
             <div class="step-header">
-                <h4><i class="fas fa-list-check text-primary me-2"></i>Resumo do Fluxo de Análise</h4>
+                <h4><i class="fas fa-list-check me-2"></i>Resumo do Fluxo de Análise</h4>
             </div>
             <div class="step-body">
                 <div class="summary-card">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-md-4 summary-step">
-                            <i class="fas fa-eye fa-2x text-primary mb-2"></i>
+                            <i class="fas fa-eye fa-2x mb-2"></i>
                             <h6>1. Identificar</h6>
                             <p>Motivo de encerramento da sessão</p>
                         </div>
                         <div class="col-md-4 summary-step">
-                            <i class="fas fa-microchip fa-2x text-primary mb-2"></i>
+                            <i class="fas fa-microchip fa-2x mb-2"></i>
                             <h6>2. Verificar</h6>
                             <p>APN, rede, IP e consumo</p>
                         </div>
                         <div class="col-md-4 summary-step">
-                            <i class="fas fa-check-circle fa-2x text-primary mb-2"></i>
+                            <i class="fas fa-check-circle fa-2x mb-2"></i>
                             <h6>3. Concluir</h6>
                             <p>Normal ou problema detectado</p>
                         </div>
@@ -822,7 +908,7 @@
 
         <!-- Footer -->
         <div class="footer-modern">
-            <i class="fas fa-microchip me-2"></i> Análise de Linha M2M · Saitro
+            <i class="fas fa-microchip me-2"></i> Análise de Linha M2M · BWS Utilitários
             <div class="mt-2">
                 <small><i class="fas fa-hand-pointer"></i> Utilize este guia para interpretar corretamente o histórico de sessões</small>
             </div>
@@ -830,8 +916,59 @@
     </div>
 
     <script>
-        // Não há imagens neste tutorial, mas mantemos a estrutura compatível
-        console.log('Guia de Análise de Linha M2M carregado');
+        // ===== Sincronização robusta com o tema do index =====
+        (function() {
+            // 1. Determina o tema atual (prioridade: classe no html, depois localStorage)
+            let isDark = document.documentElement.classList.contains('dark');
+            
+            // Se a classe não estiver no html, verifica localStorage
+            if (!isDark) {
+                const saved = localStorage.getItem('theme');
+                if (saved === 'dark') isDark = true;
+                else if (saved === 'light') isDark = false;
+                else isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+
+            // 2. Aplica a classe 'dark' em todos os elementos necessários
+            function applyTheme(dark) {
+                // Body
+                document.body.classList.toggle('dark', dark);
+                
+                // Container principal
+                const container = document.querySelector('.container');
+                if (container) container.classList.toggle('dark', dark);
+                
+                // Elementos específicos que podem usar variáveis CSS
+                document.querySelectorAll('.step-card, .hero-section, .summary-card, .footer-modern, .alert-normal, .alert-problem, .info-box, .success-box, .warning-box, .badge-tip')
+                    .forEach(el => el.classList.toggle('dark', dark));
+                
+                // Atualiza o indicador visual
+                const indicator = document.getElementById('theme-indicator');
+                if (indicator) {
+                    indicator.className = dark ? 'fas fa-moon' : 'fas fa-sun';
+                    indicator.parentElement.textContent = dark ? ' 🌙 Modo Escuro' : ' ☀️ Modo Claro';
+                }
+            }
+
+            // Aplica o tema inicial
+            applyTheme(isDark);
+
+            // 3. Escuta mudanças de tema disparadas pelo index
+            document.addEventListener('themeChanged', function(e) {
+                const dark = e.detail.isDark;
+                applyTheme(dark);
+            });
+
+            // 4. Também escuta mudanças no localStorage (fallback)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'theme') {
+                    const dark = e.newValue === 'dark';
+                    applyTheme(dark);
+                }
+            });
+
+            console.log('📱 Análise de Linha M2M sincronizada com o tema (escuro:', isDark, ')');
+        })();
     </script>
 </body>
 </html>

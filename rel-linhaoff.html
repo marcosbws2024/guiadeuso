@@ -3,114 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saitro · Relatório de Linhas Offline</title>
+    <title>BWS Utilitários · Relatório de Linhas Offline</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap');
-        
-        * {
-            -webkit-font-smoothing: antialiased;
+
+        /* ===== VARIÁVEIS DE TEMA ===== */
+        :root {
+            --bg-body: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --text-muted: #4a5568;
+            --border-color: rgba(203, 213, 225, 0.4);
+            --shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+            --badge-bg: rgba(255, 255, 255, 0.9);
+            --badge-text: #1a202c;
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
+        /* ===== MODO ESCURO ===== */
+        .dark {
+            --bg-body: #0a0c10;
+            --card-bg: rgba(22, 26, 35, 0.98);
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: rgba(51, 65, 85, 0.5);
+            --shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.5);
+            --badge-bg: #1e293b;
+            --badge-text: #e2e8f0;
         }
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.05);
-            border-radius: 10px;
+
+        * {
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(59,130,246,0.3);
-            border-radius: 10px;
+
+        body {
+            background: var(--bg-body);
+            font-family: 'Inter', system-ui, sans-serif;
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
         }
-        
+
+        /* ===== CONTAINER ===== */
+        .container-custom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+            background: transparent !important;
+        }
+
+        /* ===== HERO ===== */
+        .hero-gradient {
+            background: linear-gradient(135deg, #059669, #0d9488);
+            border-radius: 1.5rem;
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -12px rgba(5, 150, 105, 0.3);
+        }
+        .hero-gradient .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+        .hero-gradient h1 {
+            color: #fff;
+            font-weight: 800;
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+        }
+        .hero-gradient p {
+            color: rgba(255, 255, 255, 0.85);
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.3rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #fff;
+            backdrop-filter: blur(8px);
+        }
+
+        /* ===== CARD ===== */
         .tutorial-card {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
             transition: all 0.3s ease;
-            border: 1px solid rgba(203, 213, 225, 0.4);
+            margin-bottom: 1.5rem;
         }
         .tutorial-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: rgba(5, 150, 105, 0.2);
         }
-        
+
+        /* ===== IMAGEM ===== */
         .tutorial-img {
             transition: all 0.3s ease;
             cursor: pointer;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: rgba(5, 150, 105, 0.04);
+            padding: 1rem;
         }
         .tutorial-img:hover {
             transform: scale(1.01);
-            box-shadow: 0 8px 25px rgba(59,130,246,0.15);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.15);
+            background: rgba(5, 150, 105, 0.06);
         }
-        
+        .tutorial-img img {
+            max-width: 100%;
+            max-height: 350px;
+            border-radius: 0.75rem;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+        .tutorial-img .hint {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        /* ===== BADGES E TAGS ===== */
+        .badge-light {
+            background: var(--badge-bg) !important;
+            color: var(--badge-text) !important;
+            transition: all 0.3s ease;
+        }
+
+        /* ===== PROBABILIDADE ===== */
+        .prob-card {
+            border-radius: 1rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .prob-card.alta {
+            background: rgba(5, 150, 105, 0.08);
+            border-color: rgba(5, 150, 105, 0.2);
+        }
+        .prob-card.media {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+        .prob-card.baixa {
+            background: rgba(220, 38, 38, 0.08);
+            border-color: rgba(220, 38, 38, 0.2);
+        }
+        .dark .prob-card.alta {
+            background: rgba(5, 150, 105, 0.15);
+        }
+        .dark .prob-card.media {
+            background: rgba(245, 158, 11, 0.15);
+        }
+        .dark .prob-card.baixa {
+            background: rgba(220, 38, 38, 0.15);
+        }
+
+        .prob-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #fff;
+        }
+        .prob-icon.alta {
+            background: #059669;
+        }
+        .prob-icon.media {
+            background: #d97706;
+        }
+        .prob-icon.baixa {
+            background: #dc2626;
+        }
+
+        /* ===== ALERT ===== */
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.08);
+            border-left: 4px solid #f59e0b;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+        .dark .alert-warning {
+            background: rgba(245, 158, 11, 0.12);
+        }
+
+        .alert-warning i {
+            color: #f59e0b;
+            margin-top: 0.15rem;
+        }
+        .alert-warning p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ===== SUMMARY ===== */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        .summary-item {
+            text-align: center;
+            padding: 0.75rem;
+        }
+        .summary-item .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(5, 150, 105, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            color: #059669;
+            font-size: 1.25rem;
+        }
+        .dark .summary-item .icon {
+            background: rgba(5, 150, 105, 0.2);
+        }
+        .summary-item h6 {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .summary-item p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-line {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== MODAL ===== */
         .image-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(24px);
             z-index: 9999;
             display: none;
             align-items: center;
             justify-content: center;
+            padding: 1.5rem;
         }
-        
         .image-modal.active {
             display: flex;
         }
+
+        .modal-wrapper {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-img-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-img-container img {
+            max-width: 85vw;
+            max-height: 75vh;
+            border-radius: 1rem;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s ease;
+            cursor: zoom-in;
+            object-fit: contain;
+        }
+        .modal-img-container img.zoomed {
+            cursor: zoom-out;
+        }
+
+        /* ===== CONTROLES DO MODAL ===== */
+        .modal-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+        .modal-top-bar .counter {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            padding: 0.3rem 1.2rem;
+            border-radius: 9999px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .modal-top-bar .close-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-top-bar .close-btn:hover {
+            background: rgba(239, 68, 68, 0.6);
+            transform: scale(1.05);
+        }
+
+        .modal-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.05);
+        }
+        .modal-nav-btn.prev {
+            left: -60px;
+        }
+        .modal-nav-btn.next {
+            right: -60px;
+        }
+        @media (max-width: 768px) {
+            .modal-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            .modal-nav-btn.prev {
+                left: -16px;
+            }
+            .modal-nav-btn.next {
+                right: -16px;
+            }
+        }
+
+        .modal-bottom-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .modal-bottom-bar .caption {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            max-width: 60vw;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .modal-bottom-bar .zoom-group {
+            display: flex;
+            gap: 0.3rem;
+            margin-left: 0.5rem;
+        }
+        .modal-bottom-bar .zoom-group button {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-bottom-bar .zoom-group button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+        .modal-bottom-bar .zoom-group .zoom-level {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.7rem;
+            min-width: 32px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .modal-bottom-bar {
+                flex-wrap: wrap;
+                padding: 0.4rem 0.8rem;
+            }
+            .modal-bottom-bar .caption {
+                font-size: 0.75rem;
+                max-width: 50vw;
+            }
+            .modal-bottom-bar .zoom-group button {
+                width: 30px;
+                height: 30px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 640px) {
+            .hero-gradient h1 {
+                font-size: 1.6rem;
+            }
+            .hero-gradient {
+                padding: 1.5rem 1rem;
+            }
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 via-white to-slate-100 text-slate-900 min-h-screen font-sans">
+<body>
 
-
-
-    <!-- Conteúdo Principal -->
-    <main class="max-w-6xl mx-auto px-6 py-8 md:py-12">
-        
-        <!-- Hero Section -->
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 p-8 text-white shadow-xl mb-10">
-            <div class="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+    <div class="container-custom">
+        <!-- Hero -->
+        <div class="hero-gradient relative mb-8">
+            <div class="overlay"></div>
             <div class="relative z-10">
-                <div class="flex items-center gap-3 mb-3">
-                    <i class="fas fa-chart-line text-2xl"></i>
-                    <span class="text-xs font-semibold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Relatório Técnico</span>
+                <div class="hero-badge mb-3">
+                    <i class="fas fa-chart-line"></i> Relatório Técnico
                 </div>
-                <h1 class="text-3xl md:text-4xl font-bold mb-3 flex items-center gap-2">
-                    <i class="fas fa-tower-broadcast"></i> Relatório de Linhas Offline
+                <h1 class="text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3">
+                    <i class="fas fa-tower-broadcast"></i>
+                    Relatório de Linhas Offline
                 </h1>
-                <p class="text-emerald-100 text-base max-w-2xl">Analise o tempo de inatividade das linhas, calcule dias offline e identifique a probabilidade de recuperação da conexão.</p>
+                <p class="text-emerald-100/90 text-base max-w-2xl">
+                    Analise o tempo de inatividade das linhas, calcule dias offline e identifique a probabilidade de recuperação da conexão.
+                </p>
             </div>
         </div>
 
-        <!-- Informação do CSV -->
-        <div class="bg-emerald-50 border-l-4 border-emerald-500 rounded-xl p-4 mb-8 flex gap-3">
-            <i class="fas fa-file-csv text-emerald-500 text-xl"></i>
+        <!-- Info CSV -->
+        <div class="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 rounded-xl p-4 mb-6 flex gap-3 items-start">
+            <i class="fas fa-file-csv text-emerald-500 text-lg mt-0.5"></i>
             <div>
-                <p class="text-sm font-semibold text-emerald-800">Mesmo formato do CSV de Reset</p>
-                <p class="text-sm text-emerald-700">O relatório utiliza o mesmo arquivo CSV do processo de carga de reset — primeira coluna: ICCID | segunda coluna: MSISDN | segunda linha/primeira coluna: Nome da empresa</p>
+                <p class="text-sm font-semibold text-emerald-800 dark:text-emerald-300">Mesmo formato do CSV de Reset</p>
+                <p class="text-sm text-emerald-700 dark:text-emerald-400/80">O relatório utiliza o mesmo arquivo CSV do processo de carga de reset — primeira coluna: ICCID | segunda coluna: MSISDN | segunda linha/primeira coluna: Nome da empresa</p>
             </div>
         </div>
 
         <!-- Passo 1 -->
-        <div class="tutorial-card bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+        <div class="tutorial-card">
             <div class="p-6">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md">1</div>
-                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md text-sm">1</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                         <i class="fas fa-cloud-upload-alt text-emerald-500 text-lg"></i> Carregar o arquivo CSV
                     </h2>
                 </div>
-                <div class="tutorial-img bg-slate-50 rounded-xl p-4 mb-4" onclick="abrirModalPorSrc('imagens/linhasOffline/TelaLinhasOff1.png', 'Passo 1: Tela de upload do arquivo CSV para análise offline')">
-                    <img src="imagens/linhasOffline/TelaLinhasOff1.png" alt="Tela de carregar CSV" class="mx-auto rounded-lg max-h-80 w-auto object-contain" 
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff1.png</div>'">
-                    <div class="text-center mt-2 text-xs text-slate-400">
-                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
-                    </div>
+                <div class="tutorial-img" data-src="imagens/linhasOffline/TelaLinhasOff1.png" data-caption="Passo 1: Tela de upload do arquivo CSV para análise offline">
+                    <img src="imagens/linhasOffline/TelaLinhasOff1.png" alt="Tela de carregar CSV"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-8 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff1.png</div>'">
+                    <div class="hint"><i class="fas fa-hand-pointer"></i> Clique na imagem para expandir</div>
                 </div>
-                <p class="text-slate-600 text-sm leading-relaxed">Na tela principal do relatório, faça o upload do arquivo CSV contendo as linhas que deseja analisar. O sistema processará automaticamente os dados e identificará cada linha.</p>
-                <div class="mt-3 flex items-center gap-2 text-xs text-emerald-600">
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Na tela principal do relatório, faça o upload do arquivo CSV contendo as linhas que deseja analisar. O sistema processará automaticamente os dados e identificará cada linha.</p>
+                <div class="mt-3 flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400">
                     <i class="fas fa-lightbulb"></i>
                     <span>O nome da empresa é capturado da segunda linha, primeira coluna do CSV</span>
                 </div>
@@ -118,193 +527,178 @@
         </div>
 
         <!-- Passo 2 -->
-        <div class="tutorial-card bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+        <div class="tutorial-card">
             <div class="p-6">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md">2</div>
-                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md text-sm">2</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                         <i class="fas fa-calendar-alt text-emerald-500 text-lg"></i> Visualizar dias offline
                     </h2>
                 </div>
-                <div class="tutorial-img bg-slate-50 rounded-xl p-4 mb-4" onclick="abrirModalPorSrc('imagens/linhasOffline/TelaLinhasOff2.png', 'Passo 2: Visualização dos dias offline calculados')">
-                    <img src="imagens/linhasOffline/TelaLinhasOff2.png" alt="Dias offline" class="mx-auto rounded-lg max-h-80 w-auto object-contain" 
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff2.png</div>'">
-                    <div class="text-center mt-2 text-xs text-slate-400">
-                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
-                    </div>
+                <div class="tutorial-img" data-src="imagens/linhasOffline/TelaLinhasOff2.png" data-caption="Passo 2: Visualização dos dias offline calculados">
+                    <img src="imagens/linhasOffline/TelaLinhasOff2.png" alt="Dias offline"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-8 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff2.png</div>'">
+                    <div class="hint"><i class="fas fa-hand-pointer"></i> Clique na imagem para expandir</div>
                 </div>
-                <p class="text-slate-600 text-sm leading-relaxed">Após o upload, o sistema calcula automaticamente há quantos dias cada linha está offline. Os resultados são exibidos em uma tabela organizada, permitindo fácil análise dos dados.</p>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Após o upload, o sistema calcula automaticamente há quantos dias cada linha está offline. Os resultados são exibidos em uma tabela organizada, permitindo fácil análise dos dados.</p>
             </div>
         </div>
 
-        <!-- Passo 3 - Probabilidade -->
-        <div class="tutorial-card bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+        <!-- Passo 3 -->
+        <div class="tutorial-card">
             <div class="p-6">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md">3</div>
-                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md text-sm">3</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                         <i class="fas fa-chart-pie text-emerald-500 text-lg"></i> Probabilidade de Ficar Online
                     </h2>
                 </div>
-                <div class="tutorial-img bg-slate-50 rounded-xl p-4 mb-4" onclick="abrirModalPorSrc('imagens/linhasOffline/TelaLinhasOff3.png', 'Passo 3: Classificação de probabilidade (Alta, Média, Baixa)')">
-                    <img src="imagens/linhasOffline/TelaLinhasOff3.png" alt="Probabilidade" class="mx-auto rounded-lg max-h-80 w-auto object-contain" 
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff3.png</div>'">
-                    <div class="text-center mt-2 text-xs text-slate-400">
-                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
-                    </div>
+                <div class="tutorial-img" data-src="imagens/linhasOffline/TelaLinhasOff3.png" data-caption="Passo 3: Classificação de probabilidade (Alta, Média, Baixa)">
+                    <img src="imagens/linhasOffline/TelaLinhasOff3.png" alt="Probabilidade"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-8 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff3.png</div>'">
+                    <div class="hint"><i class="fas fa-hand-pointer"></i> Clique na imagem para expandir</div>
                 </div>
-                <p class="text-slate-600 text-sm leading-relaxed mb-4">O relatório classifica automaticamente cada linha com base nos dias offline, dividindo em três níveis de probabilidade de recuperação:</p>
-                
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">O relatório classifica automaticamente cada linha com base nos dias offline, dividindo em três níveis de probabilidade de recuperação:</p>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
-                                <i class="fas fa-arrow-up text-white text-xs"></i>
-                            </div>
-                            <h4 class="font-bold text-green-700">Alta</h4>
+                    <div class="prob-card alta">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="prob-icon alta"><i class="fas fa-arrow-up"></i></div>
+                            <h4 class="font-bold text-green-700 dark:text-green-400">Alta</h4>
                         </div>
-                        <p class="text-sm text-green-600"><strong>≤ 10 dias offline</strong></p>
-                        <p class="text-xs text-green-600/70 mt-1">Probabilidade alta de retorno à operação normal.</p>
+                        <p class="text-sm text-green-700 dark:text-green-400/80"><strong>≤ 10 dias offline</strong></p>
+                        <p class="text-xs text-green-600/70 dark:text-green-400/60 mt-1">Probabilidade alta de retorno à operação normal.</p>
                     </div>
-                    
-                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-200">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center">
-                                <i class="fas fa-minus text-white text-xs"></i>
-                            </div>
-                            <h4 class="font-bold text-amber-700">Média</h4>
+                    <div class="prob-card media">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="prob-icon media"><i class="fas fa-minus"></i></div>
+                            <h4 class="font-bold text-amber-700 dark:text-amber-400">Média</h4>
                         </div>
-                        <p class="text-sm text-amber-600"><strong>11 a 15 dias offline</strong></p>
-                        <p class="text-xs text-amber-600/70 mt-1">Probabilidade moderada — requer atenção.</p>
+                        <p class="text-sm text-amber-700 dark:text-amber-400/80"><strong>11 a 15 dias offline</strong></p>
+                        <p class="text-xs text-amber-600/70 dark:text-amber-400/60 mt-1">Probabilidade moderada — requer atenção.</p>
                     </div>
-                    
-                    <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-xl p-4 border border-red-200">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center">
-                                <i class="fas fa-arrow-down text-white text-xs"></i>
-                            </div>
-                            <h4 class="font-bold text-red-700">Baixa</h4>
+                    <div class="prob-card baixa">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="prob-icon baixa"><i class="fas fa-arrow-down"></i></div>
+                            <h4 class="font-bold text-red-700 dark:text-red-400">Baixa</h4>
                         </div>
-                        <p class="text-sm text-red-600"><strong>&gt; 15 dias offline</strong></p>
-                        <p class="text-xs text-red-600/70 mt-1">Probabilidade muito baixa de recuperação automática.</p>
+                        <p class="text-sm text-red-700 dark:text-red-400/80"><strong>&gt; 15 dias offline</strong></p>
+                        <p class="text-xs text-red-600/70 dark:text-red-400/60 mt-1">Probabilidade muito baixa de recuperação automática.</p>
                     </div>
                 </div>
-                
-                <div class="bg-amber-50 border-l-4 border-amber-500 rounded-lg p-3">
-                    <div class="flex items-start gap-2">
-                        <i class="fas fa-exclamation-triangle text-amber-500 mt-0.5"></i>
-                        <p class="text-xs text-amber-700"><strong>Importante:</strong> Quando a probabilidade é classificada como <strong>BAIXA</strong>, é altamente recomendável que o cliente realize uma verificação física do equipamento, pois a chance de retorno automático da conectividade é mínima.</p>
-                    </div>
+
+                <div class="alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p><strong>Importante:</strong> Quando a probabilidade é classificada como <strong>BAIXA</strong>, é altamente recomendável que o cliente realize uma verificação física do equipamento, pois a chance de retorno automático da conectividade é mínima.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Passo 4 - Nomenclatura -->
-        <div class="tutorial-card bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+        <!-- Passo 4 -->
+        <div class="tutorial-card">
             <div class="p-6">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md">4</div>
-                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-md text-sm">4</div>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                         <i class="fas fa-file-signature text-emerald-500 text-lg"></i> Nomenclatura do Arquivo
                     </h2>
                 </div>
-                <div class="tutorial-img bg-slate-50 rounded-xl p-4 mb-4" onclick="abrirModalPorSrc('imagens/linhasOffline/TelaLinhasOff4.png', 'Passo 4: Esquema de nomenclatura do arquivo com empresa, data e hora')">
-                    <img src="imagens/linhasOffline/TelaLinhasOff4.png" alt="Nomenclatura" class="mx-auto rounded-lg max-h-80 w-auto object-contain" 
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-12 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff4.png</div>'">
-                    <div class="text-center mt-2 text-xs text-slate-400">
-                        <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
-                    </div>
+                <div class="tutorial-img" data-src="imagens/linhasOffline/TelaLinhasOff4.png" data-caption="Passo 4: Esquema de nomenclatura do arquivo com empresa, data e hora">
+                    <img src="imagens/linhasOffline/TelaLinhasOff4.png" alt="Nomenclatura"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-8 text-center text-slate-400\'><i class=\'fas fa-image fa-3x mb-2\'></i><br>📁 imagens/linhasOffline/TelaLinhasOff4.png</div>'">
+                    <div class="hint"><i class="fas fa-hand-pointer"></i> Clique na imagem para expandir</div>
                 </div>
-                <p class="text-slate-600 text-sm leading-relaxed mb-3">Seguindo o mesmo esquema utilizado na ferramenta de carga, o nome do arquivo gerado é composto por:</p>
+                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-3">Seguindo o mesmo esquema utilizado na ferramenta de carga, o nome do arquivo gerado é composto por:</p>
                 <ul class="space-y-2 mb-4">
-                    <li class="flex items-center gap-2 text-sm text-slate-600">
+                    <li class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
                         <i class="fas fa-building text-emerald-500 text-xs"></i>
                         <span><strong>Nome da empresa</strong> — capturado da <strong>segunda linha, primeira coluna</strong> do CSV</span>
                     </li>
-                    <li class="flex items-center gap-2 text-sm text-slate-600">
+                    <li class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
                         <i class="fas fa-calendar-day text-emerald-500 text-xs"></i>
                         <span><strong>Data de geração</strong> — no formato YYYYMMDD</span>
                     </li>
-                    <li class="flex items-center gap-2 text-sm text-slate-600">
+                    <li class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
                         <i class="fas fa-clock text-emerald-500 text-xs"></i>
                         <span><strong>Hora de geração</strong> — no formato HHMMSS</span>
                     </li>
                 </ul>
-                <div class="bg-slate-100 rounded-lg p-3 text-center">
-                    <p class="text-sm font-mono text-slate-700">
+                <div class="bg-slate-100 dark:bg-slate-800/60 rounded-lg p-3 text-center">
+                    <p class="text-sm font-mono text-slate-700 dark:text-slate-300">
                         <i class="fas fa-file-csv text-emerald-500 mr-2"></i>
                         EMPRESA_20241215_143022.csv
                     </p>
-                    <p class="text-xs text-slate-500 mt-1">Exemplo: NomeDaEmpresa_AnoMêsDia_HoraMinutoSegundo.csv</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Exemplo: NomeDaEmpresa_AnoMêsDia_HoraMinutoSegundo.csv</p>
                 </div>
             </div>
         </div>
 
-        <!-- Resumo Rápido -->
-        <div class="bg-gradient-to-r from-slate-100 to-slate-50 rounded-2xl p-6 mt-8">
-            <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+        <!-- Resumo -->
+        <div class="bg-slate-100/50 dark:bg-slate-800/30 rounded-2xl p-6 mt-6 border border-slate-200/50 dark:border-slate-700/50">
+            <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-800 dark:text-slate-100">
                 <i class="fas fa-list-check text-emerald-500"></i> Resumo do Fluxo
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="text-center">
-                    <div class="w-12 h-12 mx-auto bg-emerald-100 rounded-full flex items-center justify-center mb-2">
-                        <i class="fas fa-upload text-emerald-600"></i>
-                    </div>
-                    <p class="text-sm font-medium">1. Upload</p>
-                    <p class="text-xs text-slate-500">CSV das linhas</p>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="icon"><i class="fas fa-upload"></i></div>
+                    <h6>1. Upload</h6>
+                    <p>CSV das linhas</p>
                 </div>
-                <div class="text-center">
-                    <div class="w-12 h-12 mx-auto bg-emerald-100 rounded-full flex items-center justify-center mb-2">
-                        <i class="fas fa-calculator text-emerald-600"></i>
-                    </div>
-                    <p class="text-sm font-medium">2. Cálculo</p>
-                    <p class="text-xs text-slate-500">Dias offline</p>
+                <div class="summary-item">
+                    <div class="icon"><i class="fas fa-calculator"></i></div>
+                    <h6>2. Cálculo</h6>
+                    <p>Dias offline</p>
                 </div>
-                <div class="text-center">
-                    <div class="w-12 h-12 mx-auto bg-emerald-100 rounded-full flex items-center justify-center mb-2">
-                        <i class="fas fa-chart-simple text-emerald-600"></i>
-                    </div>
-                    <p class="text-sm font-medium">3. Classificação</p>
-                    <p class="text-xs text-slate-500">Alta | Média | Baixa</p>
+                <div class="summary-item">
+                    <div class="icon"><i class="fas fa-chart-simple"></i></div>
+                    <h6>3. Classificação</h6>
+                    <p>Alta | Média | Baixa</p>
                 </div>
-                <div class="text-center">
-                    <div class="w-12 h-12 mx-auto bg-emerald-100 rounded-full flex items-center justify-center mb-2">
-                        <i class="fas fa-download text-emerald-600"></i>
-                    </div>
-                    <p class="text-sm font-medium">4. Exportar</p>
-                    <p class="text-xs text-slate-500">Enviar ao cliente</p>
+                <div class="summary-item">
+                    <div class="icon"><i class="fas fa-download"></i></div>
+                    <h6>4. Exportar</h6>
+                    <p>Enviar ao cliente</p>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="mt-12 pt-6 border-t border-slate-200 text-center">
-            <p class="text-xs text-slate-500">
-                <i class="fas fa-chart-line mr-1"></i> Relatório de Linhas Offline · Saitro
-            </p>
+        <div class="footer-line">
+            <i class="fas fa-chart-line mr-1"></i> Relatório de Linhas Offline · BWS Utilitários
         </div>
-    </main>
+    </div>
 
-    <!-- Modal de Imagem -->
+    <!-- ===== MODAL DE IMAGEM ===== -->
     <div id="imageModal" class="image-modal">
-        <div class="relative max-w-[90vw] max-h-[90vh]">
-            <button onclick="fecharModal()" class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-red-500 transition-all">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="absolute -top-12 left-1/2 -translate-x-1/2 bg-black/50 px-4 py-1 rounded-full text-white text-sm" id="imageCounter">1/4</div>
-            <img id="modalImage" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl cursor-zoom-in" src="" alt="Visualização ampliada">
-            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-black/50 px-5 py-2 rounded-full text-white text-sm whitespace-nowrap" id="modalCaption"></div>
-            <button onclick="imagemAnterior()" class="absolute top-1/2 -translate-y-1/2 -left-12 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button onclick="imagemProxima()" class="absolute top-1/2 -translate-y-1/2 -right-12 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+        <div class="modal-wrapper">
+            <!-- Barra superior -->
+            <div class="modal-top-bar">
+                <span class="counter" id="imageCounter">1 / 4</span>
+                <button class="close-btn" onclick="fecharModal()"><i class="fas fa-times"></i></button>
+            </div>
+
+            <!-- Imagem e navegação -->
+            <div class="modal-img-container">
+                <button class="modal-nav-btn prev" onclick="imagemAnterior()"><i class="fas fa-chevron-left"></i></button>
+                <img id="modalImage" src="" alt="Visualização ampliada">
+                <button class="modal-nav-btn next" onclick="imagemProxima()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <!-- Barra inferior com legenda e zoom -->
+            <div class="modal-bottom-bar">
+                <span class="caption" id="modalCaption">Legenda</span>
+                <div class="zoom-group">
+                    <button onclick="zoomOut()" title="Diminuir zoom"><i class="fas fa-search-minus"></i></button>
+                    <span class="zoom-level" id="zoomLevel">100%</span>
+                    <button onclick="zoomIn()" title="Aumentar zoom"><i class="fas fa-search-plus"></i></button>
+                    <button onclick="resetZoom()" title="Resetar zoom"><i class="fas fa-sync-alt"></i></button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Lista de imagens do tutorial
+        // ===== LISTA DE IMAGENS DO TUTORIAL =====
         const imagensTutorial = [
             { src: "imagens/linhasOffline/TelaLinhasOff1.png", caption: "Passo 1: Tela de upload do arquivo CSV" },
             { src: "imagens/linhasOffline/TelaLinhasOff2.png", caption: "Passo 2: Visualização dos dias offline calculados" },
@@ -315,44 +709,44 @@
         let indiceAtual = 0;
         let currentZoom = 1;
         let modalAberto = false;
+        const ZOOM_STEP = 0.15;
+        const MIN_ZOOM = 0.5;
+        const MAX_ZOOM = 2.5;
 
-        // Função para abrir o modal com base no índice
+        // ===== ABRIR MODAL =====
         function abrirModal(index) {
-            if (index >= 0 && index < imagensTutorial.length) {
-                indiceAtual = index;
-                const modal = document.getElementById('imageModal');
-                const modalImg = document.getElementById('modalImage');
-                const modalCaption = document.getElementById('modalCaption');
-                const imageCounter = document.getElementById('imageCounter');
-                
-                modalImg.src = imagensTutorial[indiceAtual].src;
-                modalCaption.textContent = imagensTutorial[indiceAtual].caption;
-                imageCounter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
-                
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                modalAberto = true;
-                resetZoom();
-            }
+            if (index < 0 || index >= imagensTutorial.length) return;
+            indiceAtual = index;
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const counter = document.getElementById('imageCounter');
+
+            modalImg.src = imagensTutorial[indiceAtual].src;
+            modalCaption.textContent = imagensTutorial[indiceAtual].caption;
+            counter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            modalAberto = true;
+            resetZoom();
         }
 
-        // Função para abrir o modal pelo src da imagem
+        // ===== ABRIR PELO SRC =====
         function abrirModalPorSrc(src, caption) {
             const index = imagensTutorial.findIndex(img => img.src === src);
             if (index !== -1) {
                 abrirModal(index);
             } else {
-                // Fallback: abrir com dados fornecidos
+                // Fallback
                 indiceAtual = 0;
                 const modal = document.getElementById('imageModal');
                 const modalImg = document.getElementById('modalImage');
                 const modalCaption = document.getElementById('modalCaption');
-                const imageCounter = document.getElementById('imageCounter');
-                
+                const counter = document.getElementById('imageCounter');
                 modalImg.src = src;
-                modalCaption.textContent = caption;
-                imageCounter.textContent = `1 / ${imagensTutorial.length}`;
-                
+                modalCaption.textContent = caption || 'Imagem';
+                counter.textContent = `1 / ${imagensTutorial.length}`;
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 modalAberto = true;
@@ -360,7 +754,7 @@
             }
         }
 
-        // Fechar modal
+        // ===== FECHAR MODAL =====
         function fecharModal() {
             const modal = document.getElementById('imageModal');
             modal.classList.remove('active');
@@ -369,40 +763,42 @@
             resetZoom();
         }
 
-        // Navegação
+        // ===== NAVEGAÇÃO =====
         function imagemAnterior() {
+            if (imagensTutorial.length === 0) return;
             indiceAtual = (indiceAtual - 1 + imagensTutorial.length) % imagensTutorial.length;
-            const modalImg = document.getElementById('modalImage');
-            const modalCaption = document.getElementById('modalCaption');
-            const imageCounter = document.getElementById('imageCounter');
-            
-            modalImg.src = imagensTutorial[indiceAtual].src;
-            modalCaption.textContent = imagensTutorial[indiceAtual].caption;
-            imageCounter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
-            resetZoom();
+            atualizarModal();
         }
 
         function imagemProxima() {
+            if (imagensTutorial.length === 0) return;
             indiceAtual = (indiceAtual + 1) % imagensTutorial.length;
+            atualizarModal();
+        }
+
+        function atualizarModal() {
             const modalImg = document.getElementById('modalImage');
             const modalCaption = document.getElementById('modalCaption');
-            const imageCounter = document.getElementById('imageCounter');
-            
+            const counter = document.getElementById('imageCounter');
             modalImg.src = imagensTutorial[indiceAtual].src;
             modalCaption.textContent = imagensTutorial[indiceAtual].caption;
-            imageCounter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
+            counter.textContent = `${indiceAtual + 1} / ${imagensTutorial.length}`;
             resetZoom();
         }
 
-        // Zoom
+        // ===== ZOOM =====
         function zoomIn() {
-            currentZoom = Math.min(currentZoom + 0.2, 2.5);
-            aplicarZoom();
+            if (currentZoom < MAX_ZOOM) {
+                currentZoom = Math.min(currentZoom + ZOOM_STEP, MAX_ZOOM);
+                aplicarZoom();
+            }
         }
 
         function zoomOut() {
-            currentZoom = Math.max(currentZoom - 0.2, 0.5);
-            aplicarZoom();
+            if (currentZoom > MIN_ZOOM) {
+                currentZoom = Math.max(currentZoom - ZOOM_STEP, MIN_ZOOM);
+                aplicarZoom();
+            }
         }
 
         function resetZoom() {
@@ -414,24 +810,21 @@
             const modalImg = document.getElementById('modalImage');
             if (modalImg) {
                 modalImg.style.transform = `scale(${currentZoom})`;
-                modalImg.style.cursor = currentZoom > 1 ? 'zoom-out' : 'zoom-in';
+                modalImg.classList.toggle('zoomed', currentZoom > 1);
+                document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
             }
         }
 
         function toggleZoom() {
-            if (currentZoom === 1) {
-                currentZoom = 1.8;
-            } else {
-                currentZoom = 1;
-            }
+            if (currentZoom === 1) currentZoom = 1.8;
+            else currentZoom = 1;
             aplicarZoom();
         }
 
-        // Eventos de teclado
+        // ===== EVENTOS DE TECLADO =====
         document.addEventListener('keydown', function(e) {
             if (!modalAberto) return;
-            
-            switch(e.key) {
+            switch (e.key) {
                 case 'Escape':
                     fecharModal();
                     break;
@@ -454,23 +847,68 @@
             }
         });
 
-        // Clique na imagem do modal para zoom
+        // ===== INICIALIZAR EVENTOS DE CLIQUE NAS IMAGENS =====
         document.addEventListener('DOMContentLoaded', function() {
-            const modalImg = document.getElementById('modalImage');
-            if (modalImg) {
-                modalImg.addEventListener('click', toggleZoom);
-            }
-            
+            // Associar cada .tutorial-img ao clique
+            document.querySelectorAll('.tutorial-img').forEach(el => {
+                el.addEventListener('click', function() {
+                    const img = this.querySelector('img');
+                    const src = this.getAttribute('data-src') || img?.src;
+                    const caption = this.getAttribute('data-caption') || img?.alt || 'Imagem';
+                    if (src) abrirModalPorSrc(src, caption);
+                });
+            });
+
             // Fechar modal ao clicar no fundo
             const modal = document.getElementById('imageModal');
-            if (modal) {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === modal) {
-                        fecharModal();
-                    }
-                });
-            }
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) fecharModal();
+            });
+
+            // Zoom com clique na imagem
+            const modalImg = document.getElementById('modalImage');
+            modalImg.addEventListener('click', toggleZoom);
         });
+
+        // ===== SINCRONIZAR TEMA COM O INDEX =====
+        (function() {
+            let isDark = document.documentElement.classList.contains('dark');
+            if (!isDark) {
+                const saved = localStorage.getItem('theme');
+                if (saved === 'dark') isDark = true;
+                else if (saved === 'light') isDark = false;
+                else isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                document.body.classList.toggle('dark', dark);
+                const container = document.querySelector('.container-custom');
+                if (container) container.classList.toggle('dark', dark);
+            }
+
+            applyTheme(isDark);
+
+            document.addEventListener('themeChanged', function(e) {
+                applyTheme(e.detail.isDark);
+            });
+
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'theme') {
+                    applyTheme(e.newValue === 'dark');
+                }
+            });
+        })();
+
+        // ===== EXPORTA FUNÇÕES GLOBAIS PARA O HTML =====
+        window.abrirModalPorSrc = abrirModalPorSrc;
+        window.fecharModal = fecharModal;
+        window.imagemAnterior = imagemAnterior;
+        window.imagemProxima = imagemProxima;
+        window.zoomIn = zoomIn;
+        window.zoomOut = zoomOut;
+        window.resetZoom = resetZoom;
     </script>
+
 </body>
 </html>

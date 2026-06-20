@@ -4,853 +4,893 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWS Utilitarios · Central de Ajuda</title>
+    <title>BWS Utilitários · Central de Ajuda</title>
+    
+    <!-- Script Anti-Flash Branco -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Configuração do Tailwind -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        'sans': ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    fontFamily: { 
+                        sans: ['Inter', 'system-ui', 'sans-serif'] 
                     },
-                    animation: {
-                        'fade-in': 'fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                        'slide-up': 'slideUp 0.5s ease-out',
-                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                    animation: { 
+                        'fade-in': 'fadeIn 0.3s ease-out' 
                     },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'scale(0.98)' },
-                            '100%': { opacity: '1', transform: 'scale(1)' },
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        pulseGlow: {
-                            '0%, 100%': { opacity: '1' },
-                            '50%': { opacity: '0.7' },
-                        },
-                    },
+                    keyframes: { 
+                        fadeIn: { 
+                            '0%': { opacity: '0' }, 
+                            '100%': { opacity: '1' } 
+                        } 
+                    }
                 }
             }
         }
     </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap');
-
-        * {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { 
+            -webkit-font-smoothing: antialiased; 
+        }
+        
+        ::-webkit-scrollbar { 
+            width: 5px; 
+        }
+        
+        ::-webkit-scrollbar-thumb { 
+            background: rgba(59, 130, 246, 0.5); 
+            border-radius: 10px; 
         }
 
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+        /* ===== CORPO E MAIN TRANSPARENTES ===== */
+        body {
+            background: transparent !important;
+            font-family: 'Inter', system-ui, sans-serif;
+            color: #1a202c;
+            transition: color 0.3s ease, background 0.3s ease;
+        }
+        body.dark {
+            color: #f1f5f9;
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.03);
-            border-radius: 10px;
+        main {
+            background: transparent !important;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: rgba(59, 130, 246, 0.3);
-            border-radius: 10px;
+        /* ===== FUNDO PRINCIPAL DA ÁREA DE CONTEÚDO (#view) ===== */
+        #view {
+            background: #f0f2f5;
+            min-height: 100%;
+            transition: background 0.3s ease;
+            padding: 1rem;
+        }
+        #view.dark {
+            background: #0a0c10;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(59, 130, 246, 0.5);
+        /* ===== OS CONTAINERS DAS PÁGINAS NÃO TÊM FUNDO PRÓPRIO ===== */
+        #view .container,
+        #view .container-fluid,
+        #view .pagina-container {
+            background: transparent !important;
         }
 
-        .sidebar-glass {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        /* ===== SIDEBAR ===== */
+        .sidebar-glass { 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(12px); 
+            border-right: 1px solid #e2e8f0;
         }
-
-        .dark .sidebar-glass {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        
+        .dark .sidebar-glass { 
+            background: rgba(15, 23, 42, 0.98); 
+            border-right: 1px solid #1e293b;
         }
 
         .menu-btn {
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.75rem;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+        .dark .menu-btn {
+            color: #94a3b8;
+        }
+        .menu-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: #0f172a;
+        }
+        .dark .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #f1f5f9;
         }
 
-        .menu-btn::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 0;
-            height: 100%;
-            background: linear-gradient(120deg, rgba(59, 130, 246, 0.08), transparent);
-            transition: width 0.35s ease;
-        }
-
-        .menu-btn:hover::before {
-            width: 100%;
-        }
-
-        .menu-btn .menu-icon {
-            transition: all 0.3s ease;
-        }
-
-        .menu-btn:hover .menu-icon {
-            transform: scale(1.1);
-        }
-
-        .menu-btn-active {
-            background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+        .menu-btn-active { 
+            background: linear-gradient(135deg, #3b82f6, #2563eb) !important; 
             color: white !important;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
-
-        .dark .menu-btn-active {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
-        }
-
-        .menu-btn-active .menu-icon {
+        .menu-btn-active:hover {
             color: white !important;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
         }
 
-        .menu-btn-active::before {
-            display: none;
-        }
-
-        .tutorial-img {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .tutorial-img:hover {
-            transform: scale(1.01);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15);
-        }
-
+        /* ===== MODAL DE IMAGENS ===== */
         .image-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            z-index: 9999;
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(20px); 
+            z-index: 9999; 
             display: none;
-            align-items: center;
+            align-items: center; 
             justify-content: center;
         }
-
-        .image-modal.active {
-            display: flex;
+        
+        .image-modal.active { 
+            display: flex; 
         }
 
-        .loader-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(59, 130, 246, 0.15);
-            border-top-color: #3b82f6;
+        .side-arrow {
+            position: fixed; 
+            top: 50%; 
+            transform: translateY(-50%);
+            width: 64px; 
+            height: 64px; 
+            display: none;
+            align-items: center; 
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08); 
+            color: white; 
             border-radius: 50%;
-            animation: spin 0.8s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 24px; 
+            z-index: 10001; 
+            user-select: none;
+            backdrop-filter: blur(8px);
+        }
+        
+        .side-arrow:hover { 
+            background: #3b82f6; 
+            border-color: #3b82f6; 
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .side-arrow:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        
+        .side-arrow.prev { 
+            left: 30px; 
+        }
+        
+        .side-arrow.next { 
+            right: 30px; 
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
+        @media (max-width: 768px) {
+            .side-arrow { 
+                width: 48px; 
+                height: 48px; 
+                font-size: 18px; 
+            }
+            .side-arrow.prev { 
+                left: 12px; 
+            }
+            .side-arrow.next { 
+                right: 12px; 
             }
         }
 
-        .tutorial-card {
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(203, 213, 225, 0.3);
+        /* ===== LOADER ===== */
+        .loader-spinner {
+            width: 40px; 
+            height: 40px; 
+            border: 3px solid rgba(59, 130, 246, 0.1);
+            border-top-color: #3b82f6; 
+            border-radius: 50%; 
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
         }
 
-        .tutorial-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12);
-            border-color: rgba(59, 130, 246, 0.2);
-        }
-
-        .dark .tutorial-card {
-            border-color: rgba(51, 65, 85, 0.4);
-        }
-
-        .dark .tutorial-card:hover {
-            border-color: rgba(59, 130, 246, 0.25);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
-        }
-
-        .section-badge {
-            display: inline-flex;
+        /* ===== PLACEHOLDER PARA IMAGENS ===== */
+        .img-placeholder {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            color: #475569;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.35rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            background: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
+            justify-content: center;
+            font-size: 14px;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 150px;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .dark .section-badge {
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
+        .dark .img-placeholder {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #94a3b8;
         }
 
-        .section-badge.ferramentas {
-            background: rgba(245, 158, 11, 0.1);
-            color: #d97706;
+        /* ===== ESTILOS PADRÃO PARA O CONTEÚDO DAS PÁGINAS (fallback) ===== */
+        .pagina-container {
+            animation: fadeIn 0.3s ease-out;
         }
 
-        .dark .section-badge.ferramentas {
-            background: rgba(245, 158, 11, 0.15);
-            color: #fbbf24;
+        .pagina-container h1, 
+        .pagina-container h2, 
+        .pagina-container h3 {
+            color: #0f172a;
         }
 
-        .section-badge.manual {
-            background: rgba(139, 92, 246, 0.1);
-            color: #7c3aed;
+        .dark .pagina-container h1, 
+        .dark .pagina-container h2, 
+        .dark .pagina-container h3 {
+            color: #f1f5f9;
         }
 
-        .dark .section-badge.manual {
-            background: rgba(139, 92, 246, 0.15);
-            color: #a78bfa;
+        .pagina-container p, 
+        .pagina-container li {
+            color: #475569;
         }
 
-        .section-badge.relatorios {
-            background: rgba(16, 185, 129, 0.1);
-            color: #059669;
+        .dark .pagina-container p, 
+        .dark .pagina-container li {
+            color: #cbd5e1;
         }
 
-        .dark .section-badge.relatorios {
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
+        .pagina-container .card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
         }
 
-        .step-card {
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
+        .dark .pagina-container .card {
+            background: #1e293b;
+            border: 1px solid #334155;
         }
 
-        .step-card:nth-child(1) { animation-delay: 0.05s; }
-        .step-card:nth-child(2) { animation-delay: 0.1s; }
-        .step-card:nth-child(3) { animation-delay: 0.15s; }
-        .step-card:nth-child(4) { animation-delay: 0.2s; }
-        .step-card:nth-child(5) { animation-delay: 0.25s; }
-        .step-card:nth-child(6) { animation-delay: 0.3s; }
-        .step-card:nth-child(7) { animation-delay: 0.35s; }
-        .step-card:nth-child(8) { animation-delay: 0.4s; }
-
-        .search-input:focus {
+        .pagina-container .card:hover {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
-        .dark .search-input:focus {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        .dark .pagina-container .card:hover {
+            border-color: #60a5fa;
         }
 
-        .gradient-text {
-            background: linear-gradient(135deg, #1e293b, #475569);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .pagina-container .badge {
+            background: #e2e8f0;
+            color: #475569;
         }
 
-        .dark .gradient-text {
-            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .dark .pagina-container .badge {
+            background: #334155;
+            color: #cbd5e1;
         }
 
-        @media (max-width: 1024px) {
-            .sidebar-glass {
-                transform: translateX(-100%);
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
+        .pagina-container .divider {
+            border-color: #e2e8f0;
+        }
 
-            .sidebar-glass.open {
-                transform: translateX(0);
-            }
+        .dark .pagina-container .divider {
+            border-color: #334155;
+        }
+
+        .pagina-container .tutorial-img {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pagina-container .tutorial-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .pagina-container .tutorial-img:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .pagina-container code {
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        .dark .pagina-container code {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .pagina-container .step-number {
+            background: #3b82f6;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* ===== BORDA DO RODAPÉ DE NAVEGAÇÃO ===== */
+        .pagina-nav {
+            border-color: #e2e8f0 !important;
+        }
+        .dark .pagina-nav {
+            border-color: #334155 !important;
+        }
+
+        /* ===== ANIMAÇÃO ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 
-<body
-    class="bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 h-screen flex flex-col overflow-hidden transition-colors duration-300 font-sans">
+<body class="h-screen flex flex-col overflow-hidden transition-colors duration-300">
 
-    <!-- Header -->
-    <header
-        class="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 px-6 h-14 flex items-center justify-between z-50 shrink-0 shadow-sm">
+    <!-- HEADER -->
+    <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-6 h-14 flex items-center justify-between z-50 transition-colors duration-300">
         <div class="flex items-center gap-3">
-            <button onclick="toggleMenu()"
-                class="lg:hidden p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+            <button onclick="toggleMenu()" class="lg:hidden p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
                 <i class="fas fa-bars text-lg"></i>
             </button>
-            <div class="h-6 w-0.5 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full hidden sm:block"></div>
-            <div>
-                <span class="font-bold text-sm tracking-wider uppercase gradient-text">BWS Utilitarios · Central de Ajuda</span>
-                <span class="text-[10px] text-slate-400 dark:text-slate-500 block -mt-0.5 hidden sm:block">Suporte Técnico</span>
-            </div>
+            <div class="h-6 w-1 bg-blue-500 rounded-full"></div>
+            <span class="font-bold text-sm uppercase tracking-widest text-slate-700 dark:text-slate-200">BWS Utilitários</span>
         </div>
-
-        <div class="flex items-center gap-2">
-            <div class="hidden md:flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                <span>Online</span>
-            </div>
-            <button onclick="toggleDarkMode()"
-                class="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-amber-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-sm border border-slate-200/50 dark:border-slate-700/50">
-                <i id="dark-icon" class="fas fa-moon text-xs"></i>
-            </button>
-        </div>
+        <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all hover:scale-105 hover:bg-slate-200 dark:hover:bg-slate-700">
+            <i id="dark-icon" class="fas fa-moon text-slate-600 dark:text-amber-400"></i>
+        </button>
     </header>
 
     <div class="flex flex-1 overflow-hidden relative">
-
-        <!-- Sidebar -->
-        <aside id="sidebar"
-            class="fixed inset-y-0 left-0 z-40 w-72 sidebar-glass border-r border-slate-200/40 dark:border-slate-800/40 transform -translate-x-full transition-transform duration-300 lg:relative lg:translate-x-0 flex flex-col shadow-xl lg:shadow-none">
-
-            <div class="p-4 border-b border-slate-200/40 dark:border-slate-800/40">
-                <div class="relative">
-                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                    <input type="text" id="busca" onkeyup="filtrarMenu()" placeholder="Buscar documentação..."
-                        class="search-input w-full pl-9 pr-3 py-2 bg-slate-100/70 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none transition-all dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500">
-                </div>
+        
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="z-40 w-72 sidebar-glass lg:relative lg:translate-x-0 fixed inset-y-0 transform -translate-x-full transition-transform duration-300 flex flex-col">
+            <div class="p-4">
+                <input type="text" id="busca" onkeyup="filtrarMenu()" placeholder="Buscar tutorial..." class="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-sm focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-slate-900 dark:text-slate-100">
             </div>
 
-            <nav class="flex-1 overflow-y-auto p-2 space-y-0.5" id="menu-items">
-                <!-- Conectividade -->
-                <div class="px-3 pt-3 pb-1.5 flex items-center gap-2">
-                    <span class="section-badge"><i class="fas fa-wifi text-[10px]"></i> Conectividade</span>
+            <nav class="flex-1 overflow-y-auto p-3 space-y-5">
+                <!-- CONECTIVIDADE -->
+                <div>
+                    <span class="px-2 text-[10px] font-extrabold text-blue-500 uppercase tracking-widest">Conectividade</span>
+                    <div class="mt-2 space-y-1">
+                        <button onclick="carregarPagina('configuracao-apn', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-network-wired w-4 opacity-50"></i> Configurar APN</button>
+                        <button onclick="carregarPagina('analiselinha', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-chart-line w-4 opacity-50"></i> Análise de Linha</button>
+                        <button onclick="carregarPagina('expip', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-globe w-4 opacity-50"></i> Explicação sobre IP</button>
+                    </div>
                 </div>
-                <button onclick="carregarPagina('configuracao-apn.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-network-wired text-slate-400 group-hover:text-blue-500 text-sm w-4 text-center"></i>
-                    <span>Configurar APN</span>
-                </button>
 
-                <button onclick="carregarPagina('analiselinha.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-chart-line text-slate-400 group-hover:text-blue-500 text-sm w-4 text-center"></i>
-                    <span>Análise de Linha</span>
-                </button>
-
-                <button onclick="carregarPagina('expip.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-globe text-slate-400 group-hover:text-blue-500 text-sm w-4 text-center"></i>
-                    <span>Explicação sobre IP</span>
-                </button>
-
-                <!-- Ferramentas -->
-                <div class="px-3 pt-4 pb-1.5 flex items-center gap-2">
-                    <span class="section-badge ferramentas"><i class="fas fa-tools text-[10px]"></i> Ferramentas</span>
+                <!-- FERRAMENTAS -->
+                <div>
+                    <span class="px-2 text-[10px] font-extrabold text-amber-500 uppercase tracking-widest">Ferramentas</span>
+                    <div class="mt-2 space-y-1">
+                        <button onclick="carregarTutorialCarga(this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-upload w-4 opacity-50"></i> Carga de Reset</button>
+                        <button onclick="carregarPagina('conv2g', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-microchip w-4 opacity-50"></i> Comandos 2G/4G</button>
+                        <button onclick="carregarPagina('convcomandos', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-exchange-alt w-4 opacity-50"></i> Conversor de Comandos</button>
+                        <button onclick="carregarPagina('multiprotocolo', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-project-diagram w-4 opacity-50"></i> Multiprotocolo</button>
+                        <button onclick="carregarPagina('conv4g', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-bolt w-4 opacity-50"></i> Comandos E3+4G</button>
+                        <button onclick="carregarPagina('download', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-download w-4 opacity-50"></i> Downloads</button>
+                        <button onclick="carregarPagina('escala', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-calendar-alt w-4 opacity-50"></i> Escala & Férias</button>
+                    </div>
                 </div>
-                <button onclick="carregarTutorialCarga()"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-upload text-slate-400 group-hover:text-amber-500 text-sm w-4 text-center"></i>
-                    <span>Carga de Reset em Massa</span>
-                </button>
 
-                <button onclick="carregarPagina('conv2g.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-code text-slate-400 group-hover:text-emerald-500 text-sm w-4 text-center"></i>
-                    <span>Comandos E3+2G / E3+4G</span>
-                </button>
-
-                <button onclick="carregarPagina('convcomandos.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-arrows-spin text-slate-400 group-hover:text-purple-500 text-sm w-4 text-center"></i>
-                    <span>Conversor de Comandos</span>
-                </button>
-
-                <button onclick="carregarPagina('multiprotocolo.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-code-branch text-slate-400 group-hover:text-violet-500 text-sm w-4 text-center"></i>
-                    <span>Conversor Multiprotocolo</span>
-                </button>
-
-                <button onclick="carregarPagina('conv4g.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-bolt text-slate-400 group-hover:text-amber-500 text-sm w-4 text-center"></i>
-                    <span>Comandos E3+4G</span>
-                </button>
-
-                    <button onclick="carregarPagina('download.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-bolt text-slate-400 group-hover:text-amber-500 text-sm w-4 text-center"></i>
-                    <span>Pagina Download</span>
-            </button>
-
-                    <button onclick="carregarPagina('escala.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-bolt text-slate-400 group-hover:text-amber-500 text-sm w-4 text-center"></i>
-                    <span>Escala&Ferias</span>
-            </button>
-
-                <!-- Manual de Comandos -->
-                <div class="px-3 pt-4 pb-1.5 flex items-center gap-2">
-                    <span class="section-badge manual"><i class="fas fa-book text-[10px]"></i> Manual de Comandos</span>
+                <!-- MANUAIS -->
+                <div>
+                    <span class="px-2 text-[10px] font-extrabold text-purple-500 uppercase tracking-widest">Manuais</span>
+                    <div class="mt-2 space-y-1">
+                        <button onclick="carregarPagina('manE32G', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-book-open w-4 opacity-50"></i> Manual 2G</button>
+                        <button onclick="carregarPagina('manE34G', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-book-open w-4 opacity-50"></i> Manual 4G</button>
+                    </div>
                 </div>
-                <button onclick="carregarPagina('manE32G.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-book-open text-slate-400 group-hover:text-purple-500 text-sm w-4 text-center"></i>
-                    <span>Manual de Comandos 2G</span>
-                </button>
 
-                    <button onclick="carregarPagina('manE34G.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-book-open text-slate-400 group-hover:text-purple-500 text-sm w-4 text-center"></i>
-                    <span>Manual de Comandos 4G</span>
-                </button>
-
-                <!-- Relatórios -->
-                <div class="px-3 pt-4 pb-1.5 flex items-center gap-2">
-                    <span class="section-badge relatorios"><i class="fas fa-chart-line text-[10px]"></i> Relatórios</span>
-                </div>
-                <button onclick="carregarPagina('rel-linhaoff.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-tower-broadcast text-slate-400 group-hover:text-cyan-500 text-sm w-4 text-center"></i>
-                    <span>Relatório de Linhas Offline</span>
-                </button>
-
-                <button onclick="carregarPagina('rel-linhasbloq.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-ban text-slate-400 group-hover:text-red-500 text-sm w-4 text-center"></i>
-                    <span>Relatório de Linhas Bloqueadas</span>
-                </button>
-
-                <button onclick="carregarPagina('rel-conexoes.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-chart-line text-slate-400 group-hover:text-purple-500 text-sm w-4 text-center"></i>
-                    <span>Relatório de Conexões</span>
-                </button>
-
-                <button onclick="carregarPagina('rel-consumo.html', this)"
-                    class="menu-btn w-full text-left px-4 py-2 text-sm font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-all flex items-center gap-3 group">
-                    <i class="menu-icon fas fa-chart-simple text-slate-400 group-hover:text-emerald-500 text-sm w-4 text-center"></i>
-                    <span>Relatório de Consumo</span>
-                </button>
-
-                <!-- Footer -->
-                <div class="pt-6 pb-3 px-3 mt-auto">
-                    <div class="border-t border-slate-200/40 dark:border-slate-800/40 pt-3">
-                        <p class="text-[10px] text-slate-400 text-center leading-relaxed">
-                            <i class="far fa-copyright"></i> 2025 BWS Utilitarios<br>
-                            <span class="text-[9px] text-slate-400/70">Documentação Técnica v3.0</span>
-                        </p>
+                <!-- RELATÓRIOS -->
+                <div>
+                    <span class="px-2 text-[10px] font-extrabold text-emerald-500 uppercase tracking-widest">Relatórios</span>
+                    <div class="mt-2 space-y-1">
+                        <button onclick="carregarPagina('rel-linhaoff', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-signal w-4 opacity-50"></i> Linhas Offline</button>
+                        <button onclick="carregarPagina('rel-linhasbloq', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-ban w-4 opacity-50"></i> Linhas Bloqueadas</button>
+                        <button onclick="carregarPagina('rel-conexoes', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-link w-4 opacity-50"></i> Conexões</button>
+                        <button onclick="carregarPagina('rel-consumo', this)" class="menu-btn w-full text-left px-3 py-2 text-sm rounded-lg flex items-center gap-3"><i class="fas fa-database w-4 opacity-50"></i> Consumo</button>
                     </div>
                 </div>
             </nav>
         </aside>
 
-        <!-- Overlay para mobile -->
-        <div id="overlay" onclick="toggleMenu()"
-            class="fixed inset-0 bg-slate-950/30 backdrop-blur-sm z-30 hidden lg:hidden transition-all"></div>
+        <!-- OVERLAY -->
+        <div id="overlay" onclick="toggleMenu()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 hidden lg:hidden"></div>
 
-        <!-- Main Content -->
-        <main
-            class="flex-1 overflow-y-auto relative bg-gradient-to-br from-slate-50/60 via-white/40 to-slate-100/30 dark:from-slate-950/40 dark:via-slate-900/30 dark:to-slate-950/20">
-            <div id="loader"
-                class="hidden absolute inset-0 z-20 flex items-center justify-center bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm">
+        <!-- MAIN -->
+        <main class="flex-1 overflow-y-auto relative">
+            <div id="loader" class="hidden absolute inset-0 z-20 flex items-center justify-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm">
                 <div class="loader-spinner"></div>
             </div>
 
-            <div id="view" class="max-w-6xl mx-auto p-6 md:p-8 lg:p-10">
-                <!-- Página inicial -->
-                <div class="flex flex-col items-center justify-center min-h-[65vh] text-center">
-                    <div
-                        class="w-28 h-28 mb-6 rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-950/50 flex items-center justify-center shadow-lg border border-white/20 dark:border-white/5">
-                        <i class="fas fa-life-ring text-5xl text-blue-500 dark:text-blue-400"></i>
+            <!-- ===== #view sem max-w e sem mx-auto ===== -->
+            <div id="view" class="p-4">
+                <div class="flex flex-col items-center justify-center min-h-[60vh] text-center animate-fade-in">
+                    <div class="w-20 h-20 bg-blue-50 dark:bg-blue-900/30 rounded-3xl flex items-center justify-center text-blue-500 mb-6">
+                        <i class="fas fa-life-ring text-3xl"></i>
                     </div>
-                    <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">Central de Ajuda</h2>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm max-w-md">Selecione um tópico no menu lateral para visualizar a documentação completa e tutoriais passo a passo.</p>
-                    <div class="flex flex-wrap gap-2 mt-6 justify-center">
-                        <span class="px-3 py-1.5 bg-slate-100/80 dark:bg-slate-800/60 rounded-full text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
-                            <i class="fas fa-wifi text-blue-400"></i> Conectividade
-                        </span>
-                        <span class="px-3 py-1.5 bg-slate-100/80 dark:bg-slate-800/60 rounded-full text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
-                            <i class="fas fa-tools text-amber-400"></i> Ferramentas
-                        </span>
-                        <span class="px-3 py-1.5 bg-slate-100/80 dark:bg-slate-800/60 rounded-full text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
-                            <i class="fas fa-book text-purple-400"></i> Manual de Comandos
-                        </span>
-                        <span class="px-3 py-1.5 bg-slate-100/80 dark:bg-slate-800/60 rounded-full text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
-                            <i class="fas fa-chart-line text-emerald-400"></i> Relatórios
-                        </span>
-                    </div>
+                    <h2 class="text-3xl font-bold mb-2 text-slate-900 dark:text-slate-100">Central de Ajuda</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm max-w-sm">Bem-vindo! Selecione um dos tópicos ao lado para visualizar a documentação completa.</p>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Modal Global de Imagem -->
-    <div id="imageModal" class="image-modal">
-        <div class="relative max-w-[92vw] max-h-[92vh]">
-            <button id="closeModalBtn"
-                class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-red-500/70 transition-all flex items-center justify-center z-10">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="absolute -top-12 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full text-white text-xs font-medium z-10"
-                id="imageCounter">1/8</div>
-            <img id="modalImage"
-                class="max-w-full max-h-[80vh] rounded-xl shadow-2xl transition-transform duration-200 cursor-zoom-in"
-                src="" alt="Visualização ampliada">
-            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-5 py-2 rounded-full text-white text-sm whitespace-nowrap z-10"
-                id="modalCaption"></div>
-            <button id="prevImageBtn"
-                class="absolute top-1/2 -translate-y-1/2 -left-14 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition-all flex items-center justify-center z-10">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button id="nextImageBtn"
-                class="absolute top-1/2 -translate-y-1/2 -right-14 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition-all flex items-center justify-center z-10">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="absolute top-4 right-4 flex gap-2 z-10">
-                <button id="zoomInBtn"
-                    class="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition-all flex items-center justify-center">
-                    <i class="fas fa-search-plus text-xs"></i>
-                </button>
-                <button id="zoomOutBtn"
-                    class="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition-all flex items-center justify-center">
-                    <i class="fas fa-search-minus text-xs"></i>
-                </button>
-                <button id="resetZoomBtn"
-                    class="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition-all flex items-center justify-center">
-                    <i class="fas fa-sync-alt text-xs"></i>
-                </button>
-            </div>
+    <!-- MODAL DE IMAGEM -->
+    <div id="imageModal" class="image-modal" onclick="fecharModalExterno(event)">
+        <div id="btnPrev" onclick="navegarImagem(-1, event)" class="side-arrow prev">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div id="btnNext" onclick="navegarImagem(1, event)" class="side-arrow next">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        
+        <button onclick="fecharModal()" class="fixed top-6 right-6 text-white/50 hover:text-white text-4xl transition-all z-[10002] hover:scale-110 hover:rotate-90 duration-300">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="flex flex-col items-center gap-6 max-w-[85vw]">
+            <div id="imageCounter" class="text-white/40 text-xs font-mono tracking-widest bg-white/10 px-4 py-1 rounded-full uppercase backdrop-blur-sm border border-white/5"></div>
+            <img id="modalImage" src="" alt="Visualização" class="max-h-[75vh] rounded-xl shadow-2xl border border-white/10 object-contain transition-opacity duration-300" style="transform: scale(1);">
+            <div id="modalCaption" class="text-white/90 text-sm bg-black/50 backdrop-blur-md px-8 py-3 rounded-2xl border border-white/10 text-center max-w-2xl"></div>
         </div>
     </div>
 
     <script>
-        // ==================== FUNÇÃO PARA REMOVER ACENTOS ====================
-        function removerAcentos(texto) {
-            return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        }
-
-        // ==================== VARIÁVEIS GLOBAIS ====================
-        let imagensAtivas = [];
-        let indiceAtual = 0;
+        // ============================================================
+        // 1. DEFINIÇÃO GLOBAL IMEDIATA DE FUNÇÕES USADAS POR PÁGINAS
+        // ============================================================
+        // Estas funções são expostas ao window para serem chamadas via onclick
+        // de elementos carregados dinamicamente.
         let currentZoom = 1;
-        let modalAtivo = false;
+        const ZOOM_STEP = 0.2;
+        const MIN_ZOOM = 0.5;
+        const MAX_ZOOM = 2.5;
 
-        // ==================== TEMA ====================
-        function updateIcon(isDark) {
-            const icon = document.getElementById('dark-icon');
-            if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-        }
-
-        function toggleDarkMode() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            updateIcon(isDark);
-        }
-
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            updateIcon(true);
-        } else {
-            updateIcon(false);
-        }
-
-        // ==================== UI FUNCTIONS ====================
-        function toggleMenu() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('-translate-x-full');
-            overlay.classList.toggle('hidden');
-        }
-
-        // ==================== BUSCA INTELIGENTE ====================
-        function filtrarMenu() {
-            const busca = document.getElementById('busca').value.toLowerCase();
-            const buscaSemAcento = removerAcentos(busca);
-
-            document.querySelectorAll('.menu-btn').forEach(item => {
-                const textoOriginal = item.innerText.toLowerCase();
-                const textoSemAcento = removerAcentos(textoOriginal);
-
-                const corresponde = textoSemAcento.includes(buscaSemAcento) || textoOriginal.includes(busca);
-                item.style.display = corresponde ? 'flex' : 'none';
-            });
-        }
-
-        function resetActiveButtons() {
-            document.querySelectorAll('.menu-btn').forEach(btn => {
-                btn.classList.remove('menu-btn-active');
-                btn.classList.add('text-slate-700', 'dark:text-slate-300');
-            });
-        }
-
-        function setActiveButton(btn) {
-            if (!btn) return;
-            resetActiveButtons();
-            btn.classList.add('menu-btn-active');
-        }
-
-        // ==================== FUNÇÃO PRINCIPAL: INICIALIZAR IMAGENS ====================
-        function inicializarImagensPagina() {
-            const imagens = [];
-            const elementosImagem = document.querySelectorAll('.tutorial-img');
-
-            elementosImagem.forEach((el, idx) => {
-                const img = el.querySelector('img');
-                const caption = el.getAttribute('data-caption') || img?.alt || `Imagem ${idx + 1}`;
-                const imgSrc = el.getAttribute('data-src') || img?.src;
-
-                if (imgSrc && imgSrc !== '') {
-                    imagens.push({ src: imgSrc, caption: caption, element: el });
-                }
-            });
-
-            if (imagens.length === 0) return;
-
-            imagensAtivas = imagens;
-
-            elementosImagem.forEach((el, idx) => {
-                el.removeEventListener('click', handleImageClick);
-                el.addEventListener('click', handleImageClick);
-                el.style.cursor = 'pointer';
-            });
-
-            function handleImageClick(e) {
-                e.stopPropagation();
-                const clickedIndex = Array.from(elementosImagem).indexOf(this);
-                if (clickedIndex !== -1 && clickedIndex < imagensAtivas.length) {
-                    abrirModal(clickedIndex);
-                }
+        // Funções de zoom
+        window.zoomIn = function() {
+            const img = document.getElementById('modalImage');
+            if (!img) return;
+            if (currentZoom < MAX_ZOOM) {
+                currentZoom = Math.min(currentZoom + ZOOM_STEP, MAX_ZOOM);
+                aplicarZoom(img);
             }
-        }
+        };
 
-        // ==================== FUNÇÕES DO MODAL ====================
-        function abrirModal(index) {
-            if (!imagensAtivas.length || index >= imagensAtivas.length) return;
-
-            indiceAtual = index;
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            const modalCaption = document.getElementById('modalCaption');
-            const imageCounter = document.getElementById('imageCounter');
-
-            if (modal && modalImg) {
-                modalImg.src = imagensAtivas[indiceAtual].src;
-                modalCaption.textContent = imagensAtivas[indiceAtual].caption;
-                imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
-
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                modalAtivo = true;
-                resetZoom();
+        window.zoomOut = function() {
+            const img = document.getElementById('modalImage');
+            if (!img) return;
+            if (currentZoom > MIN_ZOOM) {
+                currentZoom = Math.max(currentZoom - ZOOM_STEP, MIN_ZOOM);
+                aplicarZoom(img);
             }
+        };
+
+        window.resetZoom = function() {
+            const img = document.getElementById('modalImage');
+            if (!img) return;
+            currentZoom = 1;
+            aplicarZoom(img);
+        };
+
+        function aplicarZoom(img) {
+            if (!img) return;
+            img.style.transform = `scale(${currentZoom})`;
+            img.style.cursor = currentZoom > 1 ? 'zoom-out' : 'zoom-in';
+            // Atualizar indicador se existir
+            const zoomLevel = document.getElementById('zoomLevel');
+            if (zoomLevel) zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
         }
 
-        function fecharModal() {
+        // Navegação
+        window.navegarImagem = function(dir, e) {
+            if (e) { e.stopPropagation(); e.preventDefault(); }
+            if (typeof imagensAtivas !== 'undefined' && imagensAtivas.length > 1) {
+                indiceAtual = (indiceAtual + dir + imagensAtivas.length) % imagensAtivas.length;
+                if (typeof atualizarModal === 'function') atualizarModal();
+            }
+        };
+
+        window.fecharModal = function() {
             const modal = document.getElementById('imageModal');
             if (modal) {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
-                modalAtivo = false;
-                resetZoom();
             }
-        }
+        };
 
-        function imagemAnterior() {
-            if (imagensAtivas.length === 0) return;
-            indiceAtual = (indiceAtual - 1 + imagensAtivas.length) % imagensAtivas.length;
-            const modalImg = document.getElementById('modalImage');
-            const modalCaption = document.getElementById('modalCaption');
-            const imageCounter = document.getElementById('imageCounter');
+        window.fecharModalExterno = function(e) {
+            if (e.target.id === 'imageModal') window.fecharModal();
+        };
 
-            modalImg.src = imagensAtivas[indiceAtual].src;
-            modalCaption.textContent = imagensAtivas[indiceAtual].caption;
-            imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
-            resetZoom();
-        }
-
-        function imagemProxima() {
-            if (imagensAtivas.length === 0) return;
-            indiceAtual = (indiceAtual + 1) % imagensAtivas.length;
-            const modalImg = document.getElementById('modalImage');
-            const modalCaption = document.getElementById('modalCaption');
-            const imageCounter = document.getElementById('imageCounter');
-
-            modalImg.src = imagensAtivas[indiceAtual].src;
-            modalCaption.textContent = imagensAtivas[indiceAtual].caption;
-            imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
-            resetZoom();
-        }
-
-        function zoomIn() { currentZoom = Math.min(currentZoom + 0.2, 2.5); aplicarZoom(); }
-        function zoomOut() { currentZoom = Math.max(currentZoom - 0.2, 0.5); aplicarZoom(); }
-        function resetZoom() { currentZoom = 1; aplicarZoom(); }
-        function aplicarZoom() {
-            const modalImg = document.getElementById('modalImage');
-            if (modalImg) {
-                modalImg.style.transform = `scale(${currentZoom})`;
-                modalImg.style.cursor = currentZoom > 1 ? 'zoom-out' : 'zoom-in';
+        window.abrirModalPorImagem = function(element) {
+            const img = element.querySelector('img');
+            if (img) {
+                const src = img.src;
+                const caption = img.alt || 'Imagem';
+                let idx = imagensAtivas.findIndex(d => d.src === src);
+                if (idx === -1) {
+                    imagensAtivas.push({ src, caption });
+                    idx = imagensAtivas.length - 1;
+                }
+                abrirModal(idx);
             }
-        }
-        function toggleZoom() {
-            if (currentZoom === 1) currentZoom = 1.8;
-            else currentZoom = 1;
-            aplicarZoom();
+        };
+
+        // ============================================================
+        // 2. CONFIGURAÇÕES GLOBAIS
+        // ============================================================
+        let imagensAtivas = [];
+        let indiceAtual = 0;
+        let paginaAtualIndex = -1;
+
+        const paginas = [
+            { id: 'configuracao-apn', label: 'Configurar APN' },
+            { id: 'analiselinha', label: 'Análise de Linha' },
+            { id: 'expip', label: 'Explicação sobre IP' },
+            { id: 'carga-reset', label: 'Carga de Reset', special: true },
+            { id: 'conv2g', label: 'Comandos 2G/4G' },
+            { id: 'convcomandos', label: 'Conversor de Comandos' },
+            { id: 'multiprotocolo', label: 'Multiprotocolo' },
+            { id: 'conv4g', label: 'Comandos E3+4G' },
+            { id: 'download', label: 'Downloads' },
+            { id: 'escala', label: 'Escala & Férias' },
+            { id: 'manE32G', label: 'Manual 2G' },
+            { id: 'manE34G', label: 'Manual 4G' },
+            { id: 'rel-linhaoff', label: 'Linhas Offline' },
+            { id: 'rel-linhasbloq', label: 'Linhas Bloqueadas' },
+            { id: 'rel-conexoes', label: 'Conexões' },
+            { id: 'rel-consumo', label: 'Consumo' }
+        ];
+
+        // ============================================================
+        // 3. TEMA
+        // ============================================================
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeUI(isDark);
+            document.dispatchEvent(new CustomEvent('themeChanged', { detail: { isDark } }));
+            aplicarTemaNaPagina();
         }
 
-        // ==================== CARREGAR PÁGINAS ====================
-        function carregarPagina(pagina, btn) {
+        function updateThemeUI(isDark) {
+            const icon = document.getElementById('dark-icon');
+            if (icon) icon.className = isDark ? 'fas fa-sun text-amber-400' : 'fas fa-moon text-slate-600';
+        }
+
+        function aplicarTemaNaPagina() {
+            const isDark = document.documentElement.classList.contains('dark');
             const view = document.getElementById('view');
+            if (!view) return;
+
+            view.classList.toggle('dark', isDark);
+            document.body.classList.toggle('dark', isDark);
+
+            const seletores = [
+                '.pagina-container', '.container', '.container-fluid',
+                '.step-card', '.hero-section', '.summary-card', '.footer-modern',
+                '.card', '.badge', '.code-block', '.info-box', '.badge-tip'
+            ];
+            seletores.forEach(sel => {
+                view.querySelectorAll(sel).forEach(el => {
+                    el.classList.toggle('dark', isDark);
+                });
+            });
+
+            document.dispatchEvent(new CustomEvent('themeChanged', { detail: { isDark } }));
+        }
+
+        // ============================================================
+        // 4. MENU
+        // ============================================================
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay?.classList.toggle('hidden');
+        }
+
+        function filtrarMenu() {
+            const termo = document.getElementById('busca').value.toLowerCase();
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.style.display = btn.innerText.toLowerCase().includes(termo) ? 'flex' : 'none';
+            });
+        }
+
+        // ============================================================
+        // 5. CARREGAR PÁGINAS
+        // ============================================================
+        function carregarPagina(id, btn) {
             const loader = document.getElementById('loader');
             loader.classList.remove('hidden');
+            imagensAtivas = [];
 
-            setActiveButton(btn);
+            document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('menu-btn-active'));
+            if (btn) btn.classList.add('menu-btn-active');
+            
+            paginaAtualIndex = paginas.findIndex(p => p.id === id);
             if (window.innerWidth < 1024) toggleMenu();
 
-            fetch(pagina)
-                .then(r => r.ok ? r.text() : Promise.reject())
+            fetch(`${id}.html`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Página não encontrada');
+                    return res.text();
+                })
                 .then(html => {
-                    view.innerHTML = `<div class="animate-fade-in">${html}</div>`;
-                    window.scrollTo(0, 0);
-                    setTimeout(() => {
-                        inicializarImagensPagina();
-                    }, 100);
+                    document.getElementById('view').innerHTML = `<div class="pagina-container animate-fade-in">${html}</div>`;
+                    finalizarCarga(id);
+                    aplicarTemaNaPagina();
                 })
                 .catch(() => {
-                    view.innerHTML = `<div class="flex flex-col items-center justify-center min-h-[50vh] text-center p-8">
-                        <i class="fas fa-file-alt text-6xl text-slate-300 dark:text-slate-700 mb-4"></i>
-                        <h3 class="text-xl font-semibold text-slate-700 dark:text-slate-300">Página não encontrada</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">O arquivo "${pagina}" não foi localizado.<br>Verifique se ele existe no diretório correto.</p>
-                    </div>`;
+                    document.getElementById('view').innerHTML = `
+                        <div class="pagina-container flex flex-col items-center justify-center min-h-[60vh] text-center">
+                            <div class="w-20 h-20 bg-red-50 dark:bg-red-900/30 rounded-3xl flex items-center justify-center text-red-500 mb-6">
+                                <i class="fas fa-exclamation-triangle text-3xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-slate-100">Página não encontrada</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm">O conteúdo solicitado está em manutenção ou não existe.</p>
+                        </div>
+                    `;
+                    aplicarTemaNaPagina();
                 })
                 .finally(() => loader.classList.add('hidden'));
         }
 
-        function carregarTutorialCarga() {
-            const view = document.getElementById('view');
-            const loader = document.getElementById('loader');
-            loader.classList.remove('hidden');
-
-            const btns = document.querySelectorAll('.menu-btn');
-            let targetBtn = null;
-            for (let btn of btns) {
-                if (btn.innerText.includes('Carga de Reset em Massa')) {
-                    targetBtn = btn;
-                    break;
-                }
-            }
-            setActiveButton(targetBtn);
+        // ============================================================
+        // 6. TUTORIAL CARGA (8 PASSOS)
+        // ============================================================
+        function carregarTutorialCarga(btn) {
+            imagensAtivas = [];
+            document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('menu-btn-active'));
+            if (btn) btn.classList.add('menu-btn-active');
+            paginaAtualIndex = paginas.findIndex(p => p.id === 'carga-reset');
             if (window.innerWidth < 1024) toggleMenu();
 
-            view.innerHTML = `<div class="animate-fade-in" id="tutorialContainer"></div>`;
-            const container = document.getElementById('tutorialContainer');
-            if (container) {
-                container.innerHTML = gerarTutorialHTML();
-            }
+            const passos = [
+                { t: "Passo 1: Carregar o arquivo CSV", d: "Na tela principal, clique na área de upload ou arraste o arquivo CSV." },
+                { t: "Passo 2: Escolher o identificador", d: "Selecione ICCID (código do chip) ou MSISDN (número do telefone)." },
+                { t: "Passo 3: Escolher o tipo de saída", d: "Três formatos: Sem sufixo (BWS), Ponto e vírgula (Comtele), Com vírgula." },
+                { t: "Passo 4: Captura do nome da empresa", d: "O sistema lê a segunda linha da primeira coluna para extrair o nome da empresa." },
+                { t: "Passo 5: Visualizar registros", d: "Preview dos registros extraídos com estatísticas." },
+                { t: "Passo 6: Dividir CSV em partes", d: "Arquivos grandes podem ser divididos em lotes menores." },
+                { t: "Passo 7: Exportar CSV (ZIP)", d: "Compacte todos os arquivos em um ZIP." },
+                { t: "Passo 8: Arquivos extraídos", d: "Após extrair, você terá os CSVs divididos." }
+            ];
 
-            loader.classList.add('hidden');
-
-            setTimeout(() => {
-                inicializarImagensPagina();
-            }, 100);
-        }
-
-        function gerarTutorialHTML() {
-            return `
-                <div class="space-y-6">
-                    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white shadow-xl mb-8">
-                        <div class="relative z-10">
-                            <h1 class="text-3xl md:text-4xl font-bold mb-3 flex items-center gap-2">
-                                <i class="fas fa-upload"></i> Carga de Reset em Massa
-                            </h1>
-                            <p class="text-blue-100 text-base">Formate e processe arquivos CSV para ativação em lote na plataforma BWS Utilitarios.</p>
-                        </div>
+            let html = `
+                <div class="pagina-container animate-fade-in space-y-8">
+                    <div class="bg-blue-600 dark:bg-blue-700 p-8 rounded-3xl text-white shadow-lg transition-colors duration-300">
+                        <h1 class="text-3xl font-bold mb-2">Carga de Reset em Massa</h1>
+                        <p class="opacity-80">Guia passo a passo para processamento de lotes.</p>
                     </div>
-
-                    ${gerarCardImagem(1, 'Passo 1: Carregar o arquivo CSV', 'imagens/carregaCSV/TelaCarregaCSV1.png', 'Na tela principal, clique na área de upload ou arraste o arquivo CSV.')}
-                    ${gerarCardImagem(2, 'Passo 2: Escolher o identificador', 'imagens/carregaCSV/TelaCarregaCSV2.png', 'Selecione ICCID (código do chip) ou MSISDN (número do telefone).')}
-                    ${gerarCardImagem(3, 'Passo 3: Escolher o tipo de saída', 'imagens/carregaCSV/TelaCarregaCSV3.png', 'Três formatos: Sem sufixo (BWS), Ponto e vírgula (Comtele), Com vírgula (consultas).')}
-                    ${gerarCardImagem(4, 'Passo 4: Captura do nome da empresa', 'imagens/carregaCSV/TelaCarregaCSV4.png', 'O sistema lê a segunda linha da primeira coluna para extrair o nome da empresa.')}
-                    ${gerarCardImagem(5, 'Passo 5: Visualizar registros', 'imagens/carregaCSV/TelaCarregaCSV5.png', 'Preview dos registros extraídos com estatísticas.')}
-                    ${gerarCardImagem(6, 'Passo 6: Dividir CSV em partes', 'imagens/carregaCSV/TelaCarregaCSV6.png', 'Arquivos grandes podem ser divididos em lotes menores.')}
-                    ${gerarCardImagem(7, 'Passo 7: Exportar CSV (ZIP)', 'imagens/carregaCSV/TelaCarregaCSV7.png', 'Compacte todos os arquivos em um ZIP.')}
-                    ${gerarCardImagem(8, 'Passo 8: Arquivos extraídos', 'imagens/carregaCSV/TelaCarregaCSV8.png', 'Após extrair, você terá os CSVs divididos.')}
-                </div>
+                    <div class="grid gap-6 sm:grid-cols-2">
             `;
-        }
-
-        function gerarCardImagem(numero, titulo, imgSrc, descricao) {
-            return `
-                <div class="tutorial-card bg-white dark:bg-slate-900/60 rounded-2xl overflow-hidden shadow-sm">
-                    <div class="p-6">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">${numero}</div>
-                            <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100">${titulo}</h2>
+            
+            passos.forEach((p, i) => {
+                const imgPath = `imagens/carregaCSV/TelaCarregaCSV${i+1}.png`;
+                html += `
+                    <div class="card rounded-2xl p-5 transition-all duration-300 hover:shadow-lg">
+                        <h3 class="font-bold text-sm mb-4 flex items-center gap-3">
+                            <span class="step-number">${i+1}</span> 
+                            <span class="text-slate-900 dark:text-slate-100">${p.t}</span>
+                        </h3>
+                        <div class="bg-white dark:bg-slate-950 rounded-xl p-3 border border-slate-200 dark:border-slate-800 mb-4 tutorial-img transition-all duration-300" 
+                             data-caption="${p.t}: ${p.d}">
+                            <img src="${imgPath}" 
+                                 alt="${p.t}" 
+                                 class="mx-auto rounded-lg w-full h-44 object-contain transition-opacity duration-300" 
+                                 onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'><i class=\\'fas fa-image text-2xl\\'></i><span>Imagem ${i+1} indisponível</span></div>'">
                         </div>
-                        <div class="tutorial-img bg-slate-50 dark:bg-slate-800/40 rounded-xl p-4 mb-4" data-src="${imgSrc}" data-caption="${titulo}">
-                            <img src="${imgSrc}" alt="${titulo}" class="mx-auto rounded-lg max-h-72 w-auto object-contain" 
-                                 onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'p-12 text-center text-slate-400\\'><i class=\\'fas fa-image fa-3x mb-2\\'></i><br>📁 ${imgSrc}</div>'">
-                            <div class="text-center mt-2 text-xs text-slate-400">
-                                <i class="fas fa-hand-pointer"></i> Clique na imagem para expandir
-                            </div>
-                        </div>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm">${descricao}</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">${p.d}</p>
                     </div>
-                </div>
-            `;
+                `;
+            });
+
+            html += `</div></div>`;
+            document.getElementById('view').innerHTML = html;
+            finalizarCarga('carga-reset');
+            aplicarTemaNaPagina();
         }
 
-        // ==================== EVENTOS GLOBAIS ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            const closeBtn = document.getElementById('closeModalBtn');
-            const prevBtn = document.getElementById('prevImageBtn');
-            const nextBtn = document.getElementById('nextImageBtn');
-            const zoomInBtn = document.getElementById('zoomInBtn');
-            const zoomOutBtn = document.getElementById('zoomOutBtn');
-            const resetZoomBtn = document.getElementById('resetZoomBtn');
+        // ============================================================
+        // 7. FINALIZAR CARGA
+        // ============================================================
+        function finalizarCarga(pageId) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            mapearImagens();
+            gerarRodape(pageId);
+        }
+
+        // ============================================================
+        // 8. MAPEAR IMAGENS
+        // ============================================================
+        function mapearImagens() {
+            imagensAtivas = [];
+            const view = document.getElementById('view');
+            if (!view) return;
+
+            const imagens = view.querySelectorAll('img:not(.no-modal)');
+            imagens.forEach((img) => {
+                let src = img.src || '';
+                if (!src || src.includes('undefined') || src.includes('null') || src === '') return;
+
+                let caption = img.alt || 'Imagem';
+                const parent = img.closest('[data-caption]');
+                if (parent) caption = parent.getAttribute('data-caption');
+
+                imagensAtivas.push({ src, caption });
+                img.style.cursor = 'pointer';
+                img.onclick = (e) => {
+                    e.stopPropagation();
+                    const idx = imagensAtivas.findIndex(d => d.src === src);
+                    if (idx !== -1) abrirModal(idx);
+                };
+            });
+
+            document.querySelectorAll('.tutorial-img').forEach(el => {
+                el.style.cursor = 'pointer';
+                el.onclick = function() {
+                    const img = this.querySelector('img');
+                    if (img) {
+                        const idx = imagensAtivas.findIndex(d => d.src === img.src);
+                        if (idx !== -1) abrirModal(idx);
+                    }
+                };
+            });
+        }
+
+        // ============================================================
+        // 9. MODAL
+        // ============================================================
+        function abrirModal(index) {
+            if (imagensAtivas.length === 0) return;
+            if (index < 0 || index >= imagensAtivas.length) index = 0;
+            indiceAtual = index;
+            atualizarModal();
+            document.getElementById('imageModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            const hasMore = imagensAtivas.length > 1;
+            document.getElementById('btnPrev').style.display = hasMore ? 'flex' : 'none';
+            document.getElementById('btnNext').style.display = hasMore ? 'flex' : 'none';
+            // Reset zoom ao abrir
+            window.resetZoom();
+        }
+
+        function atualizarModal() {
+            if (imagensAtivas.length === 0) return;
+            const data = imagensAtivas[indiceAtual];
             const modalImg = document.getElementById('modalImage');
-            const modalBg = document.getElementById('imageModal');
+            const caption = document.getElementById('modalCaption');
+            const counter = document.getElementById('imageCounter');
+            if (data && data.src) {
+                modalImg.style.opacity = '0.5';
+                const img = new Image();
+                img.onload = function() {
+                    modalImg.src = data.src;
+                    modalImg.style.opacity = '1';
+                    modalImg.style.display = 'block';
+                    // Reset zoom após trocar imagem
+                    window.resetZoom();
+                };
+                img.onerror = function() {
+                    modalImg.style.display = 'none';
+                    caption.innerHTML = '<span class="text-red-400">⚠️ Imagem não disponível</span>';
+                };
+                img.src = data.src;
+                caption.innerText = data.caption || '';
+                counter.innerText = `${indiceAtual + 1} / ${imagensAtivas.length}`;
+            }
+        }
 
-            if (closeBtn) closeBtn.addEventListener('click', fecharModal);
-            if (prevBtn) prevBtn.addEventListener('click', imagemAnterior);
-            if (nextBtn) nextBtn.addEventListener('click', imagemProxima);
-            if (zoomInBtn) zoomInBtn.addEventListener('click', zoomIn);
-            if (zoomOutBtn) zoomOutBtn.addEventListener('click', zoomOut);
-            if (resetZoomBtn) resetZoomBtn.addEventListener('click', resetZoom);
-            if (modalImg) modalImg.addEventListener('click', toggleZoom);
-            if (modalBg) modalBg.addEventListener('click', (e) => { if (e.target === modalBg) fecharModal(); });
+        // ============================================================
+        // 10. RODAPÉ
+        // ============================================================
+        function gerarRodape() {
+            const view = document.getElementById('view');
+            const oldNav = view.querySelector('.pagina-nav');
+            if (oldNav) oldNav.remove();
+
+            const prev = paginas[paginaAtualIndex - 1];
+            const next = paginas[paginaAtualIndex + 1];
+
+            const nav = document.createElement('div');
+            nav.className = 'pagina-nav mt-16 pt-8 border-t flex justify-between items-center transition-colors duration-300';
+            nav.innerHTML = `
+                <div>${prev ? `<button onclick="navegarPagina(${paginaAtualIndex - 1})" class="text-xs font-bold text-slate-400 hover:text-blue-500 dark:text-slate-500 dark:hover:text-blue-400 transition-all hover:scale-105">← ${prev.label.toUpperCase()}</button>` : '<span></span>'}</div>
+                <div class="text-[10px] font-mono text-slate-400 dark:text-slate-500">${paginaAtualIndex + 1} / ${paginas.length}</div>
+                <div>${next ? `<button onclick="navegarPagina(${paginaAtualIndex + 1})" class="text-xs font-bold text-slate-400 hover:text-blue-500 dark:text-slate-500 dark:hover:text-blue-400 transition-all hover:scale-105">${next.label.toUpperCase()} →</button>` : '<span></span>'}</div>
+            `;
+            view.appendChild(nav);
+        }
+
+        function navegarPagina(idx) {
+            if (idx < 0 || idx >= paginas.length) return;
+            const p = paginas[idx];
+            const b = Array.from(document.querySelectorAll('.menu-btn')).find(el => {
+                const label = el.innerText.trim();
+                return label === p.label || label.includes(p.label);
+            });
+            if (p.special) carregarTutorialCarga(b || document.querySelector('.menu-btn'));
+            else carregarPagina(p.id, b || document.querySelector('.menu-btn'));
+        }
+
+        // ============================================================
+        // 11. INICIALIZAÇÃO
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            updateThemeUI(isDark);
+            aplicarTemaNaPagina();
 
             document.addEventListener('keydown', (e) => {
-                if (!modalAtivo) return;
-                if (e.key === 'Escape') fecharModal();
-                if (e.key === 'ArrowLeft') imagemAnterior();
-                if (e.key === 'ArrowRight') imagemProxima();
-                if (e.key === '+') zoomIn();
-                if (e.key === '-') zoomOut();
-                if (e.key === '0') resetZoom();
+                const modal = document.getElementById('imageModal');
+                if (!modal.classList.contains('active')) return;
+                if (e.key === 'Escape') window.fecharModal();
+                if (e.key === 'ArrowLeft') window.navegarImagem(-1, e);
+                if (e.key === 'ArrowRight') window.navegarImagem(1, e);
+                if (e.key === '+') window.zoomIn();
+                if (e.key === '-') window.zoomOut();
+                if (e.key === '0') window.resetZoom();
             });
+
+            // Adicionar evento de clique para zoom na imagem (toggle)
+            const modalImg = document.getElementById('modalImage');
+            if (modalImg) {
+                modalImg.addEventListener('click', function() {
+                    if (currentZoom === 1) window.zoomIn();
+                    else window.resetZoom();
+                });
+            }
         });
 
-        // Expor funções globalmente
+        // ============================================================
+        // 12. EXPORTA FUNÇÕES GLOBAIS
+        // ============================================================
         window.carregarPagina = carregarPagina;
         window.carregarTutorialCarga = carregarTutorialCarga;
         window.toggleMenu = toggleMenu;
         window.toggleDarkMode = toggleDarkMode;
         window.filtrarMenu = filtrarMenu;
+        window.navegarPagina = navegarPagina;
+        window.aplicarTemaNaPagina = aplicarTemaNaPagina;
+        // As funções de zoom e navegação já foram definidas globalmente no início.
     </script>
 </body>
-
 </html>

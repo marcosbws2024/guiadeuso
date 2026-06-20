@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWS Tutorial | Conversor de Comandos</title>
+    <title>BWS Utilitários · Conversor de Comandos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -13,6 +13,7 @@
             box-sizing: border-box;
         }
 
+        /* ===== VARIÁVEIS DE TEMA ===== */
         :root {
             --gradient-start: #7c3aed;
             --gradient-end: #6d28d9;
@@ -27,15 +28,14 @@
             --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-body: #0a0c10;
-                --card-bg: rgba(22, 26, 35, 0.98);
-                --text-primary: #f7fafc;
-                --text-secondary: #e2e8f0;
-                --text-muted: #a0aec0;
-                --border-glow: rgba(124, 58, 237, 0.3);
-            }
+        /* ===== MODO ESCURO ===== */
+        .dark {
+            --bg-body: #0a0c10;
+            --card-bg: rgba(22, 26, 35, 0.98);
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #a0aec0;
+            --border-glow: rgba(124, 58, 237, 0.3);
         }
 
         body {
@@ -44,6 +44,11 @@
             line-height: 1.6;
             transition: all 0.3s ease;
             color: var(--text-primary);
+        }
+
+        .container {
+            background: transparent !important;
+            padding: 1.5rem 1rem;
         }
 
         .hero-section {
@@ -302,90 +307,14 @@
             color: var(--text-muted);
         }
 
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(20px);
-            cursor: pointer;
+        .badge.bg-light {
+            background: rgba(255,255,255,0.9) !important;
+            color: #1a202c !important;
+            transition: all 0.3s ease;
         }
-
-        .image-modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content-wrapper {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-        }
-
-        #modalImage {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 1rem;
-            transition: transform 0.2s ease;
-            cursor: zoom-in;
-        }
-
-        .modal-controls {
-            position: absolute;
-            top: -3rem;
-            right: 0;
-            display: flex;
-            gap: 0.5rem;
-            z-index: 10;
-        }
-
-        .modal-controls button {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .modal-controls button:hover {
-            background: rgba(255,255,255,0.4);
-            transform: scale(1.1);
-        }
-
-        .modal-nav {
-            position: absolute;
-            bottom: -4rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1rem;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-        }
-
-        .modal-nav button {
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .modal-nav button:hover {
-            background: rgba(255,255,255,0.2);
+        .dark .badge.bg-light {
+            background: #1e293b !important;
+            color: #e2e8f0 !important;
         }
 
         @media (max-width: 768px) {
@@ -400,6 +329,9 @@
             }
             .option-card {
                 margin-bottom: 1rem;
+            }
+            .container {
+                padding: 1rem 0.75rem;
             }
         }
 
@@ -438,16 +370,19 @@
         <div class="hero-section text-center">
             <div class="hero-badge">
                 <i class="fas fa-exchange-alt"></i> Conversor de Comandos
+                <span class="badge ms-2" style="background:rgba(255,255,255,0.2);color:white;">
+                    <i class="fas fa-moon" id="theme-indicator"></i> <span id="themeLabel">Modo Adaptável</span>
+                </span>
             </div>
             <h1 class="display-4 fw-bold mb-3">
                 <i class="fas fa-arrows-spin me-2"></i>Conversor de Comandos
             </h1>
             <p class="lead mb-0">Converta comandos entre formatos, calcule segundos para HB/SHB e formate CPF/CNPJ para consulta na Saitro</p>
             <div class="mt-3">
-                <span class="badge bg-light text-dark mx-1"><i class="fas fa-code"></i> Linha a Linha</span>
-                <span class="badge bg-light text-dark mx-1"><i class="fas fa-grip-lines"></i> Múltiplos Comandos</span>
-                <span class="badge bg-light text-dark mx-1"><i class="fas fa-clock"></i> Conversor de Tempo</span>
-                <span class="badge bg-light text-dark mx-1"><i class="fas fa-id-card"></i> CPF/CNPJ</span>
+                <span class="badge bg-light mx-1"><i class="fas fa-code"></i> Linha a Linha</span>
+                <span class="badge bg-light mx-1"><i class="fas fa-grip-lines"></i> Múltiplos Comandos</span>
+                <span class="badge bg-light mx-1"><i class="fas fa-clock"></i> Conversor de Tempo</span>
+                <span class="badge bg-light mx-1"><i class="fas fa-id-card"></i> CPF/CNPJ</span>
             </div>
         </div>
 
@@ -457,7 +392,7 @@
                 <h4><span class="step-number">1</span> <i class="fas fa-arrows-spin me-2 text-primary"></i>Visão Geral do Conversor</h4>
             </div>
             <div class="step-body">
-                <div class="tutorial-img" data-src="imagens/convComandos/convComandos1.png" data-caption="Passo 1: Visão geral do Conversor de Comandos">
+                <div class="tutorial-img" data-caption="Passo 1: Visão geral do Conversor de Comandos">
                     <img src="imagens/convComandos/convComandos1.png" 
                          alt="Visão geral do Conversor de Comandos"
                          onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-exchange-alt fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/convComandos/convComandos1.png</p></div>'">
@@ -483,7 +418,7 @@
                 <h4><span class="step-number">2</span> <i class="fas fa-arrow-right-arrow-left me-2 text-primary"></i>Conversor 2G/4G e 4G/2G</h4>
             </div>
             <div class="step-body">
-                <div class="tutorial-img" data-src="imagens/convComandos/convComandos2.png" data-caption="Passo 2: Conversor de comandos 2G/4G e 4G/2G">
+                <div class="tutorial-img" data-caption="Passo 2: Conversor de comandos 2G/4G e 4G/2G">
                     <img src="imagens/convComandos/convComandos2.png" 
                          alt="Conversor 2G/4G e 4G/2G"
                          onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-arrow-right-arrow-left fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/convComandos/convComandos2.png</p></div>'">
@@ -509,7 +444,7 @@
                 <h4><span class="step-number">3</span> <i class="fas fa-clock me-2 text-primary"></i>Conversor de Horas/Minutos e Validador CPF/CNPJ</h4>
             </div>
             <div class="step-body">
-                <div class="tutorial-img" data-src="imagens/convComandos/convComandos3.png" data-caption="Passo 3: Conversor de tempo e validador de CPF/CNPJ">
+                <div class="tutorial-img" data-caption="Passo 3: Conversor de tempo e validador de CPF/CNPJ">
                     <img src="imagens/convComandos/convComandos3.png" 
                          alt="Conversor de tempo e validador CPF/CNPJ"
                          onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-clock fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/convComandos/convComandos3.png</p></div>'">
@@ -549,7 +484,7 @@
                 <h4><span class="step-number">4</span> <i class="fas fa-grip-lines me-2 text-primary"></i>Linha a Linha para Múltiplos Comandos</h4>
             </div>
             <div class="step-body">
-                <div class="tutorial-img" data-src="imagens/convComandos/convComandos4.png" data-caption="Passo 4: Exemplo de conversão de Linha a Linha para Múltiplos Comandos">
+                <div class="tutorial-img" data-caption="Passo 4: Exemplo de conversão de Linha a Linha para Múltiplos Comandos">
                     <img src="imagens/convComandos/convComandos4.png" 
                          alt="Conversão Linha a Linha para Múltiplos Comandos"
                          onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-grip-lines fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/convComandos/convComandos4.png</p></div>'">
@@ -583,7 +518,7 @@
                 <h4><span class="step-number">5</span> <i class="fas fa-grip-lines-vertical me-2 text-primary"></i>Múltiplos Comandos para Linha a Linha</h4>
             </div>
             <div class="step-body">
-                <div class="tutorial-img" data-src="imagens/convComandos/convComandos5.png" data-caption="Passo 5: Exemplo de conversão de Múltiplos Comandos para Linha a Linha">
+                <div class="tutorial-img" data-caption="Passo 5: Exemplo de conversão de Múltiplos Comandos para Linha a Linha">
                     <img src="imagens/convComandos/convComandos5.png" 
                          alt="Conversão Múltiplos Comandos para Linha a Linha"
                          onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-grip-lines-vertical fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/convComandos/convComandos5.png</p></div>'">
@@ -617,7 +552,7 @@
                 <h4><span class="step-number">6</span> <i class="fas fa-id-card me-2 text-primary"></i>Formatação de CPF/CNPJ</h4>
             </div>
             <div class="step-body">
-                <div class="tutorial-img" data-src="imagens/convComandos/convComandos6.png" data-caption="Passo 6: Exemplo de CNPJ formatado para consulta na Saitro">
+                <div class="tutorial-img" data-caption="Passo 6: Exemplo de CNPJ formatado para consulta na Saitro">
                     <img src="imagens/convComandos/convComandos6.png" 
                          alt="Formatação de CNPJ"
                          onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-5\'><i class=\'fas fa-id-card fa-4x text-muted mb-3\'></i><br><p class=\'text-muted\'>📁 imagens/convComandos/convComandos6.png</p></div>'">
@@ -690,194 +625,60 @@
 
         <!-- Footer -->
         <div class="footer-modern">
-            <i class="fas fa-exchange-alt me-2"></i> Conversor de Comandos · BWS Utilitarios
+            <i class="fas fa-exchange-alt me-2"></i> Conversor de Comandos · BWS Utilitários
             <div class="mt-2">
                 <small><i class="fas fa-hand-pointer"></i> Clique nas imagens para ampliar e navegar entre elas</small>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div id="imageModal" class="image-modal">
-        <div class="modal-content-wrapper">
-            <div class="modal-controls">
-                <button onclick="zoomOut()" title="Menos zoom"><i class="fas fa-search-minus"></i></button>
-                <button onclick="resetZoom()" title="Resetar zoom"><i class="fas fa-sync-alt"></i></button>
-                <button onclick="zoomIn()" title="Mais zoom"><i class="fas fa-search-plus"></i></button>
-                <button onclick="fecharModal()" title="Fechar (ESC)"><i class="fas fa-times"></i></button>
-            </div>
-            <img id="modalImage" src="" alt="Imagem expandida">
-            <div class="modal-nav">
-                <button onclick="navegarImagem(-1)"><i class="fas fa-chevron-left"></i> Anterior</button>
-                <span id="imageCounter" style="color: white; padding: 0 1rem;">1 / 6</span>
-                <button onclick="navegarImagem(1)">Próximo <i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-
+    <!-- ============================================================ -->
+    <!-- SCRIPT DE SINCRONIZAÇÃO COM O TEMA DO INDEX                   -->
+    <!-- NENHUM MODAL PRÓPRIO – O INDEX GERENCIA TUDO                 -->
+    <!-- ============================================================ -->
     <script>
-        // ==================== VARIÁVEIS GLOBAIS ====================
-        let imagensAtivas = [];
-        let indiceAtual = 0;
-        let currentZoom = 1;
-        let modalAtivo = false;
+        (function() {
+            // Determina o tema atual
+            let isDark = document.documentElement.classList.contains('dark');
+            if (!isDark) {
+                const saved = localStorage.getItem('theme');
+                if (saved === 'dark') isDark = true;
+                else if (saved === 'light') isDark = false;
+                else isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
 
-        // ==================== FUNÇÃO PRINCIPAL: INICIALIZAR IMAGENS ====================
-        function inicializarImagensPagina() {
-            const imagens = [];
-            const elementosImagem = document.querySelectorAll('.tutorial-img');
-
-            console.log('Inicializando imagens, encontrados:', elementosImagem.length);
-
-            elementosImagem.forEach((el, idx) => {
-                const img = el.querySelector('img');
-                const caption = el.getAttribute('data-caption') || img?.alt || `Passo ${idx + 1}`;
-                const imgSrc = el.getAttribute('data-src') || img?.src;
-
-                if (imgSrc && imgSrc !== '') {
-                    imagens.push({ src: imgSrc, caption: caption, element: el });
+            function applyTheme(dark) {
+                // Aplica classe .dark no body e no container
+                document.body.classList.toggle('dark', dark);
+                const container = document.querySelector('.container');
+                if (container) container.classList.toggle('dark', dark);
+                // Atualiza indicador visual
+                const indicator = document.getElementById('theme-indicator');
+                const label = document.getElementById('themeLabel');
+                if (indicator) {
+                    indicator.className = dark ? 'fas fa-moon' : 'fas fa-sun';
                 }
-            });
-
-            if (imagens.length === 0) return;
-
-            imagensAtivas = imagens;
-
-            elementosImagem.forEach((el, idx) => {
-                el.removeEventListener('click', handleImageClick);
-                el.addEventListener('click', handleImageClick);
-                el.style.cursor = 'pointer';
-            });
-
-            function handleImageClick(e) {
-                e.stopPropagation();
-                const clickedIndex = Array.from(elementosImagem).indexOf(this);
-                if (clickedIndex !== -1 && clickedIndex < imagensAtivas.length) {
-                    abrirModal(clickedIndex);
+                if (label) {
+                    label.textContent = dark ? 'Modo Escuro' : 'Modo Claro';
                 }
             }
 
-            console.log(`${imagens.length} imagens configuradas para expansão`);
-        }
+            applyTheme(isDark);
 
-        // ==================== FUNÇÕES DO MODAL ====================
-        function abrirModal(index) {
-            if (!imagensAtivas.length || index >= imagensAtivas.length) return;
-
-            indiceAtual = index;
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            const modalCaption = document.getElementById('modalCaption');
-            const imageCounter = document.getElementById('imageCounter');
-
-            if (modal && modalImg) {
-                modalImg.src = imagensAtivas[indiceAtual].src;
-                modalCaption.textContent = imagensAtivas[indiceAtual].caption;
-                imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
-
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-                modalAtivo = true;
-                resetZoom();
-            }
-        }
-
-        function fecharModal() {
-            const modal = document.getElementById('imageModal');
-            if (modal) {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
-                modalAtivo = false;
-                resetZoom();
-            }
-        }
-
-        function imagemAnterior() {
-            if (imagensAtivas.length === 0) return;
-            indiceAtual = (indiceAtual - 1 + imagensAtivas.length) % imagensAtivas.length;
-            const modalImg = document.getElementById('modalImage');
-            const modalCaption = document.getElementById('modalCaption');
-            const imageCounter = document.getElementById('imageCounter');
-
-            modalImg.src = imagensAtivas[indiceAtual].src;
-            modalCaption.textContent = imagensAtivas[indiceAtual].caption;
-            imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
-            resetZoom();
-        }
-
-        function imagemProxima() {
-            if (imagensAtivas.length === 0) return;
-            indiceAtual = (indiceAtual + 1) % imagensAtivas.length;
-            const modalImg = document.getElementById('modalImage');
-            const modalCaption = document.getElementById('modalCaption');
-            const imageCounter = document.getElementById('imageCounter');
-
-            modalImg.src = imagensAtivas[indiceAtual].src;
-            modalCaption.textContent = imagensAtivas[indiceAtual].caption;
-            imageCounter.textContent = `${indiceAtual + 1} / ${imagensAtivas.length}`;
-            resetZoom();
-        }
-
-        function zoomIn() { currentZoom = Math.min(currentZoom + 0.2, 2.5); aplicarZoom(); }
-        function zoomOut() { currentZoom = Math.max(currentZoom - 0.2, 0.5); aplicarZoom(); }
-        function resetZoom() { currentZoom = 1; aplicarZoom(); }
-        function aplicarZoom() {
-            const modalImg = document.getElementById('modalImage');
-            if (modalImg) {
-                modalImg.style.transform = `scale(${currentZoom})`;
-                modalImg.style.cursor = currentZoom > 1 ? 'zoom-out' : 'zoom-in';
-            }
-        }
-        function toggleZoom() {
-            if (currentZoom === 1) currentZoom = 1.8;
-            else currentZoom = 1;
-            aplicarZoom();
-        }
-
-        // ==================== EVENTOS ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                inicializarImagensPagina();
-            }, 100);
-
-            const closeBtn = document.getElementById('closeModalBtn');
-            const prevBtn = document.getElementById('prevImageBtn');
-            const nextBtn = document.getElementById('nextImageBtn');
-            const zoomInBtn = document.getElementById('zoomInBtn');
-            const zoomOutBtn = document.getElementById('zoomOutBtn');
-            const resetZoomBtn = document.getElementById('resetZoomBtn');
-            const modalImg = document.getElementById('modalImage');
-            const modalBg = document.getElementById('imageModal');
-
-            if (closeBtn) closeBtn.addEventListener('click', fecharModal);
-            if (prevBtn) prevBtn.addEventListener('click', imagemAnterior);
-            if (nextBtn) nextBtn.addEventListener('click', imagemProxima);
-            if (zoomInBtn) zoomInBtn.addEventListener('click', zoomIn);
-            if (zoomOutBtn) zoomOutBtn.addEventListener('click', zoomOut);
-            if (resetZoomBtn) resetZoomBtn.addEventListener('click', resetZoom);
-            if (modalImg) modalImg.addEventListener('click', toggleZoom);
-            if (modalBg) modalBg.addEventListener('click', (e) => { if (e.target === modalBg) fecharModal(); });
-
-            document.addEventListener('keydown', (e) => {
-                if (!modalAtivo) return;
-                if (e.key === 'Escape') fecharModal();
-                if (e.key === 'ArrowLeft') imagemAnterior();
-                if (e.key === 'ArrowRight') imagemProxima();
-                if (e.key === '+') zoomIn();
-                if (e.key === '-') zoomOut();
-                if (e.key === '0') resetZoom();
+            // Escuta mudanças de tema disparadas pelo index
+            document.addEventListener('themeChanged', function(e) {
+                applyTheme(e.detail.isDark);
             });
-        });
 
-        // Expor funções para o modal
-        window.zoomIn = zoomIn;
-        window.zoomOut = zoomOut;
-        window.resetZoom = resetZoom;
-        window.fecharModal = fecharModal;
-        window.navegarImagem = function(direcao) {
-            if (direcao === -1) imagemAnterior();
-            else imagemProxima();
-        };
+            // Fallback: outra aba
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'theme') {
+                    applyTheme(e.newValue === 'dark');
+                }
+            });
+
+            console.log('🔄 Conversor de Comandos sincronizado com o tema (escuro:', isDark, ')');
+        })();
     </script>
 </body>
 </html>
